@@ -2,6 +2,9 @@ import React from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
+import { logoutCleanup } from '../utils';
+import FullPageSpinner from './FullPageSpinner';
+
 const LOGOUT = gql`
   mutation Logout {
     logout(input: {})
@@ -11,13 +14,10 @@ const LOGOUT = gql`
 const LogoutButton = ({ className }) => {
   const client = useApolloClient();
 
-  const onLogoutSuccess = () => {
-    localStorage.clear();
-    client.resetStore();
-  };
+  const [logout, { loading }] = useMutation(LOGOUT, { onCompleted: () => logoutCleanup(client) });
 
-  const [logout, { loading }] = useMutation(LOGOUT, { onCompleted: onLogoutSuccess });
-
+  if (loading) return <FullPageSpinner />
+  
   return (
     <button
       className={className}

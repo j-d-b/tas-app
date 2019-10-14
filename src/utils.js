@@ -1,4 +1,5 @@
 import ky from 'ky';
+import jwtDecode from 'jwt-decode';
 
 const getAuthToken = async () => {
   let authToken;
@@ -19,20 +20,37 @@ const getAuthToken = async () => {
   return authToken;
 };
 
-export const setAuthToken = async (client, callback) => {
+// use refresh token cookie to request a new auth token and update isLoggedIn and user information in cache
+export const refreshAuthToken = async (client, callback) => {
   const authToken = await getAuthToken();
 
   if (authToken) {
+    const { userEmail, userRole } = jwtDecode(authToken);
+
     window.localStorage.setItem('authToken', authToken);
+
+    client.writeData({
+      data: {
+        isLoggedIn: true,
+        userRole,
+        userEmail
+      }
+    });
   } else {
     window.localStorage.removeItem('authToken');
+
+    client.writeData({
+      data: {
+        isLoggedIn: false
+      }
+    });
   }
 
-  client.writeData({
-    data: {
-      isLoggedIn: authToken ? true : false
-    }
-  });
-
   callback && callback(authToken);
+};
+
+// clear auth token from local storage and update isLoggedIn
+export const logoutCleanup = client => {
+  window.localStorage.removeItem('authToken');
+  client.resetStore();
 };
