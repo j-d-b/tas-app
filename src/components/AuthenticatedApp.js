@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Dashboard from './Dashboard';
 import Me from './Me';
@@ -11,20 +11,16 @@ const NAV_LINKS = [
 ];
 
 const AuthenticatedApp = () => (
-  <div>
+  <BrowserRouter>
     <Navbar navLinks={NAV_LINKS} />
     <Switch>
-      <Route path="/dashboard">
-        <Dashboard />
-      </Route>
-      <Route path="/me">
-        <Me />
-      </Route>
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/me" component={Me} />
       <Route path="/">
-        <Dashboard />
+        <Redirect to="/dashboard" />
       </Route>
     </Switch>
-  </div>
+  </BrowserRouter>
 );
 
 export default AuthenticatedApp;

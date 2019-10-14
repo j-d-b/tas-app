@@ -1,14 +1,19 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Login from './Login';
 
-const UnauthenticatedApp = () => (
-  <Switch>
-    <Route path="/">
-      <Login />
-    </Route>
-  </Switch>
-);
+const UnauthenticatedApp = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" component={Login}/>
+        <Route path="/">
+          <Redirect to="/login" />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default UnauthenticatedApp;
