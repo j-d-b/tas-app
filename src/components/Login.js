@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 
-import './Login.scss';
 import FormPage from './FormPage';
 
 const LOGIN = gql`
@@ -59,7 +58,7 @@ const Login = () => {
       loading={loading}
       inputs={inputs}
     >
-      Don't have an account? <Link className="sign-up-link" to="/signup">Sign Up</Link>
+      Don't have an account? <Link className="form-page__line-after-link" to="/signup">Sign Up</Link>
     </FormPage>
   );
 };

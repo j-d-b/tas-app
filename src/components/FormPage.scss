@@ -93,3 +93,13 @@
   color: #ffffff;
   font-size: 0.8rem;
 }
+
+.form-page__line-after-link {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

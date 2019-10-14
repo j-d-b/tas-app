@@ -21,28 +21,36 @@ const FormPage = ({
 
     <div className="form-page__box">
       <div className="form-page__box__title">{title}</div>
-
-      <form name={title} onSubmit={onSubmit}>
-        {
-          inputs.map(input => (
-            <input
-              className="form-page__box__input"
-              key={input.name}
-              name={input.name}
-              type={input.type}
-              value={input.value}
-              placeholder={input.name}
-              onChange={input.handleChange}
-              required={input.isRequired}
-            />
-          ))
-        }
-        <input className="form-page__box__submit-button" type="submit" value={loading ? loadingText : actionName} />
-        <div className={`form-page__box__message ${(error || data) && `form-page__box__message--${error ? 'error' : (data && 'success')}`}`}>
-          {error && error.toString()}
-          {data && (successMessage || 'Success')}
-        </div>
-      </form>
+      {
+        data 
+          ? <div className="form-page__box__message form-page__box__message--success">{successMessage || 'Success'}</div>
+          : (
+            <form name={title} onSubmit={onSubmit}>
+              {
+                inputs.map(input => (
+                  <input
+                    className="form-page__box__input"
+                    key={input.name}
+                    name={input.name}
+                    type={input.type}
+                    value={input.value}
+                    placeholder={input.name}
+                    onChange={input.handleChange}
+                    required={input.isRequired}
+                  />
+                ))
+              }
+              <input
+                className="form-page__box__submit-button"
+                type="submit"
+                value={loading ? loadingText : actionName}
+              />
+              <div className="form-page__box__message form-page__box__message--error">
+                {error && error.toString()}
+              </div>
+            </form>
+          )
+      }
     </div>
 
     <div className="form-page__line-after">{children}</div> {/* Children are rendered below the form box; useful for addtional short messages */}
