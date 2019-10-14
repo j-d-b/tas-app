@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 
+import './Login.scss';
 import FormPage from './FormPage';
 
 const LOGIN = gql`
@@ -26,37 +28,40 @@ const Login = () => {
     }
   );
 
-  const props = {
-    title: 'Log In',
-    onSubmit: e => {
-      e.preventDefault();
-      login({ variables: { email, password } });
+  const inputs = [
+    {
+      name: 'Email Address',
+      type: 'email',
+      value: email,
+      handleChange: e => setEmail(e.target.value),
+      isRequired: true
     },
-    actionName: 'Log In',
-    loadingText: 'Logging in...',
-    lineAfter: `Don't have an account? Sign Up`,
-    data,
-    error,
-    loading,
-    inputs: [
-      {
-        name: 'Email Address',
-        type: 'email',
-        value: email,
-        handleChange: e => setEmail(e.target.value),
-        isRequired: true
-      },
-      {
-        name: 'Password',
-        type: 'password',
-        value: password,
-        handleChange: e => setPassword(e.target.value),
-        isRequired: true
-      }
-    ]
-  };
+    {
+      name: 'Password',
+      type: 'password',
+      value: password,
+      handleChange: e => setPassword(e.target.value),
+      isRequired: true
+    }
+  ];
 
-  return <FormPage {...props}/>
+  return (
+    <FormPage
+      title="Log In"
+      onSubmit={e => {
+        e.preventDefault();
+        login({ variables: { email, password } });
+      }}
+      actionName="Log In"
+      loadingText="Logging in..."
+      data={data}
+      error={error}
+      loading={loading}
+      inputs={inputs}
+    >
+      Don't have an account? <Link className="sign-up-link" to="/signup">Sign Up</Link>
+    </FormPage>
+  );
 };
 
 export default Login;
