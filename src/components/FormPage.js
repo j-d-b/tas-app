@@ -13,6 +13,7 @@ const FormPage = ({
   error,
   loading,
   loadingText,
+  successMessage,
   children 
 }) => (
   <div className="form-page">
@@ -39,7 +40,7 @@ const FormPage = ({
         <input className="form-page__box__submit-button" type="submit" value={loading ? loadingText : actionName} />
         <div className={`form-page__box__message ${(error || data) && `form-page__box__message--${error ? 'error' : (data && 'success')}`}`}>
           {error && error.toString()}
-          {data && 'Success'}
+          {data && (successMessage || 'Success')}
         </div>
       </form>
     </div>
