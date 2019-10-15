@@ -57,10 +57,13 @@ const Login = () => {
       error={error}
       loading={loading}
       inputs={inputs}
-    >
-      <div style={{ marginBottom: '0.3rem' }}>Forgot your password? <Link className="form-page__after-box-link" to="/request-password-reset">Request Reset</Link></div>
-      <div>Don't have an account? <Link className="form-page__after-box-link" to="/signup">Sign Up</Link></div>
-    </FormPage>
+      belowForm={() => (
+        <div>
+          <div style={{ marginBottom: '0.3rem' }}>Forgot your password? <Link className="box-page__after-box__link" to="/request-password-reset">Request Reset</Link></div>
+          <div>Don't have an account? <Link className="box-page__after-box__link" to="/signup">Sign Up</Link></div>
+        </div>
+      )}
+    />
   );
 };
 

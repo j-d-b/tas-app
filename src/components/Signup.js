@@ -64,9 +64,8 @@ const Signup = () => {
       successMessage={`Sign up success! Confirmation email and next steps have been sent to ${entries.email}`}
       loading={loading}
       inputs={inputs}
-    >
-      Already a user? <Link className="form-page__after-box-link" to="/login">Log In</Link>
-    </FormPage>
+      belowForm={() => <div>Already a user? <Link className="box-page__after-box__link" to="/login">Log In</Link></div>}
+    />      
   );
 };
 
