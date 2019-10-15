@@ -9,8 +9,8 @@ const Navbar = ({ navLinks }) => (
   <nav className="navbar">
     <img src={logo} alt="BCTC TAS" className="navbar__logo" />
     {
-      navLinks.map(({ to, name }) => (
-        <NavLink to={to} key={name} className="navbar__link" activeClassName="navbar__link--active">
+      navLinks.map(({ path, name }) => (
+        <NavLink to={path} key={name} className="navbar__link" activeClassName="navbar__link--active">
           {name}
         </NavLink>
       ))

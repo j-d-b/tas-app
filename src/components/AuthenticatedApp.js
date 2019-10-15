@@ -1,26 +1,32 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
+import { meetsRequiredRole } from '../utils';
 import Dashboard from './Dashboard';
-import Me from './Me';
+import Admin from './Admin';
 import Navbar from './Navbar';
 
-const NAV_LINKS = [
-  { to: '/dashboard', name: 'Dashboard' },
-  { to: '/me', name: 'Me' },
+const ALL_ROUTES = [
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/admin', name: 'Admin', component: Admin, requiredRole: 'ADMIN' }
 ];
 
-const AuthenticatedApp = () => (
-  <BrowserRouter>
-    <Navbar navLinks={NAV_LINKS} />
-    <Switch>
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/me" component={Me} />
-      <Route path="/">
-        <Redirect to="/dashboard" />
-      </Route>
-    </Switch>
-  </BrowserRouter>
-);
+const AuthenticatedApp = ({ userRole }) => {
+  const routes = ALL_ROUTES.filter(({ requiredRole }) => meetsRequiredRole(userRole, requiredRole));
+
+  return (
+    <BrowserRouter>
+      <Navbar navLinks={routes} />
+      <Switch>
+        {
+          routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)
+        }
+        <Route path="/">
+          <Redirect to={userRole === 'CUSTOMER' ? '/scheduler' : '/dashboard'} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default AuthenticatedApp;
