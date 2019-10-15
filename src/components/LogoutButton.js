@@ -22,7 +22,7 @@ const LogoutButton = ({ className }) => {
     <button
       className={className}
       type="button"
-      onClick={() => !loading && logout()}
+      onClick={logout}
       disabled={loading}
     >
       Log out
