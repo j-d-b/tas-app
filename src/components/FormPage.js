@@ -8,7 +8,6 @@ const FormPage = ({
   onSubmit,
   actionName,
   inputs,
-  lineAfterHTML,
   data,
   error,
   loading,
