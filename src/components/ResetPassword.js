@@ -56,7 +56,7 @@ const ResetPassword = ({ match }) => {
       successComponent={() => (
         <div>
           <div style={{ color: 'green' }}>Password for {currentUser} reset successfully.</div>
-          <div style={{ marginTop: '0.75rem' }}>Log in <Link to="/login">here</Link></div>
+          <div style={{ marginTop: '0.75rem' }}><Link to="/login">Log in here</Link></div>
         </div>
       )}
       loading={loading}
