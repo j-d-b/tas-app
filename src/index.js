@@ -5,7 +5,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import jwtDecode from 'jwt-decode';
 
 import './index.css';
-import { refreshAuthToken, logoutCleanup } from './utils';
+import { refreshAuthToken, logoutCleanup, isPassedExpiration } from './utils';
 import { resolvers, typeDefs } from './resolvers';
 import App from './components/App';
 
@@ -18,18 +18,16 @@ const client = new ApolloClient({
     const authToken = localStorage.getItem('authToken');
 
     if (authToken) {
-      let expiration;
+      let expirationSeconds;
 
       try {
         const { exp } = jwtDecode(authToken);
-        expiration = exp;
+        expirationSeconds = exp;
       } catch (err) {
         return logoutCleanup(client);
       }
-
-      const now = Math.ceil(Date.now() / 1000);
       
-      if (now > expiration) {
+      if (isPassedExpiration(expirationSeconds)) {
         return refreshAuthToken(client, newToken => {
           operation.setContext({
             headers: {

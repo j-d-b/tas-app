@@ -54,3 +54,9 @@ export const logoutCleanup = client => {
   window.localStorage.removeItem('authToken');
   client.resetStore();
 };
+
+// check if the date in seconds has passed the current date; useful for checking jwt exp claim. 
+export const isPassedExpiration = expirationSeconds => {
+  const nowSeconds = Math.ceil(Date.now() / 1000);
+  return nowSeconds > expirationSeconds;
+};
