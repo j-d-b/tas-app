@@ -42,6 +42,7 @@ const FormPage = ({
             <input
               className="form-page__submit-button"
               type="submit"
+              disabled={loading}
               value={loading ? loadingText : actionName}
             />
             {

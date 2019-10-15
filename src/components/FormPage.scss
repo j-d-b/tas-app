@@ -35,13 +35,18 @@
   margin: 0.3rem 0;
   height: 45px;
   cursor: pointer;
-  color: #fff;
+  color: white;
   background-color: $accent;
 
   font-size: 1rem;
 
   &:hover {
     background-color: darken($accent, 5%);
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: lighten($accent, 5%);
   }
 }
 
