@@ -59,7 +59,6 @@
   width: 100%;
   border-radius: 3px;
   border: none;
-  margin: 0;
   padding: 0;
   margin: 0.3rem 0;
   height: 45px;
@@ -74,27 +73,26 @@
   }
 }
 
-.form-page__box__message {
+.form-page__box__success-message {
   font-size: 0.9rem;
-  padding-top: 0.5rem;
-  
-  &.form-page__box__message--error {
-    color: red;
-  }
-
-  &.form-page__box__message--success {
-    color: green;
-  }
+  color: green;
 }
 
-.form-page__line-after {
+.form-page__box__error-message {
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  color: red;
+}
+
+.form-page__after-box {
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: #ffffff;
   font-size: 0.8rem;
+  text-align: center;
 }
 
-.form-page__line-after-link {
+.form-page__after-box-link {
   text-decoration: none;
   color: white;
   font-weight: bold;

@@ -23,7 +23,7 @@ const FormPage = ({
       <div className="form-page__box__title">{title}</div>
       {
         data 
-          ? <div className="form-page__box__message form-page__box__message--success">{successMessage || 'Success'}</div>
+          ? <div className="form-page__box__success-message">{successMessage || 'Success!'}</div>
           : (
             <form name={title} onSubmit={onSubmit}>
               {
@@ -45,15 +45,15 @@ const FormPage = ({
                 type="submit"
                 value={loading ? loadingText : actionName}
               />
-              <div className="form-page__box__message form-page__box__message--error">
-                {error && error.toString()}
-              </div>
+              {
+                error && <div className="form-page__box__error-message">{error.toString()}</div>
+              }
             </form>
           )
       }
     </div>
 
-    <div className="form-page__line-after">{children}</div> {/* Children are rendered below the form box; useful for addtional short messages */}
+    <div className="form-page__after-box">{children}</div> {/* Children are rendered below the form box; useful for addtional short messages */}
   </div>
 );
 

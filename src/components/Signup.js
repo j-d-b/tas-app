@@ -65,7 +65,7 @@ const Signup = () => {
       loading={loading}
       inputs={inputs}
     >
-      Already a user? <Link className="form-page__line-after-link" to="/login">Log In</Link>
+      Already a user? <Link className="form-page__after-box-link" to="/login">Log In</Link>
     </FormPage>
   );
 };
