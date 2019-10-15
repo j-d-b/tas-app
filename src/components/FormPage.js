@@ -13,7 +13,8 @@ const FormPage = ({
   error,
   loading,
   loadingText,
-  successMessage,
+  successMessage = 'Success!',
+  successComponent: Success, // takes precedent over successMessage
   belowForm
 }) => (
   <BoxPage afterBox={belowForm}>
@@ -21,7 +22,7 @@ const FormPage = ({
     
     {
       data 
-        ? <div className="form-page__success-message">{successMessage || 'Success!'}</div>
+        ? (Success ? <Success /> : <div className="form-page__success-message">{successMessage}</div>)
         : (
           <form name={title} onSubmit={onSubmit}>
             {
