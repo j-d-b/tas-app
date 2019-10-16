@@ -72,6 +72,10 @@ export const isPassedExpiration = expirationSeconds => {
 // check to see if the userRole meets the required role
 // will break if userRole or requiredRole is not on of ADMIN, OPERATOR, CUSTOMER
 export const meetsRequiredRole = (userRole, requiredRole) => {
+  if (!requiredRole) return true;
+
+  if (!userRole) return false;
+  
   if (userRole === 'ADMIN') return true;
 
   if (userRole === 'OPERATOR') {

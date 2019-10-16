@@ -7,7 +7,7 @@ import Admin from './Admin';
 import Navbar from './Navbar';
 
 const ALL_ROUTES = [
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard, requiredRole: 'OPERATOR' },
   { path: '/admin', name: 'Admin', component: Admin, requiredRole: 'ADMIN' }
 ];
 
