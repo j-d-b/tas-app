@@ -21,33 +21,40 @@ const getAuthToken = async () => {
   return authToken;
 };
 
-// get a new auth token and update isLoggedIn and user information in cache
+// used when you get a new auth token: update local storage and apollo client cache
+export const applyNewToken = (authToken, client) => {
+  const { userEmail, userRole } = jwtDecode(authToken);
+
+  window.localStorage.setItem('authToken', authToken);
+
+  client.writeData({
+    data: {
+      isLoggedIn: true,
+      userRole,
+      userEmail
+    }
+  });
+};
+
+// attempt to get a new auth token and update cache and local storage accordingly
 export const refreshAuthToken = async (client, callback) => {
   const authToken = await getAuthToken();
 
   if (authToken) {
-    const { userEmail, userRole } = jwtDecode(authToken);
-
-    window.localStorage.setItem('authToken', authToken);
-
-    client.writeData({
-      data: {
-        isLoggedIn: true,
-        userRole,
-        userEmail
-      }
-    });
+    applyNewToken(authToken, client);
   } else {
     window.localStorage.removeItem('authToken');
 
     client.writeData({
       data: {
-        isLoggedIn: false
+        isLoggedIn: false,
+        userRole: null,
+        userEmail: null
       }
     });
   }
 
-  callback && callback(authToken);
+  if (callback) callback(authToken);
 };
 
 // clear auth token from local storage and update isLoggedIn

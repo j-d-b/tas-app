@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 
 import FormPage from './FormPage';
+import { applyNewToken } from '../utils';
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -12,18 +13,14 @@ const LOGIN = gql`
 `;
 
 const Login = () => {
+  const client = useApolloClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onLoginSuccess = ({ login }) => {
-    localStorage.setItem('authToken', login);
-  };
-
   const [login, { data, error, loading }] = useMutation(
-    LOGIN,
+    LOGIN, 
     { 
-      onCompleted: onLoginSuccess,
-      update: cache => cache.writeData({ data: { isLoggedIn: true }})
+      onCompleted: ({ login }) => applyNewToken(login, client) 
     }
   );
 

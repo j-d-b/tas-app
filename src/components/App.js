@@ -9,9 +9,10 @@ import UnauthenticatedApp from './UnauthenticatedApp';
 // const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
 // const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
+const USER_STATUS = gql`
+  {
     isLoggedIn @client
+    userRole @client
   }
 `;
 
@@ -23,10 +24,10 @@ const App = () => {
     refreshAuthToken(client, () => setHasLoginStatus(true));
   }, [client]);
 
-  const { data } = useQuery(IS_LOGGED_IN);
+  const { data } = useQuery(USER_STATUS);
   
   return hasLoginStatus
-    ? data && data.isLoggedIn ? <AuthenticatedApp /> : <UnauthenticatedApp />
+    ? data && data.isLoggedIn ? <AuthenticatedApp userRole={data.userRole} /> : <UnauthenticatedApp />
     : <FullPageSpinner />;
 };
 
