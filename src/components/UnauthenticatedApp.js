@@ -5,6 +5,7 @@ import Login from './Login';
 import Signup from './Signup';
 import RequestPasswordReset from './RequestPasswordReset';
 import ResetPassword from './ResetPassword';
+import VerifyEmail from './VerifyEmail';
 
 const UnauthenticatedApp = () => {
   return (
@@ -14,6 +15,7 @@ const UnauthenticatedApp = () => {
         <Route path="/signup" component={Signup} />
         <Route path="/request-password-reset" component={RequestPasswordReset} />
         <Route path="/reset-password/:resetToken" component={ResetPassword} />
+        <Route path="/verify-email/:verifyToken" component={VerifyEmail} />
         <Route path="/">
           <Redirect to="/login" />
         </Route>
