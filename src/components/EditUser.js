@@ -33,7 +33,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
   const [edits, setEdits] = useState(user);
   const onEdit = e => setEdits({ ...edits, [e.target.name]: e.target.value });
 
-  const [updateUser, { error, loading }] = useMutation(
+  const [updateUser, { error, loading, data }] = useMutation(
     UPDATE_USER,
     { 
       onCompleted: onCancel,
@@ -48,11 +48,11 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           name: edits.name,
           email: edits.email,
           company: edits.company,
-          role: edits.role,
           companyType: edits.companyType,
           companyRegNumber: edits.companyRegNumber,
           mobileNumber: edits.mobileNumber,
-          reminderSetting: edits.reminderSetting
+          reminderSetting: edits.reminderSetting,
+          ...(edits.role && { role: edits.role })
         } 
       }
     });
@@ -67,19 +67,32 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
       }}
     >
       <div className="edit-user__form-group">
-        <label className="edit-user__label" htmlFor="role">Role</label>
-        <FormSelect
-          name="role"
-          id="role"
-          value={edits.role}
-          onChange={onEdit}
-          options={[
-            { name: 'Customer', value: 'CUSTOMER'},
-            { name: 'Operator', value: 'OPERATOR' },
-            { name: 'Admin', value: 'ADMIN' }
-          ]}
+        <UserDetailsInput
+          field="name"
+          label="Name"
+          type="text"
+          value={edits.name}
+          onEdit={onEdit}
+          isRequired={true}
         />
       </div>
+
+      {edits.role && (
+        <div className="edit-user__form-group">
+          <label className="edit-user__label" htmlFor="role">Role</label>
+          <FormSelect
+            name="role"
+            id="role"
+            value={edits.role}
+            onChange={onEdit}
+            options={[
+              { name: 'Customer', value: 'CUSTOMER'},
+              { name: 'Operator', value: 'OPERATOR' },
+              { name: 'Admin', value: 'ADMIN' }
+            ]}
+          />
+        </div>
+      )}
 
       <div className="edit-user__form-group">
         <UserDetailsInput
@@ -137,11 +150,12 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
       />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>
+        {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}
         <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</FormButton>
       </div>
 
       {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+      {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
     </form>
   );
 };
