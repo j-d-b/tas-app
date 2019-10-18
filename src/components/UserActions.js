@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 
-import FormButton from '../components/FormButton';
-import EditUser from '../components/EditUser';
-import ChangeUserEmail from '../components/ChangeUserEmail';
-import DeleteUser from '../components/DeleteUser';
+import FormButton from './FormButton';
+import EditUser from './EditUser';
+import ChangeUserEmail from './ChangeUserEmail';
+import DeleteUser from './DeleteUser';
 
 const CONFIRM_USER = gql`
   mutation ConfirmUser ($email: String!) {
@@ -79,8 +79,8 @@ const UserActions = ({ user, exit, onChangesQuery }) => {
               <FormButton
                 type="button"
                 style={{ width: '100%' }}
-                onClick={() => confirmUser({ variables: { email: user.email } })}
-                disabled={confirmUserResults.loading}
+                onClick={() => !confirmUserResults.loading && !confirmUserResults.data && confirmUser({ variables: { email: user.email } })}
+                disabled={confirmUserResults.loading || confirmUserResults.data}
               >
                 {confirmUserResults.loading && 'Sending...'} 
                 {confirmUserResults.error && 'Error; Try again?'}
@@ -94,8 +94,8 @@ const UserActions = ({ user, exit, onChangesQuery }) => {
             <FormButton
               type="button"
               style={{ width: '100%' }}
-              onClick={() => sendVerifyLink({ variables: { email: user.email } })}
-              disabled={sendVerifyLinkResults.loading}
+              onClick={() => !sendVerifyLinkResults.loading && !sendVerifyLinkResults.data && sendVerifyLink({ variables: { email: user.email } })}
+              disabled={sendVerifyLinkResults.loading || sendVerifyLinkResults.data}
             >
               {sendVerifyLinkResults.loading && 'Sending...'} 
               {sendVerifyLinkResults.error && 'Error; Try again?'}
