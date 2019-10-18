@@ -151,7 +151,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}
-        <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</FormButton>
+        <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
       </div>
 
       {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
