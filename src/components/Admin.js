@@ -19,6 +19,7 @@ const ALL_USERS = gql`
       mobileNumber
       confirmed
       emailVerified
+      reminderSetting
     }
   }
 `;
@@ -55,6 +56,10 @@ const Admin = () => {
     {
       field: 'mobileNumber',
       title: 'Mobile Number'
+    },
+    {
+      field: 'reminderSetting',
+      title: 'Reminder Setting'
     },
     {
       field: 'confirmed',

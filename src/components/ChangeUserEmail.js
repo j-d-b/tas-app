@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import './EditUser.scss';
-import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormButton from './FormButton';
 

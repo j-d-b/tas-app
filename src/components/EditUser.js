@@ -17,7 +17,7 @@ const UPDATE_USER = gql`
 
 const UserDetailsInput = ({ field, label, value, onEdit, isRequired, type }) => (
   <>
-    <label className="user-details__label" htmlFor={field}>{label}</label>
+    <label className="edit-user__label" htmlFor={field}>{label}</label>
     <FormInput
       name={field}
       id={field}
@@ -51,7 +51,8 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           role: edits.role,
           companyType: edits.companyType,
           companyRegNumber: edits.companyRegNumber,
-          mobileNumber: edits.mobileNumber
+          mobileNumber: edits.mobileNumber,
+          reminderSetting: edits.reminderSetting
         } 
       }
     });
@@ -65,8 +66,8 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         onSave();
       }}
     >
-      <div className="user-details__form-group">
-        <label className="user-details__label" htmlFor="role">Role</label>
+      <div className="edit-user__form-group">
+        <label className="edit-user__label" htmlFor="role">Role</label>
         <FormSelect
           name="role"
           id="role"
@@ -80,7 +81,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         />
       </div>
 
-      <div className="user-details__form-group">
+      <div className="edit-user__form-group">
         <UserDetailsInput
           field="company"
           label="Company"
@@ -91,7 +92,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         />
       </div>
 
-      <div className="user-details__form-group">
+      <div className="edit-user__form-group">
         <UserDetailsInput
           field="companyType"
           label="Company Type"
@@ -101,7 +102,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         />
       </div>
 
-      <div className="user-details__form-group">
+      <div className="edit-user__form-group">
         <UserDetailsInput
           field="companyRegNumber"
           label="Company Reg. Number"
@@ -111,12 +112,28 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         />
       </div>
 
-      <UserDetailsInput
-        field="mobileNumber"
-        label="Mobile Number"
-        type="number"
-        value={edits.mobileNumber}
-        onEdit={onEdit}
+      <div className="edit-user__form-group">
+        <UserDetailsInput
+          field="mobileNumber"
+          label="Mobile Number"
+          type="number"
+          value={edits.mobileNumber}
+          onEdit={onEdit}
+        />
+      </div>
+
+      <label className="edit-user__label" htmlFor="reminderSetting">Reminder Setting</label>
+      <FormSelect
+        name="reminderSetting"
+        id="reminderSetting"
+        value={edits.reminderSetting}
+        onChange={onEdit}
+        options={[
+          { name: 'Email', value: 'EMAIL' },
+          { name: 'SMS', value: 'SMS' },
+          { name: 'Both', value: 'BOTH'},
+          { name: 'None', value: 'NONE' }
+        ]}
       />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
