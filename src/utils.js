@@ -84,3 +84,12 @@ export const meetsRequiredRole = (userRole, requiredRole) => {
   
   return requiredRole === 'CUSTOMER';
 };
+
+export const getFriendlyUserRole = userRole => {
+  switch (userRole) {
+    case 'ADMIN': return 'Admin';
+    case 'OPERATOR': return 'Operator';
+    case 'CUSTOMER': return 'Customer';
+    default: return 'Customer';
+  }
+}

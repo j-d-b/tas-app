@@ -1,0 +1,53 @@
+@import '../styles/colors';
+
+.form-button {
+  border-radius: 3px;
+  border: none;
+  padding: 0 0.75rem;
+  margin: 0.3rem 0;
+  height: 45px;
+  cursor: pointer;
+  color: white;
+  background-color: $accent;
+
+  font-size: 1rem;
+
+  &:hover {
+    background-color: darken($accent, 5%);
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: lighten($accent, 5%);
+  }
+
+  &:focus {
+    outline: rgb(163, 163, 163) auto 5px;
+  }
+
+  &.form-button--success {
+    background-color: green;
+
+    &:hover {
+      background-color: darken(green, 5%);
+    }
+  
+    &:disabled {
+      cursor: default;
+      background-color: lighten(green, 5%);
+    }
+  }
+
+  &.form-button--danger {
+    background-color: red;
+    
+    &:hover {
+      background-color: darken(red, 5%);
+    }
+  
+    &:disabled {
+      cursor: default;
+      background-color: lighten(red, 5%);
+    }
+  }
+}

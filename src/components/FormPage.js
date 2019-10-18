@@ -2,6 +2,7 @@ import React from 'react';
 
 import './FormPage.scss';
 import BoxPage from './BoxPage';
+import FormInput from './FormInput';
 
 const FormPage = ({ 
   title,
@@ -26,8 +27,7 @@ const FormPage = ({
           <form name={title} onSubmit={onSubmit}>
             {
               inputs.map(input => (
-                <input
-                  className="form-page__input"
+                <FormInput
                   key={input.name}
                   name={input.name}
                   type={input.type}
