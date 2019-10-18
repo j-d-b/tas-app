@@ -1,0 +1,29 @@
+@import '../styles/colors';
+
+.users-table-wrapper {
+  overflow-x: auto;
+}
+
+.users-table thead {
+  th {
+    background-color: $light;
+    border: none;
+  }
+}
+
+.users-table tbody tr {
+  background-color: #ffffff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid #cccccc;
+  }
+}
+
+.users-table td {
+  border: none;
+}

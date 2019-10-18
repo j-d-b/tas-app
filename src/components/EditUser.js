@@ -1,0 +1,132 @@
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+import './EditUser.scss';
+import FormSelect from './FormSelect';
+import FormInput from './FormInput';
+import FormButton from './FormButton';
+
+const UPDATE_USER = gql`
+  mutation UpdateUser ($user: UpdateUserInput!) {
+    updateUser(input: $user) {
+      name
+    }
+  }
+`;
+
+const UserDetailsInput = ({ field, label, value, onEdit, isRequired, type }) => (
+  <>
+    <label className="user-details__label" htmlFor={field}>{label}</label>
+    <FormInput
+      name={field}
+      id={field}
+      value={value || ''}
+      onChange={onEdit}
+      required={isRequired}
+      type={type}
+    />
+  </>
+);
+
+const EditUser = ({ user, onCancel, refetchQueries }) => {
+  const [edits, setEdits] = useState(user);
+  const onEdit = e => setEdits({ ...edits, [e.target.name]: e.target.value });
+
+  const [updateUser, { error, loading }] = useMutation(
+    UPDATE_USER,
+    { 
+      onCompleted: onCancel,
+      refetchQueries
+    }
+  );
+
+  const onSave = () => {
+    updateUser({ 
+      variables: { 
+        user: {
+          name: edits.name,
+          email: edits.email,
+          company: edits.company,
+          role: edits.role,
+          companyType: edits.companyType,
+          companyRegNumber: edits.companyRegNumber,
+          mobileNumber: edits.mobileNumber
+        } 
+      }
+    });
+  };
+
+  return (
+    <form 
+      name="userForm"
+      onSubmit={e => {
+        e.preventDefault();
+        onSave();
+      }}
+    >
+      <div className="user-details__form-group">
+        <label className="user-details__label" htmlFor="role">Role</label>
+        <FormSelect
+          name="role"
+          id="role"
+          value={edits.role}
+          onChange={onEdit}
+          options={[
+            { name: 'Customer', value: 'CUSTOMER'},
+            { name: 'Operator', value: 'OPERATOR' },
+            { name: 'Admin', value: 'ADMIN' }
+          ]}
+        />
+      </div>
+
+      <div className="user-details__form-group">
+        <UserDetailsInput
+          field="company"
+          label="Company"
+          type="text"
+          value={edits.company}
+          onEdit={onEdit}
+          isRequired={true}
+        />
+      </div>
+
+      <div className="user-details__form-group">
+        <UserDetailsInput
+          field="companyType"
+          label="Company Type"
+          type="text"
+          value={edits.companyType}
+          onEdit={onEdit}
+        />
+      </div>
+
+      <div className="user-details__form-group">
+        <UserDetailsInput
+          field="companyRegNumber"
+          label="Company Reg. Number"
+          type="number"
+          value={edits.companyRegNumber}
+          onEdit={onEdit}
+        />
+      </div>
+
+      <UserDetailsInput
+        field="mobileNumber"
+        label="Mobile Number"
+        type="number"
+        value={edits.mobileNumber}
+        onEdit={onEdit}
+      />
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>
+        <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</FormButton>
+      </div>
+
+      {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+    </form>
+  );
+};
+
+export default EditUser;
