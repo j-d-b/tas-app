@@ -1,0 +1,58 @@
+.dashboard-page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 800px) {
+    flex-direction: row;
+  }
+}
+
+.organize-box-col {
+  flex-shrink: 0;
+  flex-basis: 25%;
+}
+
+.appts-col {
+  flex-basis: 75%;
+}
+
+.organize-box {
+  padding: 1rem;
+  min-width: 350px;
+  max-width: 350px;
+  border-radius: 4px;
+  background-color: rgb(241, 241, 241);
+  border: 1px solid #cccccc;
+
+  & > hr {
+    margin: 0.75rem 0rem;
+  }
+}
+
+.organize-box__title {
+  font-size: 2.2rem;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.organize-box__header {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.organize-box__input-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  & > label {
+    text-align: right;
+    flex-basis: 40%;
+    padding-right: 0.75rem;
+  }
+}

@@ -93,3 +93,7 @@ export const getFriendlyUserRole = userRole => {
     default: return 'Customer';
   }
 }
+
+export const getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
+
+export const getDateFromTimeslot = timeSlot => Date.parse(`${timeSlot.date}T${getHourString(timeSlot.hour)}:00`);
