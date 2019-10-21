@@ -85,6 +85,16 @@ export const meetsRequiredRole = (userRole, requiredRole) => {
   return requiredRole === 'CUSTOMER';
 };
 
+export const getFriendlyActionType = actionType => {
+  switch (actionType) {
+    case 'IMPORT_FULL': return 'Import Full';
+    case 'STORAGE_EMPTY': return 'Storage Empty';
+    case 'EXPORT_FULL': return 'Export Full';
+    case 'EXPORT_EMPTY': return 'Export Empty';
+    default: return '';
+  }
+};
+
 export const getFriendlyUserRole = userRole => {
   switch (userRole) {
     case 'ADMIN': return 'Admin';

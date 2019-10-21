@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost';
 import { getDateFromTimeslot } from '../utils';
 import './Dashboard.scss';
 import OrganizeBox from './OrganizeBox';
+import Appt from './Appt';
 
 const ALL_APPTS = gql`
   {
@@ -43,13 +44,14 @@ const INIT_SORT = {
   direction: 'ASCENDING'
 };
 
-const satisfiesSearch = search => appt => (
-  !search
-    || appt.id.includes(search)
-    || appt.user.name.toLowerCase().includes(search.toLowerCase())
-    || appt.user.company.toLowerCase().includes(search.toLowerCase())
-    || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.includes(search)), false)
-);
+const satisfiesSearch = search => appt => {
+  const lowerCaseSearch = search.toLowerCase();
+  return !search
+  || appt.id.toLowerCase().includes(lowerCaseSearch)
+  || appt.user.name.toLowerCase().includes(lowerCaseSearch)
+  || appt.user.company.toLowerCase().includes(lowerCaseSearch)
+  || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false)
+};
 
 const satisfiesFilters = filters => appt => (
   filters.type === 'ALL'
@@ -58,19 +60,19 @@ const satisfiesFilters = filters => appt => (
 
 const createSort = sort => (apptA, apptB) => {
   switch (sort.by) {
-    case ('TIME_SLOT'): {
+    case 'TIME_SLOT': {
       const dateA = getDateFromTimeslot(apptA.timeSlot);
       const dateB = getDateFromTimeslot(apptB.timeSlot);
       if (dateA > dateB) return sort.direction === 'ASCENDING' ? 1 : -1;
       if (dateB > dateA) return sort.direction === 'ASCENDING' ? -1 : 1;
       return 0;
     }
-    case ('CUSTOMER'): {
+    case 'CUSTOMER': {
       if (apptA.user.name > apptB.user.name) return sort.direction === 'ASCENDING' ? 1 : -1;
       if (apptB.user.name > apptA.user.name) return sort.direction === 'ASCENDING' ? -1 : 1;
       return 0;
     }
-    case ('COMPANY'): {
+    case 'COMPANY': {
       if (apptA.user.company > apptB.user.company) return sort.direction === 'ASCENDING' ? 1 : -1;
       if (apptB.user.company > apptA.user.company) return sort.direction === 'ASCENDING' ? -1 : 1;
       return 0;
@@ -101,6 +103,14 @@ const Dashboard = () => {
     .filter(satisfiesFilters(filters))
     .sort(createSort(sort));
 
+  
+  let pairedAppts = [];
+  let i = 0;
+  while (i < appts.length) {
+    pairedAppts.push([appts[i], appts[i + 1]]);
+    i += 2;
+  }
+
   return (
     <div className="dashboard-page">
       <div className="organize-box-col">
@@ -116,11 +126,18 @@ const Dashboard = () => {
       </div>
 
       <div className="appts-col">
-        {appts.map(({user}, i) => <div key={i}>{JSON.stringify(user)}</div>)}
+        <div className="appt-container">
+          {appts.map(appt => <Appt appt={appt} key={appt.id} />)}
+        </div>
+        {/* {pairedAppts.map(([appt1, appt2]) => (
+          <div className='appt-pair' + (' appt-pair--singlet')} key={appt1.id}>
+            <Appt appt={appt1} />
+            {appt2 && <Appt key={appt2.id} appt={appt2} />}
+          </div>
+        ))} */}
       </div>
     </div>
   );
-
 }
 
 export default Dashboard;

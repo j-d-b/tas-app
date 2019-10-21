@@ -1,0 +1,36 @@
+@import '../styles/colors';
+
+.appt {
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  background-color: $pink;
+  border-radius: 1.5rem;
+}
+
+.appt__date {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.appt__arrival-window {
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.action {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 2.5rem 1.5rem 1rem 1.5rem;
+  background-color: rgb(245, 245, 245);
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.action--expanded {
+    position: static;
+    border-radius: 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+}
