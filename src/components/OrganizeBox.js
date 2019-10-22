@@ -4,6 +4,7 @@ import './OrganizeBox.scss';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 import FormButton from './FormButton';
+import StyledDatePicker from './StyledDatePicker';
 
 const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, reset }) => (
   <div className="organize-box">
@@ -19,10 +20,37 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
 
     <h3 className="organize-box__header">Filter</h3>
 
-    {/* <div className="organize-box__input-group">
-      <label>Time slot</label>
-      <FormInput />
-    </div> */}
+    <div className="organize-box__input-group">
+      <label>From</label>
+      <StyledDatePicker
+        selected={filters.from}
+        onChange={val => setFilters({ ...filters, from: val })}
+        placeholderText="No start date"
+        popperPlacement="bottom"
+        isClearable
+        showTimeSelect
+        timeIntervals={60}
+        timeFormat="HH:mm"
+        timeCaption="Hour"
+        maxDate={filters.to}
+      />
+    </div>
+
+    <div className="organize-box__input-group">
+      <label>To</label>
+      <StyledDatePicker
+        selected={filters.to}
+        onChange={val => setFilters({ ...filters, to: val })}
+        placeholderText="No end date"
+        popperPlacement="bottom"
+        isClearable
+        showTimeSelect
+        timeIntervals={60}
+        timeFormat="HH:mm"
+        timeCaption="Hour"
+        minDate={filters.from}
+      />
+    </div>
 
     <div className="organize-box__input-group">
       <label>Type</label>

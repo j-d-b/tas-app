@@ -1,8 +1,11 @@
+@import '../styles/colors';
+
 .organize-box {
   padding: 1rem;
   border-radius: 4px;
   background-color: rgb(241, 241, 241);
-  border: 1px solid #cccccc;
+  border: 1px solid #afafaf;
+  box-shadow: 2px 2px 3px 0px #CECECE;
 
   & > hr {
     margin: 0.75rem 0rem;

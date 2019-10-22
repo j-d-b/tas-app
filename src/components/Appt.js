@@ -3,11 +3,16 @@ import React from 'react';
 import { getFriendlyActionType, getHourString } from '../utils';
 import './Appt.scss';
 
+const getApptDate = appt => {
+  const date = new Date(Date.parse(`${appt.timeSlot.date}T${getHourString(appt.timeSlot.hour)}:00Z`));
+  return date;
+};
+
 const Appt = ({ appt }) => (
   <div>
     <div className="appt">
       <div style={{ marginBottom: '0.5rem'}}>
-        <span className="appt__date">{new Date(Date.parse(appt.timeSlot.date)).toDateString()}, {getHourString(appt.timeSlot.hour)}</span>
+        <span className="appt__date">{getApptDate(appt).toDateString()}</span>
         <span className="appt__arrival-window"> ({appt.arrivalWindow})</span>
       </div>
 

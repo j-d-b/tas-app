@@ -32,11 +32,35 @@ const ALL_APPTS = gql`
   }
 `;
 
+const getThisMonday = () => {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const thisMonday = new Date(today.setDate(diff));
+  thisMonday.setHours(0);
+  thisMonday.setMinutes(0);
+  thisMonday.setSeconds(0);
+  thisMonday.setMilliseconds(0);
+  return thisMonday;
+};
+
+const getThisSunday = () => {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + 7;
+  const thisSunday = new Date(today.setDate(diff));
+  thisSunday.setHours(23);
+  thisSunday.setMinutes(59);
+  thisSunday.setSeconds(59);
+  thisSunday.setMilliseconds(999);
+  return thisSunday;
+};
+
 const INIT_FILTERS = {
   search: '',
   type: 'ALL',
-  startDate: 'ANY',
-  endDate: 'ANY'
+  from: getThisMonday(),
+  to: getThisSunday()
 };
 
 const INIT_SORT = {
@@ -53,10 +77,18 @@ const satisfiesSearch = search => appt => {
   || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false)
 };
 
-const satisfiesFilters = filters => appt => (
-  filters.type === 'ALL'
-    || appt.actions.reduce((matchesType, action) => matchesType || action.type === filters.type, false)
-);
+const satisfiesFilters = filters => appt => {
+  const satisfiesType = filters.type === 'ALL'
+    || appt.actions.reduce((matchesType, action) => matchesType || action.type === filters.type, false);
+
+  const apptDate = getDateFromTimeslot(appt.timeSlot);
+
+  const satisfiesFrom = !filters.from || apptDate >= filters.from;
+
+  const satisfiesTo = !filters.to || apptDate <= filters.to;
+
+  return satisfiesType && satisfiesFrom && satisfiesTo;
+};
 
 const createSort = sort => (apptA, apptB) => {
   switch (sort.by) {
