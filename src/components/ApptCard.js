@@ -25,6 +25,13 @@ const ApptCard = ({ appt, onClick }) => (
         <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Company: </span>
         <span>{appt.user.company}</span>
       </div>
+
+      {appt.comment && (
+        <div>
+          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Comment: </span>
+          <span>{appt.comment}</span>
+        </div>
+      )}
     </div>
     {
       appt.actions.map((action, i) => (
