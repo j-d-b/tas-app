@@ -72,6 +72,7 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
         input: {
           id: appt.id,
           comment: edits.comment,
+          notifyMobileNumber: edits.notifyMobileNumber,
           licensePlateNumber: edits.licensePlateNumber,
           actionDetails: edits.actions.map(action => (
             {

@@ -1,23 +1,28 @@
 @import '../styles/colors';
 
-.appt {
+.appt-card {
   border: 1px solid #ccc;
   padding: 1.5rem;
   background-color: $pink;
   border-radius: 1.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($pink, 5);
+  }
 }
 
-.appt__date {
+.appt-card__date {
   font-size: 1.3rem;
   font-weight: bold;
 }
 
-.appt__arrival-window {
+.appt-card__arrival-window {
   font-style: italic;
   font-size: 1.2rem;
 }
 
-.action {
+.action-card {
   position: relative;
   border: 1px solid #ccc;
   padding: 2.5rem 1.5rem 1rem 1.5rem;
@@ -27,10 +32,5 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  &.action--expanded {
-    position: static;
-    border-radius: 1.5rem;
-    padding: 1rem 1.5rem;
-  }
+  cursor: pointer;
 }

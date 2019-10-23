@@ -4,11 +4,11 @@ import { getFriendlyActionType, getApptDate } from '../utils';
 import './ApptCard.scss';
 
 const ApptCard = ({ appt, onClick }) => (
-  <div onClick={onClick}>
-    <div className="appt">
+  <div>
+    <div className="appt-card" onClick={onClick}>
       <div style={{ marginBottom: '0.5rem'}}>
-        <span className="appt__date">{getApptDate(appt).toDateString()}</span>
-        <span className="appt__arrival-window"> ({appt.arrivalWindow})</span>
+        <span className="appt-card__date">{getApptDate(appt).toDateString()}</span>
+        <span className="appt-card__arrival-window"> ({appt.arrivalWindow})</span>
       </div>
 
       <div>
@@ -29,7 +29,7 @@ const ApptCard = ({ appt, onClick }) => (
     {
       appt.actions.map((action, i) => (
         <div
-          className="action"
+          className="action-card"
           key={action.containerId || i}
           style={{ 
             top: `-${(i + 1) * 1.5}rem`, 
