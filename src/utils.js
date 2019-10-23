@@ -85,6 +85,16 @@ export const meetsRequiredRole = (userRole, requiredRole) => {
   return requiredRole === 'CUSTOMER';
 };
 
+export const getFriendlyActionType = actionType => {
+  switch (actionType) {
+    case 'IMPORT_FULL': return 'Import Full';
+    case 'STORAGE_EMPTY': return 'Storage Empty';
+    case 'EXPORT_FULL': return 'Export Full';
+    case 'EXPORT_EMPTY': return 'Export Empty';
+    default: return '';
+  }
+};
+
 export const getFriendlyUserRole = userRole => {
   switch (userRole) {
     case 'ADMIN': return 'Admin';
@@ -93,3 +103,9 @@ export const getFriendlyUserRole = userRole => {
     default: return 'Customer';
   }
 }
+
+export const getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
+
+export const getDateFromTimeslot = timeSlot => Date.parse(`${timeSlot.date}T${getHourString(timeSlot.hour)}:00`);
+
+export const getApptDate = appt =>  new Date(Date.parse(`${appt.timeSlot.date}T${getHourString(appt.timeSlot.hour)}:00Z`));

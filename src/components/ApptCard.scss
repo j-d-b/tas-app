@@ -1,0 +1,36 @@
+@import '../styles/colors';
+
+.appt-card {
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  background-color: $pink;
+  border-radius: 1.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($pink, 5);
+  }
+}
+
+.appt-card__date {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.appt-card__arrival-window {
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.action-card {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 2.5rem 1.5rem 1rem 1.5rem;
+  background-color: rgb(245, 245, 245);
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}

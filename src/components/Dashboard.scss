@@ -1,0 +1,60 @@
+$mobile-breakpoint: 900px;
+
+.dashboard-page {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
+  @media (min-width: $mobile-breakpoint) {
+    padding: 2rem;
+    flex-direction: row;
+  }
+}
+
+.organize-box-col {
+  flex-shrink: 0;
+
+  @media (min-width: $mobile-breakpoint) {
+    min-width: 350px;
+    width: 350px;
+  }
+}
+
+.appts-col {
+  margin-top: 2rem;
+  flex-basis: 75%;
+  max-height: 100%;
+  overflow-y: auto;
+
+  @media (min-width: $mobile-breakpoint) {
+    margin-top: 0;
+    margin-left: 2rem;
+    overflow: unset;
+  }
+}
+
+.appt-container {
+  display: flex;
+  flex-direction: column;
+
+  & > div {
+    flex-grow: 1;
+  }
+
+  @media (min-width: 1370px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    & > div {
+      &:nth-child(even) {
+        margin-left: 2rem;
+      }
+
+      &:nth-child(odd):last-child {
+        flex-basis: calc(50% - 1rem);
+        flex-grow: 0;
+      }
+    }
+  }
+}
