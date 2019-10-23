@@ -1,9 +1,10 @@
 @import '../styles/colors';
+@import '../styles/constants';
 
 .navbar {
   display: flex;
   background-color: $main;
-  height: 50px;
+  height: $navbar-height;
 }
 
 .navbar__logo {

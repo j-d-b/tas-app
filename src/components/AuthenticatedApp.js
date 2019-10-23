@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
+import './AuthenticatedApp.scss';
 import { meetsRequiredRole } from '../utils';
 import Navbar from './Navbar';
 import Scheduler from './Scheduler';
@@ -46,12 +47,15 @@ const AuthenticatedApp = ({ userRole }) => {
   return (
     <BrowserRouter>
       <Navbar navLinks={routes} />
-      <Switch>
-        {routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)}
-        <Route path="/">
-          <Redirect to={userRole === 'CUSTOMER' ? '/scheduler' : '/dashboard'} />
-        </Route>
-      </Switch>
+      
+      <div className="page">
+        <Switch>
+          {routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)}
+          <Route path="/">
+            <Redirect to={userRole === 'CUSTOMER' ? '/scheduler' : '/dashboard'} />
+          </Route>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 };
