@@ -1,15 +1,10 @@
 import React from 'react';
 
-import { getFriendlyActionType, getHourString } from '../utils';
-import './Appt.scss';
+import { getFriendlyActionType, getApptDate } from '../utils';
+import './ApptCard.scss';
 
-const getApptDate = appt => {
-  const date = new Date(Date.parse(`${appt.timeSlot.date}T${getHourString(appt.timeSlot.hour)}:00Z`));
-  return date;
-};
-
-const Appt = ({ appt }) => (
-  <div>
+const ApptCard = ({ appt, onClick }) => (
+  <div onClick={onClick}>
     <div className="appt">
       <div style={{ marginBottom: '0.5rem'}}>
         <span className="appt__date">{getApptDate(appt).toDateString()}</span>
@@ -49,4 +44,4 @@ const Appt = ({ appt }) => (
   </div>
 );
 
-export default Appt;
+export default ApptCard;

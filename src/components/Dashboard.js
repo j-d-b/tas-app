@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { getDateFromTimeslot } from '../utils';
 import './Dashboard.scss';
+import { getDateFromTimeslot } from '../utils';
+import Modal from './Modal';
 import OrganizeBox from './OrganizeBox';
-import Appt from './Appt';
+import ApptCard from './ApptCard';
+import EditAppt from './EditAppt';
 
 const ALL_APPTS = gql`
   {
@@ -22,8 +24,16 @@ const ALL_APPTS = gql`
       }
       arrivalWindow
       actions {
+        id
         type
+        containerSize
         containerId
+        shippingLine
+        containerType
+        formNumber705
+        emptyForCityFormNumber
+        containerWeight
+        bookingNumber
       }
       licensePlateNumber
       notifyMobileNumber
@@ -116,6 +126,7 @@ const createSort = sort => (apptA, apptB) => {
 };
 
 const Dashboard = () => {
+  const [selectedAppt, selectAppt] = useState(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(INIT_FILTERS);
   const [sort, setSort] = useState(INIT_SORT);
@@ -159,15 +170,17 @@ const Dashboard = () => {
 
       <div className="appts-col">
         <div className="appt-container">
-          {appts.map(appt => <Appt appt={appt} key={appt.id} />)}
+          {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
         </div>
-        {/* {pairedAppts.map(([appt1, appt2]) => (
-          <div className='appt-pair' + (' appt-pair--singlet')} key={appt1.id}>
-            <Appt appt={appt1} />
-            {appt2 && <Appt key={appt2.id} appt={appt2} />}
-          </div>
-        ))} */}
       </div>
+
+      <Modal 
+        isOpen={selectedAppt}
+        closeModal={() => selectAppt(null)}
+        title="Edit Appt"
+      >
+        <EditAppt appt={selectedAppt} showUser refetchQueries={[{ query: ALL_APPTS  }]} />
+      </Modal>
     </div>
   );
 }

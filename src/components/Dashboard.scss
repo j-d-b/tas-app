@@ -4,6 +4,7 @@ $mobile-breakpoint: 900px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   @media (min-width: $mobile-breakpoint) {
     padding: 2rem;
