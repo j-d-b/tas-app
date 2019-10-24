@@ -3,28 +3,46 @@ import React from 'react';
 import { getFriendlyActionType, getApptDate } from '../utils';
 import './ApptCard.scss';
 
-const ApptCard = ({ appt, onClick }) => (
+const ApptCard = ({ appt, onClick, isCustomer }) => (
   <div>
     <div className="appt-card" onClick={onClick}>
       <div style={{ marginBottom: '0.5rem'}}>
         <span className="appt-card__date">{getApptDate(appt).toDateString()}</span>
-        <span className="appt-card__arrival-window"> ({appt.arrivalWindow})</span>
+        {!isCustomer && <span className="appt-card__arrival-window"> ({appt.arrivalWindow})</span>}
       </div>
 
-      <div>
-        <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Appt ID: </span>
-        <span>{appt.id}</span>
-      </div>
+      {isCustomer && (
+        <>
+        <div>
+          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Arrive at: </span>
+          <span>{appt.arrivalWindow}</span>
+        </div>
 
-      <div>
-        <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Customer: </span>
-        <span>{appt.user.name}</span>
-      </div>
+        <div>
+          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Actions: </span>
+          <span>{appt.actions.map((action, i) => getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR') + (i + 1 < appt.actions.length ? ', ' : ''))}</span>
+        </div>
+        </>
+      )}
 
-      <div>
-        <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Company: </span>
-        <span>{appt.user.company}</span>
-      </div>
+      {!isCustomer && (
+        <>
+          <div>
+            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Appt ID: </span>
+            <span>{appt.id}</span>
+          </div>
+
+          <div>
+            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Customer: </span>
+            <span>{appt.user.name}</span>
+          </div>
+
+          <div>
+            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Company: </span>
+            <span>{appt.user.company}</span>
+          </div>
+        </>
+      )}
 
       {appt.comment && (
         <div>
@@ -32,8 +50,10 @@ const ApptCard = ({ appt, onClick }) => (
           <span>{appt.comment}</span>
         </div>
       )}
+
     </div>
-    {
+
+    {!isCustomer && (
       appt.actions.map((action, i) => (
         <div
           className="action-card"
@@ -43,11 +63,11 @@ const ApptCard = ({ appt, onClick }) => (
             zIndex: `-${i + 1}`
           }}
         >
-          <div style={{ fontWeight: 'bold' }}>{getFriendlyActionType(action.type)}</div>
+          <div style={{ fontWeight: 'bold' }}>{getFriendlyActionType(action.type, 'OPERATOR')}</div>
           <div><strong>CID: </strong>{action.containerId ? action.containerId.toUpperCase() : 'N/A'}</div>
         </div>
       ))
-    }
+    )}
   </div>
 );
 

@@ -61,7 +61,7 @@ const buildActionDetailsInput = action => {
   }
 }
 
-const EditAppt = ({ appt, showUser, refetchQueries }) => {
+const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
   const [edits, setEdits] = useState(appt);
   const [updateAppt, { data, error, loading}] = useMutation(UPDATE_APPT, { refetchQueries });
 
@@ -94,7 +94,7 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
         {/* <FormButton style={{ width: '100%' }}type="button">Reschedule</FormButton> */}
       </div>
 
-      {showUser && (
+      {!isCustomer && (
         <div>
           <h2>Customer</h2>
 
@@ -136,7 +136,7 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
 
         {edits.actions.map((action, index) => (
           <div key={action.id}>
-            <h2>Action {index + 1}: {getFriendlyActionType(action.type)}</h2>
+            <h2>Action {index + 1}: {getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
             <EditAction
               action={action}
               onEdit={editedAction => {

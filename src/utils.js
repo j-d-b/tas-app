@@ -85,12 +85,12 @@ export const meetsRequiredRole = (userRole, requiredRole) => {
   return requiredRole === 'CUSTOMER';
 };
 
-export const getFriendlyActionType = actionType => {
+export const getFriendlyActionType = (actionType, role = 'CUSTOMER') => {
   switch (actionType) {
-    case 'IMPORT_FULL': return 'Import Full';
-    case 'STORAGE_EMPTY': return 'Storage Empty';
-    case 'EXPORT_FULL': return 'Export Full';
-    case 'EXPORT_EMPTY': return 'Export Empty';
+    case 'IMPORT_FULL': return role === 'CUSTOMER' ? 'Pick Up Full' : 'Import Full';
+    case 'STORAGE_EMPTY': return role === 'CUSTOMER' ? 'Pick Up Empty' : 'Storage Empty';
+    case 'EXPORT_FULL': return role === 'CUSTOMER' ? 'Drop Off Full' : 'Export Full';
+    case 'EXPORT_EMPTY': return role === 'CUSTOMER' ? 'Drop Off Empty' : 'Export Empty';
     default: return '';
   }
 };

@@ -1,0 +1,39 @@
+@import '../styles/colors';
+
+.scheduler-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.scheduler-box {
+  flex: 0 0 60%;
+  background: rgb(24,171,24);
+  background: linear-gradient(180deg, rgba(24,171,24,1) 0%, rgba(50,171,24,1) 61%, rgba(168,240,241,1) 100%);
+  margin: 2rem;
+  border-radius: 1rem;
+  border: 2px solid rgb(158, 158, 158);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+
+  & h1 {
+    font-size: 3rem;
+    font-weight: 300;
+  }
+}
+
+.my-appts {
+  margin: 2rem 2rem 2rem 0;
+  background-color: lighten($light, 10);
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid #cccccc;
+  width: 100%;
+}
+
+.my-appts__list {
+  overflow-y: auto; // note this may not work until my-appts height is defined
+}
