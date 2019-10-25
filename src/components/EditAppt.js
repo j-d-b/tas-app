@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import './EditAppt.scss';
 import { getApptDate, getFriendlyActionType } from '../utils';
+import EditApptDetails from './EditApptDetails';
 import EditAction from './EditAction';
-import FormInput from './FormInput';
 import FormButton from './FormButton';
-import FormGroup from './FormGroup';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {
@@ -91,7 +89,6 @@ const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
 
       <div>
         <h2 style={{ marginBottom: 0 }}>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</h2>
-        {/* <FormButton style={{ width: '100%' }}type="button">Reschedule</FormButton> */}
       </div>
 
       {!isCustomer && (
@@ -106,33 +103,8 @@ const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
 
       <form name="appt" onSubmit={onSubmit}>
         <h2>Details</h2>
-        <FormGroup>
-          <label className="appt__label">Comment</label>
-          <FormInput
-            type="text"
-            value={edits.comment || ''}
-            onChange={e => setEdits({ ...edits, comment: e.target.value })}
-            placeholder="Add a comment"
-          />
-        </FormGroup>
 
-        <FormGroup>
-          <label className="appt__label">Notify Mobile Number</label>
-          <FormInput
-            type="tel"
-            value={edits.notifyMobileNumber || ''}
-            onChange={e => setEdits({ ...edits, notifyMobileNumber: e.target.value })}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <label className="appt__label">License Plate Number</label>
-          <FormInput
-            type="text"
-            value={edits.licensePlateNumber || ''}
-            onChange={e => setEdits({ ...edits, licensePlateNumber: e.target.value })}
-          />
-        </FormGroup>
+        <EditApptDetails appt={edits} onEdit={setEdits} />
 
         {edits.actions.map((action, index) => (
           <div key={action.id}>
@@ -148,6 +120,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
         ))}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <FormButton style={{ marginRight: '0.5rem' }} type="button" onClick={() => console.log('todo')}>Reschedule</FormButton>
           <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
         </div>
 
