@@ -8,8 +8,6 @@ const EditAction = ({ action, onEdit }) => {
     case 'IMPORT_FULL': {
       return (
         <div>
-          <FormGroup><strong>Container Size: </strong>{action.containerSize}</FormGroup>
-
           <FormGroup>
             <label htmlFor="containerId">Container ID</label>
             <FormInput
@@ -45,8 +43,6 @@ const EditAction = ({ action, onEdit }) => {
     case 'STORAGE_EMPTY': {
       return (
         <div>
-          <FormGroup><strong>Container Size: </strong>{action.containerSize}</FormGroup>
-
           <FormGroup>
             <label htmlFor="containerType">Container Type</label>
             <FormInput
@@ -58,7 +54,7 @@ const EditAction = ({ action, onEdit }) => {
           </FormGroup>
 
           <FormGroup>
-            <label htmlFor="emptyForCityFormNumber">Empty htmlFor City Form Number</label>
+            <label htmlFor="emptyForCityFormNumber">Empty For City Form Number</label>
             <FormInput
               id="emptyForCityFormNumber"
               type="text"
@@ -82,8 +78,6 @@ const EditAction = ({ action, onEdit }) => {
     case 'EXPORT_FULL': {
       return (
         <div>
-          <FormGroup><strong>Container Size: </strong>{action.containerSize}</FormGroup>
-
           <FormGroup>
             <label htmlFor="containerId">Container ID</label>
             <FormInput
@@ -139,8 +133,6 @@ const EditAction = ({ action, onEdit }) => {
     case 'EXPORT_EMPTY': {
       return (
         <div>
-          <FormGroup><strong>Container Size: </strong>{action.containerSize}</FormGroup>
-
           <FormGroup>
             <label htmlFor="containerId">Container ID</label>
             <FormInput
@@ -176,25 +168,5 @@ const EditAction = ({ action, onEdit }) => {
     default: return <div>Action not found</div>;
   }
 };
-
-/* 
-! editable
-importfull
-formNumber705
-
-storageempty
-shippingline
-emptyforcityformnumber
-
-exportfull
-containerid
-containerweight
-bookingnumber
-shippingline
-
-exportempty
-containerid
-shippingline
-*/
 
 export default EditAction;
