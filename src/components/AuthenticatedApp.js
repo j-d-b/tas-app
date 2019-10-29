@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './AuthenticatedApp.scss';
 import { meetsRequiredRole } from '../utils';
 import Navbar from './Navbar';
-import Scheduler from './Scheduler';
+import SchedulerPage from './SchedulerPage';
 import Dashboard from './Dashboard';
 import Admin from './Admin';
 import Configuration from './Configuration';
@@ -14,7 +14,7 @@ const ALL_ROUTES = [
   {
     name: 'Scheduler',
     path: '/scheduler',
-    component: Scheduler
+    component: SchedulerPage
   },
   { 
     name: 'Dashboard',
@@ -47,7 +47,7 @@ const AuthenticatedApp = ({ userRole }) => {
   return (
     <BrowserRouter>
       <Navbar navLinks={routes} />
-      
+
       <div className="page">
         <Switch>
           {routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)}

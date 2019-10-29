@@ -22,7 +22,6 @@ const EditContainerSize = ({ action, onEdit }) => (
     <label htmlFor="containerSize">Container Size</label>
     <FormSelect
       id="containerSize"
-      defaultValue={''}
       options={[
         { name: 'Twenty Foot', value: 'TWENTYFOOT' },
         { name: 'Forty Foot', value: 'FORTYFOOT' }
