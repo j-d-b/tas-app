@@ -108,4 +108,59 @@ export const getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hou
 
 export const getDateFromTimeslot = timeSlot => Date.parse(`${timeSlot.date}T${getHourString(timeSlot.hour)}:00`);
 
+export const getTimeSlotFromDate = date => {
+  return {
+    date: date.toISOString().split('T')[0],
+    hour: date.getHours()
+  };
+};
+
 export const getApptDate = appt =>  new Date(Date.parse(`${appt.timeSlot.date}T${getHourString(appt.timeSlot.hour)}:00Z`));
+
+const containerSizeToTFU = new Map([['TWENTYFOOT', 20], ['FORTYFOOT', 40]]);
+
+export const calculateApptTFU = appt => appt.actions.reduce((totalTFU, { containerSize }) => totalTFU + containerSizeToTFU.get(containerSize), 0);
+
+export const buildActionDetailsInput = action => {
+  switch (action.type) {
+    case 'IMPORT_FULL': {
+      return {
+        importFull: {
+          formNumber705: action.formNumber705,
+          containerId: action.containerId,
+          containerType: action.containerType
+        }
+      };
+    }
+    case 'STORAGE_EMPTY': {
+      return {
+        storageEmpty: {
+          shippingLine: action.shippingLine,
+          containerType: action.containerType,
+          emptyForCityFormNumber: action.emptyForCityFormNumber
+        }
+      }
+    }
+    case 'EXPORT_FULL': {
+      return {
+        exportFull: {
+          containerId: action.containerId,
+          containerType: action.containerType,
+          containerWeight: action.containerWeight,
+          shippingLine: action.shippingLine,
+          bookingNumber: action.bookingNumber
+        }
+      }
+    }
+    case 'EXPORT_EMPTY': {
+      return {
+        exportEmpty: {
+          containerId: action.containerId,
+          containerType: action.containerType,
+          shippingLine: action.shippingLine
+        }
+      }
+    }
+    default: return {};
+  }
+};
