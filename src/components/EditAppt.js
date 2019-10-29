@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import './EditAppt.scss';
-import { getApptDate, getFriendlyActionType } from '../utils';
+import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../utils';
+import EditApptDetails from './EditApptDetails';
 import EditAction from './EditAction';
-import FormInput from './FormInput';
 import FormButton from './FormButton';
-import FormGroup from './FormGroup';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {
@@ -17,51 +15,7 @@ const UPDATE_APPT = gql`
   }
 `;
 
-const buildActionDetailsInput = action => {
-  switch (action.type) {
-    case 'IMPORT_FULL': {
-      return {
-        importFull: {
-          formNumber705: action.formNumber705,
-          containerId: action.containerId,
-          containerType: action.containerType
-        }
-      };
-    }
-    case 'STORAGE_EMPTY': {
-      return {
-        storageEmpty: {
-          shippingLine: action.shippingLine,
-          containerType: action.containerType,
-          emptyForCityFormNumber: action.emptyForCityFormNumber
-        }
-      }
-    }
-    case 'EXPORT_FULL': {
-      return {
-        exportFull: {
-          containerId: action.containerId,
-          containerType: action.containerType,
-          containerWeight: action.containerWeight,
-          shippingLine: action.shippingLine,
-          bookingNumber: action.bookingNumber
-        }
-      }
-    }
-    case 'EXPORT_EMPTY': {
-      return {
-        exportEmpty: {
-          containerId: action.containerId,
-          containerType: action.containerType,
-          shippingLine: action.shippingLine
-        }
-      }
-    }
-    default: return {};
-  }
-}
-
-const EditAppt = ({ appt, showUser, refetchQueries }) => {
+const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
   const [edits, setEdits] = useState(appt);
   const [updateAppt, { data, error, loading}] = useMutation(UPDATE_APPT, { refetchQueries });
 
@@ -91,10 +45,9 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
 
       <div>
         <h2 style={{ marginBottom: 0 }}>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</h2>
-        {/* <FormButton style={{ width: '100%' }}type="button">Reschedule</FormButton> */}
       </div>
 
-      {showUser && (
+      {!isCustomer && (
         <div>
           <h2>Customer</h2>
 
@@ -106,37 +59,13 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
 
       <form name="appt" onSubmit={onSubmit}>
         <h2>Details</h2>
-        <FormGroup>
-          <label className="appt__label">Comment</label>
-          <FormInput
-            type="text"
-            value={edits.comment || ''}
-            onChange={e => setEdits({ ...edits, comment: e.target.value })}
-            placeholder="Add a comment"
-          />
-        </FormGroup>
 
-        <FormGroup>
-          <label className="appt__label">Notify Mobile Number</label>
-          <FormInput
-            type="tel"
-            value={edits.notifyMobileNumber || ''}
-            onChange={e => setEdits({ ...edits, notifyMobileNumber: e.target.value })}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <label className="appt__label">License Plate Number</label>
-          <FormInput
-            type="text"
-            value={edits.licensePlateNumber || ''}
-            onChange={e => setEdits({ ...edits, licensePlateNumber: e.target.value })}
-          />
-        </FormGroup>
+        <EditApptDetails appt={edits} onEdit={setEdits} />
 
         {edits.actions.map((action, index) => (
           <div key={action.id}>
-            <h2>Action {index + 1}: {getFriendlyActionType(action.type)}</h2>
+            <h2>Action {index + 1}: {getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
+            <div><strong>Container Size: </strong>{action.containerSize}</div>
             <EditAction
               action={action}
               onEdit={editedAction => {
@@ -148,6 +77,7 @@ const EditAppt = ({ appt, showUser, refetchQueries }) => {
         ))}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <FormButton style={{ marginRight: '0.5rem' }} type="button" onClick={() => console.log('todo')}>Reschedule</FormButton>
           <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
         </div>
 

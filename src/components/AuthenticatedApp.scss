@@ -1,0 +1,6 @@
+@import '../styles/constants';
+
+.page {
+  width: 100%;
+  height: calc(100% - #{$navbar-height});
+}
