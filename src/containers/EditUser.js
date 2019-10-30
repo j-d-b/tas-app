@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import './EditUser.scss';
-import FormSelect from './FormSelect';
-import FormInput from './FormInput';
-import FormButton from './FormButton';
+import { FormSelect, FormInput, FormGroup, FormButton } from '../components/Form';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {
@@ -17,7 +14,7 @@ const UPDATE_USER = gql`
 
 const UserDetailsInput = ({ field, label, value, onEdit, isRequired, type }) => (
   <>
-    <label className="edit-user__label" htmlFor={field}>{label}</label>
+    <label htmlFor={field}>{label}</label>
     <FormInput
       name={field}
       id={field}
@@ -66,7 +63,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         onSave();
       }}
     >
-      <div className="edit-user__form-group">
+      <FormGroup>
         <UserDetailsInput
           field="name"
           label="Name"
@@ -75,11 +72,11 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           onEdit={onEdit}
           isRequired={true}
         />
-      </div>
+      </FormGroup>
 
       {edits.role && (
-        <div className="edit-user__form-group">
-          <label className="edit-user__label" htmlFor="role">Role</label>
+        <FormGroup>
+          <label htmlFor="role">Role</label>
           <FormSelect
             name="role"
             id="role"
@@ -91,10 +88,10 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
               { name: 'Admin', value: 'ADMIN' }
             ]}
           />
-        </div>
+        </FormGroup>
       )}
 
-      <div className="edit-user__form-group">
+      <FormGroup>
         <UserDetailsInput
           field="company"
           label="Company"
@@ -103,9 +100,9 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           onEdit={onEdit}
           isRequired={true}
         />
-      </div>
+      </FormGroup>
 
-      <div className="edit-user__form-group">
+      <FormGroup>
         <UserDetailsInput
           field="companyType"
           label="Company Type"
@@ -113,9 +110,9 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           value={edits.companyType}
           onEdit={onEdit}
         />
-      </div>
+      </FormGroup>
 
-      <div className="edit-user__form-group">
+      <FormGroup>
         <UserDetailsInput
           field="companyRegNumber"
           label="Company Reg. Number"
@@ -123,9 +120,9 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           value={edits.companyRegNumber}
           onEdit={onEdit}
         />
-      </div>
+      </FormGroup>
 
-      <div className="edit-user__form-group">
+      <FormGroup>
         <UserDetailsInput
           field="mobileNumber"
           label="Mobile Number"
@@ -133,9 +130,9 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           value={edits.mobileNumber}
           onEdit={onEdit}
         />
-      </div>
+      </FormGroup>
 
-      <label className="edit-user__label" htmlFor="reminderSetting">Reminder Setting</label>
+      <label htmlFor="reminderSetting">Reminder Setting</label>
       <FormSelect
         name="reminderSetting"
         id="reminderSetting"

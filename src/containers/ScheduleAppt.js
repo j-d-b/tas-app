@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { getDateFromTimeslot, getHourString, getTimeSlotFromDate } from '../utils';
-import StyledDatePicker from './StyledDatePicker';
+import StyledDatePicker from '../components/StyledDatePicker';
 
 const AVAILABLE_SLOTS = gql`
   query AvailableSlots ($containerSizes: [ContainerSize]!) {

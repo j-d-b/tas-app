@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import BoxPage from './BoxPage';
-import FullPageSpinner from './FullPageSpinner';
+import BoxPage from '../components/BoxPage';
+import FullPageSpinner from '../components/FullPageSpinner';
 import { applyNewToken } from '../utils';
 
 const VERIFY_EMAIL = gql`
@@ -12,7 +12,7 @@ const VERIFY_EMAIL = gql`
   }
 `;
 
-const VerifyEmail = ({ match }) => {
+const VerifyEmailPage = ({ match }) => {
   const client = useApolloClient();
 
   const [verifyEmail, { data, error }] = useMutation(
@@ -59,4 +59,4 @@ const VerifyEmail = ({ match }) => {
   return <FullPageSpinner />;
 };
 
-export default VerifyEmail;
+export default VerifyEmailPage;

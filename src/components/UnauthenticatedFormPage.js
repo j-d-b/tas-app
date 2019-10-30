@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './FormPage.scss';
+import './UnauthenticatedFormPage.scss';
 import BoxPage from './BoxPage';
-import FormInput from './FormInput';
+import { FormInput } from './Form';
 
-const FormPage = ({ 
+const UnauthenticatedFormPage = ({ 
   title,
   onSubmit,
   actionName,
@@ -19,7 +19,6 @@ const FormPage = ({
 }) => (
   <BoxPage afterBox={belowForm}>
     <div className="form-page__title">{title}</div>
-    
     {
       data 
         ? (Success ? <Success /> : <div className="form-page__success-message">{successMessage}</div>)
@@ -53,4 +52,4 @@ const FormPage = ({
   </BoxPage>
 );
 
-export default FormPage;
+export default UnauthenticatedFormPage;

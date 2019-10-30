@@ -3,9 +3,9 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../utils';
-import EditApptDetails from './EditApptDetails';
-import EditAction from './EditAction';
-import FormButton from './FormButton';
+import EditApptDetails from '../components/EditApptDetails';
+import EditAction from '../components/EditAction';
+import { FormButton } from '../components/Form';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {

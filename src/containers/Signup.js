@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 
-import FormPage from './FormPage';
+import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 
 const SIGNUP = gql`
   mutation Signup($name: String!, $email: String!, $password: String!, $company: String!) {
@@ -51,7 +51,7 @@ const Signup = () => {
   ];
 
   return (
-    <FormPage
+    <UnauthenticatedFormPage
       title="Sign Up"
       onSubmit={e => {
         e.preventDefault();
