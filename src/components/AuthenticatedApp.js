@@ -4,11 +4,11 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './AuthenticatedApp.scss';
 import { meetsRequiredRole } from '../utils';
 import Navbar from './Navbar';
-import SchedulerPage from './SchedulerPage';
-import Dashboard from './Dashboard';
-import Admin from './Admin';
-import Configuration from './Configuration';
-import Settings from './Settings';
+import SchedulerPage from '../containers/SchedulerPage';
+import Dashboard from '../containers/Dashboard';
+import AdminPage from '../containers/AdminPage';
+import Configuration from '../containers/Configuration';
+import Settings from '../containers/Settings';
 
 const ALL_ROUTES = [
   {
@@ -26,7 +26,7 @@ const ALL_ROUTES = [
     name: 'Admin',
     path: '/admin',
     requiredRole: 'ADMIN',
-    component: Admin
+    component: AdminPage
   },
   {
     name: 'Configuration',

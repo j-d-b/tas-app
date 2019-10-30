@@ -4,11 +4,11 @@ import { gql } from 'apollo-boost';
 
 import './Scheduler.scss';
 import { getFriendlyActionType, calculateApptTFU, getHourString } from '../utils';
-import EditApptDetails from './EditApptDetails';
-import EditAction from './EditAction';
-import FormButton from './FormButton';
-import FormSelect from './FormSelect';
-import RightAlign from './RightAlign';
+import EditApptDetails from '../components/EditApptDetails';
+import EditAction from '../components/EditAction';
+import FormButton from '../components/FormButton';
+import FormSelect from '../components/FormSelect';
+import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
 
 const ADD_APPT = gql`

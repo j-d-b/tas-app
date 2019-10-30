@@ -3,9 +3,9 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { refreshAuthToken } from '../utils';
-import FullPageSpinner from './FullPageSpinner';
-import AuthenticatedApp from './AuthenticatedApp';
-import UnauthenticatedApp from './UnauthenticatedApp';
+import FullPageSpinner from '../components/FullPageSpinner';
+import AuthenticatedApp from '../components/AuthenticatedApp';
+import UnauthenticatedApp from '../components/UnauthenticatedApp';
 // const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
 // const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 

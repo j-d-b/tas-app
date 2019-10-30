@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import FormButton from './FormButton';
+import FormButton from '../components/FormButton';
 
 const DELETE_USER = gql`
   mutation DeleteUser ($email: String!) {

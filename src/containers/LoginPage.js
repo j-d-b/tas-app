@@ -3,7 +3,7 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 
-import FormPage from './FormPage';
+import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 import { applyNewToken } from '../utils';
 
 const LOGIN = gql`
@@ -12,7 +12,7 @@ const LOGIN = gql`
   }
 `;
 
-const Login = () => {
+const LoginPage = () => {
   const client = useApolloClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,7 +42,7 @@ const Login = () => {
   ];
 
   return (
-    <FormPage
+    <UnauthenticatedFormPage
       title="Log In"
       onSubmit={e => {
         e.preventDefault();
@@ -64,4 +64,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

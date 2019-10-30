@@ -1,21 +1,21 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import Login from './Login';
-import Signup from './Signup';
-import RequestPasswordReset from './RequestPasswordReset';
-import ResetPassword from './ResetPassword';
-import VerifyEmail from './VerifyEmail';
+import LoginPage from '../containers/LoginPage';
+import Signup from '../containers/Signup';
+import RequestPasswordReset from '../containers/RequestPasswordResetPage';
+import ResetPasswordPage from '../containers/ResetPasswordPage';
+import VerifyEmailPage from '../containers/VerifyEmailPage';
 
 const UnauthenticatedApp = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={Signup} />
         <Route path="/request-password-reset" component={RequestPasswordReset} />
-        <Route path="/reset-password/:resetToken" component={ResetPassword} />
-        <Route path="/verify-email/:verifyToken" component={VerifyEmail} />
+        <Route path="/reset-password/:resetToken" component={ResetPasswordPage} />
+        <Route path="/verify-email/:verifyToken" component={VerifyEmailPage} />
         <Route path="/">
           <Redirect to="/login" />
         </Route>

@@ -7,7 +7,7 @@ import jwtDecode from 'jwt-decode';
 import './index.css';
 import { refreshAuthToken, logoutCleanup, isPassedExpiration } from './utils';
 import { resolvers, typeDefs } from './resolvers';
-import App from './components/App';
+import App from './containers/App';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',

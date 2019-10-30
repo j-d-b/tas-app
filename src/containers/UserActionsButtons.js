@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 
-import FormButton from './FormButton';
+import FormButton from '../components/FormButton';
 import EditUser from './EditUser';
 import ChangeUserEmail from './ChangeUserEmail';
 import DeleteUser from './DeleteUser';
@@ -19,7 +19,7 @@ const SEND_VERIFICATION = gql`
   }
 `;
 
-const UserActions = ({ user, exit, onChangesQuery }) => {
+const UserActionsButtons = ({ user, exit, onChangesQuery }) => {
   const refetchQueries = [{ query: onChangesQuery }];
 
   const [selectedAction, selectAction] = useState(null);
@@ -119,4 +119,4 @@ const UserActions = ({ user, exit, onChangesQuery }) => {
   }
 };
 
-export default UserActions;
+export default UserActionsButtons;

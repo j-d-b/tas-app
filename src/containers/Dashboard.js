@@ -4,9 +4,9 @@ import { gql } from 'apollo-boost';
 
 import './Dashboard.scss';
 import { getDateFromTimeslot } from '../utils';
-import Modal from './Modal';
-import OrganizeBox from './OrganizeBox';
-import ApptCard from './ApptCard';
+import Modal from '../components/Modal';
+import OrganizeBox from '../components/OrganizeBox';
+import ApptCard from '../components/ApptCard';
 import EditAppt from './EditAppt';
 
 const ALL_APPTS = gql`

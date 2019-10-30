@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import FormPage from './FormPage';
+import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 
 const SEND_RESET_LINK = gql`
   mutation sendResetPasswordLink($email: String!) {
@@ -26,7 +26,7 @@ const RequestPasswordReset = () => {
   ];
 
   return (
-    <FormPage
+    <UnauthenticatedFormPage
       title="Request Password Reset"
       onSubmit={e => {
         e.preventDefault();

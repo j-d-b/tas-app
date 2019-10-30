@@ -4,8 +4,8 @@ import { gql } from 'apollo-boost';
 
 import './SchedulerPage.scss';
 import Scheduler from './Scheduler';
-import ApptCard from './ApptCard';
-import Modal from './Modal';
+import ApptCard from '../components/ApptCard';
+import Modal from '../components/Modal';
 import EditAppt from './EditAppt';
 
 const MY_APPTS = gql`

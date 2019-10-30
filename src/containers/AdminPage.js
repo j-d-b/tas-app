@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import UserActions from './UserActions';
-import Modal from './Modal';
-import UsersTable from './UsersTable';
+import UserActionsButtons from './UserActionsButtons';
+import Modal from '../components/Modal';
+import UsersTable from '../components/UsersTable';
 import { getFriendlyUserRole } from '../utils';
 
 const ALL_USERS = gql`
@@ -24,7 +24,7 @@ const ALL_USERS = gql`
   }
 `;
 
-const Admin = () => {
+const AdminPage = () => {
   const { data, loading, error } = useQuery(ALL_USERS);
 
   const columns = [
@@ -91,10 +91,10 @@ const Admin = () => {
           <h1>{selectedUser && selectedUser.name} ({selectedUser && selectedUser.email})</h1>
         </div>
 
-        <UserActions user={selectedUser} onChangesQuery={ALL_USERS} exit={() => selectUser(null)} />
+        <UserActionsButtons user={selectedUser} onChangesQuery={ALL_USERS} exit={() => selectUser(null)} />
       </Modal>
     </div>
   );
 };
 
-export default Admin;
+export default AdminPage;

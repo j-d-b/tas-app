@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 
 import { isPassedExpiration } from '../utils';
-import FormPage from './FormPage';
+import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 
 const RESET_PASSWORD = gql`
   mutation resetPassword($newPassword: String!, $resetToken: String!) {
@@ -13,7 +13,7 @@ const RESET_PASSWORD = gql`
   }
 `;
 
-const ResetPassword = ({ match }) => {  
+const ResetPasswordPage = ({ match }) => {  
   const { resetToken } = match.params; // don't have to null check as the router does that
 
   let currentUser;
@@ -43,7 +43,7 @@ const ResetPassword = ({ match }) => {
   ];
 
   return (
-    <FormPage 
+    <UnauthenticatedFormPage 
       title="Reset Password"
       onSubmit={e => {
         e.preventDefault();
@@ -65,4 +65,4 @@ const ResetPassword = ({ match }) => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;
