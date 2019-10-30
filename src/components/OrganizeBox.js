@@ -19,8 +19,9 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     <h3 className="organize-box__header">Filter</h3>
 
     <div className="organize-box__input-group">
-      <label>From</label>
+      <label htmlFor="fromDateTime">From</label>
       <StyledDatePicker
+        id="fromDateTime"
         selected={filters.from}
         onChange={val => setFilters({ ...filters, from: val })}
         placeholderText="No start date"
@@ -35,8 +36,9 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     </div>
 
     <div className="organize-box__input-group">
-      <label>To</label>
+      <label htmlFor="toDateTime">To</label>
       <StyledDatePicker
+        id="toDateTime"
         selected={filters.to}
         onChange={val => setFilters({ ...filters, to: val })}
         placeholderText="No end date"
@@ -51,8 +53,9 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     </div>
 
     <div className="organize-box__input-group">
-      <label>Type</label>
+      <label htmlFor="actionType">Type</label>
       <FormSelect
+        id="actionType"
         value={filters.type}
         onChange={e => setFilters({ ...filters, type: e.target.value })}
         options={[
@@ -70,8 +73,9 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     <h3 className="organize-box__header">Sort</h3>
 
     <div className="organize-box__input-group">
-      <label>By</label>
+      <label htmlFor="sortField">By</label>
       <FormSelect
+        id="sortField"
         value={sort.field}
         onChange={e => setSort({ ...sort, by: e.target.value })}
         options={[
@@ -83,8 +87,9 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     </div>
 
     <div className="organize-box__input-group">
-      <label>Direction</label>
+      <label htmlFor="sortDirection">Direction</label>
       <FormSelect
+        id="sortDirection"
         value={sort.direction}
         onChange={e => setSort({ ...sort, direction: e.target.value })}
         options={[
