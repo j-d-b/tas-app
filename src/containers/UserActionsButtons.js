@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 
-import FormButton from '../components/FormButton';
+import { FormButton } from '../components/Form';
 import EditUser from './EditUser';
 import ChangeUserEmail from './ChangeUserEmail';
 import DeleteUser from './DeleteUser';

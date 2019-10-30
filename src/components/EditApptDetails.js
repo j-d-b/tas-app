@@ -1,7 +1,6 @@
 import React from 'react';
 
-import FormInput from './FormInput';
-import FormGroup from './FormGroup';
+import { FormGroup, FormInput } from './Form';
 
 const EditApptDetails = ({ appt, onEdit }) => (
   <div>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import './UnauthenticatedFormPage.scss';
 import BoxPage from './BoxPage';
-import FormInput from './FormInput';
+import { FormInput } from './Form';
 
 const UnauthenticatedFormPage = ({ 
   title,

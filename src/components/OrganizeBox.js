@@ -1,9 +1,7 @@
 import React from 'react';
 
 import './OrganizeBox.scss';
-import FormInput from './FormInput';
-import FormSelect from './FormSelect';
-import FormButton from './FormButton';
+import { FormInput, FormButton, FormSelect } from './Form';
 import StyledDatePicker from './StyledDatePicker';
 
 const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, reset }) => (

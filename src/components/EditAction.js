@@ -1,8 +1,6 @@
 import React from 'react';
 
-import FormGroup from './FormGroup';
-import FormSelect from './FormSelect';
-import FormInput from './FormInput';
+import { FormGroup, FormSelect, FormInput } from './Form';
 
 const EditContainerId = ({ action, onEdit }) => (
   <FormGroup>

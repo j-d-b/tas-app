@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
-import FormButton from '../components/FormButton';
+import { FormButton } from '../components/Form';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {

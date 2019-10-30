@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
+import { FormInput, FormButton } from '../components/Form';
 
 const CHANGE_EMAIL = gql`
   mutation ChangeEmail ($currEmail: String!, $newEmail: String!) {

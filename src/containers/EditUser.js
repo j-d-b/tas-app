@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import FormSelect from '../components/FormSelect';
-import FormInput from '../components/FormInput';
-import FormGroup from '../components/FormGroup';
-import FormButton from '../components/FormButton';
+import { FormSelect, FormInput, FormGroup, FormButton } from '../components/Form';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {

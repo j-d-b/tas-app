@@ -6,8 +6,7 @@ import './Scheduler.scss';
 import { getFriendlyActionType, calculateApptTFU, getHourString } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
-import FormButton from '../components/FormButton';
-import FormSelect from '../components/FormSelect';
+import { FormButton, FormSelect } from '../components/Form';
 import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
 
