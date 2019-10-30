@@ -6,6 +6,7 @@ import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
+import RightAlign from '../components/RightAlign';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {
@@ -15,9 +16,17 @@ const UPDATE_APPT = gql`
   }
 `;
 
-const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
+const DELETE_APPT = gql`
+  mutation DeleteAppt ($id: ID!) {
+    deleteAppt(input: { id: $id })
+  }
+`;
+
+const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
   const [edits, setEdits] = useState(appt);
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [updateAppt, { data, error, loading}] = useMutation(UPDATE_APPT, { refetchQueries });
+  const [deleteAppt, deleteApptResults] = useMutation(DELETE_APPT, { refetchQueries, onCompleted: onDelete });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -38,6 +47,28 @@ const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
       }
     })
   };
+
+  if (isDeleteConfirm) {
+    return (
+      <div>
+        <h1>Confirm Deletion</h1>
+        <p>Are you sure you want to delete your appointment for <strong>{getApptDate(appt).toDateString()}</strong> at <strong>{appt.arrivalWindow}</strong>?</p>
+        <RightAlign>
+          <FormButton
+            type="button"
+            style={{ marginRight: '0.5rem' }}
+            onClick={() => setIsDeleteConfirm(false)}
+          >Cancel</FormButton>
+          <FormButton 
+            type="button"
+            variety="DANGER"
+            disabled={deleteApptResults.loading}
+            onClick={() => !deleteApptResults.loading && deleteAppt({ variables: { id: appt.id } })}
+          >{deleteApptResults.loading ? 'Deleting...' : 'Delete'}</FormButton>
+        </RightAlign>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -77,8 +108,24 @@ const EditAppt = ({ appt, isCustomer, refetchQueries }) => {
         ))}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <FormButton style={{ marginRight: '0.5rem' }} type="button" onClick={() => console.log('todo')}>Reschedule</FormButton>
-          <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
+          <FormButton
+            style={{ marginRight: '0.5rem' }}
+            type="button"
+            variety="DANGER"
+            onClick={() => setIsDeleteConfirm(true)}
+          >Delete</FormButton>
+
+          <FormButton
+            style={{ marginRight: '0.5rem' }}
+            type="button"
+            onClick={() => console.log('todo')}
+          >Reschedule</FormButton>
+
+          <FormButton
+            type="submit"
+            variety="SUCCESS"
+            disabled={loading}
+          >{loading ? 'Saving...' : 'Save'}</FormButton>
         </div>
 
         {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
