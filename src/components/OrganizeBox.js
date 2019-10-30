@@ -76,7 +76,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
       <label htmlFor="sortField">By</label>
       <FormSelect
         id="sortField"
-        value={sort.field}
+        value={sort.by}
         onChange={e => setSort({ ...sort, by: e.target.value })}
         options={[
           { name: 'Time Slot', value: 'TIME_SLOT' },
