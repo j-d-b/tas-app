@@ -15,12 +15,12 @@ const EditContainerId = ({ action, onEdit }) => (
   </FormGroup>
 );
 
-const EditContainerSize = ({ action, onEdit }) => (
+const EditContainerSize = ({ action, onEdit, options }) => (
   <FormGroup>
     <label htmlFor="containerSize">Container Size</label>
     <FormSelect
       id="containerSize"
-      options={[
+      options={options || [
         { name: 'Twenty Foot', value: 'TWENTYFOOT' },
         { name: 'Forty Foot', value: 'FORTYFOOT' }
       ]}
@@ -57,13 +57,13 @@ const EditShippingLine = ({ action, onEdit }) => (
   </div>
 );
 
-const EditAction = ({ action, onEdit, isNew }) => {
+const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
   switch (action.type) {
     case 'IMPORT_FULL': {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} />}
+          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
           <EditContainerType action={action} onEdit={onEdit} />
 
           <div>
@@ -84,7 +84,7 @@ const EditAction = ({ action, onEdit, isNew }) => {
         <div>
           <EditContainerType action={action} onEdit={onEdit} />
 
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} />}
+          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
 
           <FormGroup>
             <label htmlFor="emptyForCityFormNumber">Empty For City Form Number</label>
@@ -105,7 +105,7 @@ const EditAction = ({ action, onEdit, isNew }) => {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} />}
+          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
           <EditContainerType action={action} onEdit={onEdit} />
 
           <FormGroup>
@@ -138,7 +138,7 @@ const EditAction = ({ action, onEdit, isNew }) => {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} />}
+          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
           <EditContainerType action={action} onEdit={onEdit} />
 
           <div>
