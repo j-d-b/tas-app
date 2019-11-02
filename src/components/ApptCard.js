@@ -3,6 +3,13 @@ import React from 'react';
 import { getFriendlyActionType, getApptDate } from '../utils';
 import './ApptCard.scss';
 
+const ApptCardLine = ({ label, data, children}) => (
+  <div className="appt-card__line">
+    <div className="appt-card__line__label">{label}</div>
+    <div className="appt-card__line__data">{data || children}</div>
+  </div>
+)
+
 const ApptCard = ({ appt, onClick, isCustomer }) => (
   <div>
     <div className="appt-card" onClick={onClick}>
@@ -11,63 +18,47 @@ const ApptCard = ({ appt, onClick, isCustomer }) => (
         {!isCustomer && <span className="appt-card__arrival-window"> ({appt.arrivalWindow})</span>}
       </div>
 
-      {isCustomer && (
-        <>
-        <div>
-          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Arrive at: </span>
-          <span>{appt.arrivalWindow}</span>
-        </div>
+      <div className="appt-card__lines">
+        {isCustomer && (
+          <>
+            <ApptCardLine label="Arrive at:" data={appt.arrivalWindow} />
+            <ApptCardLine label="Actions:">
+              <div className="appt-card__actions-list">
+                {appt.actions.map((action, i) => (
+                  <div key={action.id}>{getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</div>
+                ))}
+              </div>
+            </ApptCardLine>
+          </>
+        )}
 
-        <div>
-          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Actions: </span>
-          <span>{appt.actions.map((action, i) => getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR') + (i + 1 < appt.actions.length ? ', ' : ''))}</span>
-        </div>
-        </>
-      )}
+        {!isCustomer && (
+          <>
+            <ApptCardLine label="Appt ID:" data={appt.id} />
+            <ApptCardLine label="Customer:" data={appt.user.name} />
+            <ApptCardLine label="Company:" data={appt.user.company} />
+          </>
+        )}
+
+        {appt.comment && <ApptCardLine label="Comment:" data={appt.comment} />}
+      </div>
 
       {!isCustomer && (
-        <>
-          <div>
-            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Appt ID: </span>
-            <span>{appt.id}</span>
+        appt.actions.map((action, i) => (
+          <div
+            className="action-card"
+            key={action.containerId || i}
+            style={{ 
+              top: `-${(i + 1) * 1.5}rem`, 
+              zIndex: `-${i + 1}`
+            }}
+          >
+            <div style={{ fontWeight: 'bold' }}>{getFriendlyActionType(action.type, 'OPERATOR')}</div>
+            <div><strong>CID: </strong>{action.containerId ? action.containerId.toUpperCase() : 'N/A'}</div>
           </div>
-
-          <div>
-            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Customer: </span>
-            <span>{appt.user.name}</span>
-          </div>
-
-          <div>
-            <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Company: </span>
-            <span>{appt.user.company}</span>
-          </div>
-        </>
+        ))
       )}
-
-      {appt.comment && (
-        <div>
-          <span style={{ minWidth: '20%', fontWeight: 'bold', display: 'inline-block' }}>Comment: </span>
-          <span>{appt.comment}</span>
-        </div>
-      )}
-
     </div>
-
-    {!isCustomer && (
-      appt.actions.map((action, i) => (
-        <div
-          className="action-card"
-          key={action.containerId || i}
-          style={{ 
-            top: `-${(i + 1) * 1.5}rem`, 
-            zIndex: `-${i + 1}`
-          }}
-        >
-          <div style={{ fontWeight: 'bold' }}>{getFriendlyActionType(action.type, 'OPERATOR')}</div>
-          <div><strong>CID: </strong>{action.containerId ? action.containerId.toUpperCase() : 'N/A'}</div>
-        </div>
-      ))
-    )}
   </div>
 );
 

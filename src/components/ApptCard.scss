@@ -10,6 +10,10 @@
   &:hover {
     background-color: darken($pink, 5);
   }
+
+  div:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .appt-card__date {
@@ -20,6 +24,28 @@
 .appt-card__arrival-window {
   font-style: italic;
   font-size: 1.2rem;
+}
+
+.appt-card__lines > div {
+  margin-bottom: 0.25rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.appt-card__line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.appt-card__line__label {
+  font-weight: bold;
+  padding-right: 0.5rem;
+}
+
+.appt-card__line__data {
+  text-align: right;
 }
 
 .action-card {

@@ -18,4 +18,4 @@ export const FormSelect = ({ options, name, ...rest}) => (
   </select>
 );
 
-
+export const FormNote = ({ children }) => <div class="form-note">{children}</div>;
