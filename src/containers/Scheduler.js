@@ -86,7 +86,7 @@ const buildAddActionInput = action => {
 const Start = ({ onStart }) => (
   <div style={{ textAlign: 'center' }}>
     <h1 style={{ fontSize: '3.5rem', fontWeight: 300 }}>Schedule an Appointment</h1>
-    <FormButton style={{ width: '100%' }} onClick={onStart}>Start</FormButton>
+    <FormButton style={{ width: '100%', maxWidth: 400, textTransform: 'uppercase' }} onClick={onStart}>Start</FormButton>
   </div>
 );
 
