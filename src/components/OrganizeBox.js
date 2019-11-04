@@ -6,8 +6,8 @@ import StyledDatePicker from './StyledDatePicker';
 
 const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, reset }) => (
   <div className="organize-box">
-    <h2 className="organize-box__title">Organize</h2>
-    <h3 className="organize-box__header" htmlFor="search">Search</h3>
+    <h1 className="organize-box__title">Organize</h1>
+    <h2 className="organize-box__header" htmlFor="search">Search</h2>
     <FormInput
       id="search"
       name="search"
@@ -18,7 +18,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
 
     <hr/>
 
-    <h3 className="organize-box__header">Filter</h3>
+    <h2 className="organize-box__header">Filter</h2>
 
     <div className="organize-box__input-group">
       <label htmlFor="fromDateTime">From</label>
@@ -73,7 +73,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
 
     <hr/>
 
-    <h3 className="organize-box__header">Sort</h3>
+    <h2 className="organize-box__header">Sort</h2>
 
     <div className="organize-box__input-group">
       <label htmlFor="sortField">By</label>
