@@ -22,9 +22,8 @@
 
 .my-appts__list {
   overflow-y: auto; // note this may not work until my-appts height is defined
-  margin-bottom: 1rem;
-  
-  div:last-child {
+
+  > div {
     margin-bottom: 1rem;
   }
 }

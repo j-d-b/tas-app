@@ -1,18 +1,14 @@
 @import '../styles/colors';
 
 .appt-card {
-  border: 1px solid #ccc;
   padding: 1.5rem;
-  background-color: $pink;
+  background-color: #efdbff;
   border-radius: 1.5rem;
   cursor: pointer;
+  box-shadow: 1px 2px 6px #bdbdbd;
 
   &:hover {
-    background-color: darken($pink, 5);
-  }
-
-  div:last-child {
-    margin-bottom: 0;
+    background-color: darken(#efdbff, 3);
   }
 }
 
