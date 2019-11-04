@@ -168,9 +168,9 @@ const Dashboard = () => {
       </div>
 
       <div className="appts-col">
-        <div className="appt-container">
+        {!appts.length && <NoAppts />}
+        <div className="appts-container">
           {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
-          {!appts.length && <NoAppts />}
         </div>
       </div>
 
