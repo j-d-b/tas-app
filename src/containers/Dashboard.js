@@ -42,6 +42,13 @@ const ALL_APPTS = gql`
   }
 `;
 
+const NoAppts = () => (
+  <div>
+    <h1>No Matching Appointments</h1>
+    <p>Try adjusting your filter criteria.</p>
+  </div>
+);
+
 const getThisMonday = () => {
   const today = new Date();
   const day = today.getDay();
@@ -146,14 +153,6 @@ const Dashboard = () => {
     .filter(satisfiesFilters(filters))
     .sort(createSort(sort));
 
-  
-  let pairedAppts = [];
-  let i = 0;
-  while (i < appts.length) {
-    pairedAppts.push([appts[i], appts[i + 1]]);
-    i += 2;
-  }
-
   return (
     <div className="dashboard-page">
       <div className="organize-box-col">
@@ -171,6 +170,7 @@ const Dashboard = () => {
       <div className="appts-col">
         <div className="appt-container">
           {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
+          {!appts.length && <NoAppts />}
         </div>
       </div>
 
