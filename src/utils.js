@@ -117,9 +117,9 @@ export const getTimeSlotFromDate = date => {
 
 export const getApptDate = appt =>  new Date(Date.parse(`${appt.timeSlot.date}T${getHourString(appt.timeSlot.hour)}:00Z`));
 
-const containerSizeToTFU = new Map([['TWENTYFOOT', 20], ['FORTYFOOT', 40]]);
+export const containerSizeToTFU = containerSizeString => containerSizeString === 'TWENTYFOOT' ? 20 : 40;
 
-export const calculateApptTFU = appt => appt.actions.reduce((totalTFU, { containerSize }) => totalTFU + containerSizeToTFU.get(containerSize), 0);
+export const calculateApptTFU = appt => appt.actions.reduce((totalTFU, { containerSize }) => totalTFU + containerSizeToTFU(containerSize), 0);
 
 export const buildActionDetailsInput = action => {
   switch (action.type) {

@@ -7,8 +7,10 @@ import StyledDatePicker from './StyledDatePicker';
 const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, reset }) => (
   <div className="organize-box">
     <h2 className="organize-box__title">Organize</h2>
-    <h3 className="organize-box__header">Search</h3>
+    <h3 className="organize-box__header" htmlFor="search">Search</h3>
     <FormInput
+      id="search"
+      name="search"
       value={search}
       onChange={e => setSearch(e.target.value)}
       placeholder="Appt ID, container ID, name, company"
@@ -55,6 +57,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     <div className="organize-box__input-group">
       <label htmlFor="actionType">Type</label>
       <FormSelect
+        name="actionType"
         id="actionType"
         value={filters.type}
         onChange={e => setFilters({ ...filters, type: e.target.value })}
@@ -75,6 +78,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     <div className="organize-box__input-group">
       <label htmlFor="sortField">By</label>
       <FormSelect
+        name="sortField"
         id="sortField"
         value={sort.by}
         onChange={e => setSort({ ...sort, by: e.target.value })}
@@ -89,6 +93,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
     <div className="organize-box__input-group">
       <label htmlFor="sortDirection">Direction</label>
       <FormSelect
+        name="sortDirection"
         id="sortDirection"
         value={sort.direction}
         onChange={e => setSort({ ...sort, direction: e.target.value })}

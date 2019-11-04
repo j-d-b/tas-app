@@ -9,6 +9,7 @@ const EditApptDetails = ({ appt, onEdit }) => (
       <FormInput
         id="comment"
         type="text"
+        name="comment"
         value={appt.comment || ''}
         onChange={e => onEdit({ ...appt, comment: e.target.value })}
         placeholder="Add a comment"
@@ -16,9 +17,10 @@ const EditApptDetails = ({ appt, onEdit }) => (
     </FormGroup>
 
     <FormGroup>
-      <label className="appt__label" htmlFor="notifyMobileNumber">Notify Mobile Number</label>
+      <label className="appt__label" htmlFor="notifyMobileNumber">Mobile Number (for notifications)</label>
       <FormInput
         id="notifyMobileNumber"
+        name="notifyMobileNumber"
         type="tel"
         value={appt.notifyMobileNumber || ''}
         onChange={e => onEdit({ ...appt, notifyMobileNumber: e.target.value })}
@@ -29,6 +31,7 @@ const EditApptDetails = ({ appt, onEdit }) => (
       <label className="appt__label" htmlFor="licensePlateNumber">License Plate Number</label>
       <FormInput
         id="licensePlateNumber"
+        name="licensePlateNumber"
         type="text"
         value={appt.licensePlateNumber || ''}
         onChange={e => onEdit({ ...appt, licensePlateNumber: e.target.value })}

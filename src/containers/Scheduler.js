@@ -3,12 +3,15 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import './Scheduler.scss';
-import { getFriendlyActionType, calculateApptTFU, getHourString } from '../utils';
+import { getFriendlyActionType, calculateApptTFU, getHourString, containerSizeToTFU } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton, FormSelect } from '../components/Form';
 import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
+
+const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
+const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
 
 const ADD_APPT = gql`
   mutation AddAppt ($input: AddApptInput!) {
@@ -81,40 +84,72 @@ const buildAddActionInput = action => {
 };
 
 const Start = ({ onStart }) => (
-  <div style={{ marginTop: '33%', textAlign: 'center' }}>
-    <h1 style={{ fontSize: '3rem', fontWeight: 300 }}>Schedule an Appointment</h1>
-    <FormButton onClick={onStart}>Start</FormButton>
+  <div style={{ textAlign: 'center' }}>
+    <h1 style={{ fontSize: '3.5rem', fontWeight: 300 }}>Schedule an Appointment</h1>
+    <FormButton style={{ width: '100%' }} onClick={onStart}>Start</FormButton>
   </div>
 );
 
-const ChooseActionType = ({ action, selectActionType, goToNextPage, actionNumber, options }) => (
-  <form name="actionType" onSubmit={e => {
-    e.preventDefault();
-    goToNextPage();
-  }}>
-    <h2>Choose Action {actionNumber > 1 ? actionNumber  : ''} Type</h2>
-    <label htmlFor="actionType">Select Action Type</label>
-    <FormSelect
-      id="actionType"
-      value={action.type}
-      onChange={e => selectActionType(e.target.value)}
-      options={options}
-      required
-    />
+const getActionTypeOptions = (appt, currActionIndex) => {
+  const allOptions = [
+    { name: 'Pick Up Full', value: 'IMPORT_FULL' },
+    { name: 'Pick Up Empty', value: 'STORAGE_EMPTY' },
+    { name: 'Drop Off Full', value: 'EXPORT_FULL' },
+    { name: 'Drop Off Empty', value: 'EXPORT_EMPTY' }
+  ];
 
-    {actionNumber  === 1 && <p style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}><strong>Note:</strong> You will have the option to add additional actions to this appointment later</p>}
+  const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
+  const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';
 
-    <RightAlign>
-      <FormButton type="submit">Continue</FormButton>
-    </RightAlign>
-  </form>
-);
+  const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+    type && isImportType(type) && currActionIndex !== i
+      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
+      : count
+  ), 0);
+
+  const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+    type && isExportType(type) && currActionIndex !== i
+      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
+      : count
+  ), 0);
+
+  const canImport = importTFU < MAX_TFU_PER_ACTION_CATEGORY;
+  const canExport = exportTFU < MAX_TFU_PER_ACTION_CATEGORY;
+
+  return allOptions.filter(({ value }) => isImportType(value) ? canImport : canExport);
+};
+
+const getContainerSizeOptions = (appt, currActionIndex) => {
+  const allOptions = [
+    { name: 'Twenty Foot', value: 'TWENTYFOOT' },
+    { name: 'Forty Foot', value: 'FORTYFOOT' }
+  ];
+
+  const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
+  const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';
+
+  const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+    type && isImportType(type) && currActionIndex !== i
+      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
+      : count
+  ), 0);
+
+  const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+    type && isExportType(type) && currActionIndex !== i
+      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
+      : count
+  ), 0);
+
+  const remainingTFU = MAX_TFU_PER_ACTION_CATEGORY - (isImportType(appt.actions[currActionIndex].type) ? importTFU : exportTFU);
+
+  return allOptions.filter(({ value }) => containerSizeToTFU(value) <= remainingTFU);
+};
 
 const INIT_APPT = { actions: [{ type: '' }] };
 
 const Scheduler = ({ refetchQueries }) => {
   const [page, setPage] = useState(0);
-  const [numActions, setNumActions] = useState(1);
+  const [currActionIndex, setCurrActionIndex] = useState(0);
   const [newAppt, setNewAppt] = useState(INIT_APPT);
   const [addAppt, { data, error, loading }] = useMutation(
     ADD_APPT,
@@ -122,55 +157,61 @@ const Scheduler = ({ refetchQueries }) => {
       refetchQueries,
       onCompleted: () => {
         setPage(7);
-        setNewAppt(INIT_APPT);
-        setNumActions(1);
+        setNewAppt({});
+        setCurrActionIndex(0);
       }
     }
   );
 
   return (
     <div className="scheduler">
-      {/* <div>{JSON.stringify(newAppt)}</div> */}
       {(() => {
         switch (page) {
           case 0: return <Start onStart={() => setPage(1)} />;
-          case 1: {
-            const allOptions = [
-              { name: 'Pick Up Full', value: 'IMPORT_FULL' },
-              { name: 'Pick Up Empty', value: 'STORAGE_EMPTY' },
-              { name: 'Drop Off Full', value: 'EXPORT_FULL' },
-              { name: 'Drop Off Empty', value: 'EXPORT_EMPTY' }
-            ];
+          case 1: return (
+            <form name="actionType" onSubmit={e => {
+              e.preventDefault();
+              setPage(2);
+            }}>
+              <h2>Select Action {currActionIndex ? currActionIndex + 1 : ''} Type</h2>
 
-            const isValidOption = option => {
-              const isImportType = type => type && (type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY');
-              const isExportType = type => type && (type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY');
-
-              if (newAppt.actions.length <= 1) return true;
-
-              const numImports = newAppt.actions.reduce((count, { type }) => count + (isImportType(type) ? 1 : 0), 0);
-              const numExports = newAppt.actions.reduce((count, { type }) => count + (isExportType(type) ? 1 : 0), 0);
-
-              if (numImports >= 2) return !isImportType(option.value);
-              if (numExports >= 2) return !isExportType(option.value);
-
-              return true;
-            };
-
-            return (
-              <ChooseActionType
-                actionNumber={numActions}
-                options={allOptions.filter(isValidOption)}
-                action={newAppt.actions[numActions - 1]}
-                selectActionType={actionType => {
+              <label htmlFor="actionType">Action Type</label>
+              <FormSelect
+                name="actionType"
+                id="actionType"
+                value={newAppt.actions[currActionIndex].type}
+                onChange={e => {
                   const newActions = [...newAppt.actions];
-                  newActions[numActions - 1].type = actionType;
+                  newActions[currActionIndex].type = e.target.value;
                   setNewAppt({ ...newAppt, actions: newActions });
                 }}
-                goToNextPage={() => setPage(2)}
+                options={getActionTypeOptions(newAppt, currActionIndex)}
+                required
               />
-            );
-          }
+
+              {currActionIndex === 0 && <p style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}><strong>Note:</strong> You will have the option to add additional actions to this appointment later</p>}
+
+              <RightAlign>
+                <FormButton
+                  type="button"
+                  style={{ marginRight: '0.5rem' }}
+                  onClick={currActionIndex === 0
+                    ? () => {
+                        setPage(0);
+                        setNewAppt(INIT_APPT);
+                        setCurrActionIndex(0);
+                      }
+                    : () => {
+                        setPage(3);
+                        setNewAppt({ ...newAppt, actions: newAppt.actions.filter((a, i) => i !== currActionIndex) });
+                        setCurrActionIndex(currActionIndex - 1);
+                      }
+                  }
+                >{currActionIndex === 0 ? 'Cancel' : 'Back'}</FormButton>
+                <FormButton type="submit">Continue</FormButton>
+              </RightAlign>
+            </form>
+          );
           case 2: return (
             <form 
               name="actionDetails" 
@@ -179,45 +220,65 @@ const Scheduler = ({ refetchQueries }) => {
                 setPage(3);
               }}
             >
-              <h2>Enter Action Details</h2>
+              <h2>Enter Action {currActionIndex === 0 ? '' : currActionIndex + 1} Details</h2>
 
               <EditAction
                 isNew
-                action={newAppt.actions[numActions - 1]}
+                action={newAppt.actions[currActionIndex]}
                 onEdit={editedAction => {
                   const newActions = [...newAppt.actions];
-                  newActions[numActions - 1] = { ...newAppt.actions[numActions - 1], ...editedAction };
+                  newActions[currActionIndex] = { ...newAppt.actions[currActionIndex], ...editedAction };
                   setNewAppt({ ...newAppt, actions: newActions });
                 }}
+                containerSizeOptions={getContainerSizeOptions(newAppt, currActionIndex)}
               />
 
               <RightAlign>
+                <FormButton type="button" style={{ marginRight: '0.5rem' }} onClick={() => setPage(1)}>Back</FormButton>
                 <FormButton type="submit">Continue</FormButton>
               </RightAlign>
             </form>
           );
           case 3: return (
-            <div>
+            <form
+              name="currentActions"
+              onSubmit={e => {
+                e.preventDefault();
+                setPage(4);
+              }}
+            >
               <h2>Current Actions</h2>
               <ul>
                 {newAppt.actions.map((action, i) => <li key={i}><strong>{getFriendlyActionType(action.type)}</strong> {action.containerId ? `(CID: ${action.containerId})` : ''}</li>)}
               </ul>
+              <p><strong>Note: </strong>You will be able to review/edit all details prior to confirmation.</p>
               <RightAlign>
-                {calculateApptTFU(newAppt) < 80 && (
+                {calculateApptTFU(newAppt) < (MAX_TFU_PER_ACTION_CATEGORY * 2) && ( // TODO THIS VALUE
                   <FormButton 
+                    type="button"
                     onClick={() => {
                       setNewAppt({ ...newAppt, actions: [...newAppt.actions, {}]});
-                      setNumActions(numActions + 1);
+                      setCurrActionIndex(currActionIndex + 1);
                       setPage(1);
                     }}
                     style={{ marginRight: '0.5rem' }}
                   >Add Another Action</FormButton>
                 )}
-                <FormButton onClick={() => setPage(4)}>Proceed to Booking</FormButton>
+                <FormButton type="submit">Proceed to Booking</FormButton>
               </RightAlign>
-            </div>
+            </form>
           );
           case 4: return (
+            <div>
+              <h2>Select an Appointment Time Slot</h2>
+              <ScheduleAppt
+                appt={newAppt}
+                setTimeSlot={timeSlot => setNewAppt({ ...newAppt, timeSlot })}
+              />
+              <FormButton onClick={() => newAppt.timeSlot && setPage(6)} disabled={!newAppt.timeSlot}>Confirm Time Slot</FormButton>
+            </div>
+          );
+          case 5: return (
             <form name="apptDetails">
               <h2>Enter Appointment Details</h2> 
               <EditApptDetails
@@ -229,16 +290,6 @@ const Scheduler = ({ refetchQueries }) => {
                 <FormButton onClick={() => setPage(5)}>Proceed to Booking</FormButton>
               </RightAlign>
             </form>
-          );
-          case 5: return (
-            <div>
-              <h2>Select an Appointment Time Slot</h2>
-              <ScheduleAppt
-                appt={newAppt}
-                setTimeSlot={timeSlot => setNewAppt({ ...newAppt, timeSlot })}
-              />
-              <FormButton onClick={() => newAppt.timeSlot && setPage(6)} disabled={!newAppt.timeSlot}>Confirm</FormButton>
-            </div>
           );
           case 6: return (
             <form onSubmit={e => {
@@ -287,7 +338,9 @@ const Scheduler = ({ refetchQueries }) => {
               <h1>Appointment Booked Successfully!</h1>
               <p>Appointment Date: {data.addAppt.timeSlot.date}</p>
               <p>Please arrive between {data.addAppt.arrivalWindow}</p>
-              <FormButton onClick={() => setPage(1)}>Book Another Appointment</FormButton>
+              <RightAlign>
+                <FormButton onClick={() => setPage(1)}>Book Another Appointment</FormButton>
+              </RightAlign>
             </div>
           );
           default: return <Start onStart={() => setPage(1)} />

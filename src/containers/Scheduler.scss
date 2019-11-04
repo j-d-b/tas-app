@@ -4,6 +4,7 @@
   border-radius: 1rem;
   border: 2px solid rgb(158, 158, 158);
   color: #ffffff;
-  height: calc(100% - 4rem);
+  // height: calc(100% - 4rem);
   padding: 2rem;
+  overflow-y: scroll; // TODO only when not mobile/collapsed
 }

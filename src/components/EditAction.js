@@ -6,6 +6,7 @@ const EditContainerId = ({ action, onEdit }) => (
   <FormGroup>
     <label htmlFor="containerId">Container ID</label>
     <FormInput
+      name="containerId"
       id="containerId"
       type="text"
       value={action.containerId || ''}
@@ -19,6 +20,7 @@ const EditContainerSize = ({ action, onEdit, options }) => (
   <FormGroup>
     <label htmlFor="containerSize">Container Size</label>
     <FormSelect
+      name="containerSize"
       id="containerSize"
       options={options || [
         { name: 'Twenty Foot', value: 'TWENTYFOOT' },
@@ -35,6 +37,7 @@ const EditContainerType = ({ action, onEdit }) => (
   <FormGroup>
     <label htmlFor="containerType">Container Type</label>
     <FormInput
+      name="containerType"
       id="containerType"
       type="text"
       value={action.containerType || ''}
@@ -48,6 +51,7 @@ const EditShippingLine = ({ action, onEdit }) => (
   <div>
     <label htmlFor="shippingLine">Shipping Line</label>
     <FormInput
+      name="shippingLine"
       id="shippingLine"
       type="text"
       value={action.shippingLine || ''}
@@ -69,6 +73,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <div>
             <label htmlFor="formNumber705">705 Form Number</label>
             <FormInput
+              name="formNumber705"
               id="formNumber705"
               type="text"
               value={action.formNumber705 || ''}
@@ -89,6 +94,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <FormGroup>
             <label htmlFor="emptyForCityFormNumber">Empty For City Form Number</label>
             <FormInput
+              name="emptyForCityFormNumber"
               id="emptyForCityFormNumber"
               type="text"
               value={action.emptyForCityFormNumber || ''}
@@ -111,6 +117,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <FormGroup>
             <label htmlFor="containerWeight">Container Weight</label>
             <FormInput
+              name="containerWeight"
               id="containerWeight"
               type="number"
               value={action.containerWeight || ''}
@@ -140,17 +147,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <EditContainerId action={action} onEdit={onEdit} />
           {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
           <EditContainerType action={action} onEdit={onEdit} />
-
-          <div>
-            <label htmlFor="shippingLine">Shipping Line</label>
-            <FormInput
-              id="shippingLine"
-              type="text"
-              value={action.shippingLine || ''}
-              onChange={e => onEdit({ ...action, shippingLine: e.target.value})}
-              required
-            />
-          </div>
+          <EditShippingLine action={action} onEdit={onEdit} />
         </div>
       );
     }
