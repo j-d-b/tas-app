@@ -20,9 +20,9 @@ const ScheduleAppt = ({ appt, setTimeSlot }) => {
 
   const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }});
 
-  if (loading) return <div>Fetching available slots...</div>;
+  if (loading) return <p>Fetching available time slots...</p>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <p>An error occurred, while fetching available time slots. {error.toString()}</p>;
 
   const availableDateTimes = data.availableSlots.map(getDateFromTimeslot);
 
@@ -48,8 +48,6 @@ const ScheduleAppt = ({ appt, setTimeSlot }) => {
           ? <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>{selectedDate.toDateString()} at {getHourString(new Date(selectedDate).getHours())}</div>
           : <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>The appointment cannot be booked for this time slot.</div>
       )}
-
-      <p><strong>Note:</strong> You will be assigned a specific <strong>TODO</strong> size window to arrive during within the selected timeslot</p>
     </div>
   );
 };

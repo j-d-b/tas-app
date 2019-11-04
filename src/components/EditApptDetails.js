@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormGroup, FormInput } from './Form';
+import { FormGroup, FormInput, FormNote } from './Form';
 
 const EditApptDetails = ({ appt, onEdit }) => (
   <div>
@@ -12,12 +12,12 @@ const EditApptDetails = ({ appt, onEdit }) => (
         name="comment"
         value={appt.comment || ''}
         onChange={e => onEdit({ ...appt, comment: e.target.value })}
-        placeholder="Add a comment"
+        placeholder="Add a free-text comment"
       />
     </FormGroup>
 
     <FormGroup>
-      <label className="appt__label" htmlFor="notifyMobileNumber">Mobile Number (for notifications)</label>
+      <label className="appt__label" htmlFor="notifyMobileNumber">Driver Mobile Number (for notifications)</label>
       <FormInput
         id="notifyMobileNumber"
         name="notifyMobileNumber"
@@ -25,10 +25,11 @@ const EditApptDetails = ({ appt, onEdit }) => (
         value={appt.notifyMobileNumber || ''}
         onChange={e => onEdit({ ...appt, notifyMobileNumber: e.target.value })}
       />
+      <FormNote>If included, this number will be notified when the appointment is booked as well the day before it occurs</FormNote>
     </FormGroup>
 
     <FormGroup>
-      <label className="appt__label" htmlFor="licensePlateNumber">License Plate Number</label>
+      <label className="appt__label" htmlFor="licensePlateNumber">Truck License Plate Number</label>
       <FormInput
         id="licensePlateNumber"
         name="licensePlateNumber"

@@ -2,9 +2,28 @@
   background: rgb(24,171,24);
   background: linear-gradient(180deg, rgba(24,171,24,1) 0%, rgba(50,171,24,1) 61%, rgba(168,240,241,1) 100%);
   border-radius: 1rem;
-  border: 2px solid rgb(158, 158, 158);
+  box-shadow: 2px 2px 2px #ccc;
   color: #ffffff;
   // height: calc(100% - 4rem);
   padding: 2rem;
   overflow-y: scroll; // TODO only when not mobile/collapsed
+}
+
+.start-page {
+  text-align: center;
+}
+
+.start-page__title {
+  font-weight: 400;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.start-page__button {
+  padding: 1rem !important;
+  height: auto !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
 }

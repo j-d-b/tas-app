@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { FormGroup, FormSelect, FormInput } from './Form';
+import { FormGroup, FormSelect, FormInput, FormNote } from './Form';
 
 const EditContainerId = ({ action, onEdit }) => (
   <FormGroup>
-    <label htmlFor="containerId">Container ID</label>
+    <label htmlFor="containerId">Container ID*</label>
     <FormInput
       name="containerId"
       id="containerId"
@@ -18,7 +18,7 @@ const EditContainerId = ({ action, onEdit }) => (
 
 const EditContainerSize = ({ action, onEdit, options }) => (
   <FormGroup>
-    <label htmlFor="containerSize">Container Size</label>
+    <label htmlFor="containerSize">Container Size*</label>
     <FormSelect
       name="containerSize"
       id="containerSize"
@@ -28,6 +28,7 @@ const EditContainerSize = ({ action, onEdit, options }) => (
       ]}
       value={action.containerSize}
       onChange={e => onEdit({ ...action, containerSize: e.target.value })}
+      placeholder="Select container size"
       required
     />
   </FormGroup>
@@ -35,13 +36,14 @@ const EditContainerSize = ({ action, onEdit, options }) => (
 
 const EditContainerType = ({ action, onEdit }) => (
   <FormGroup>
-    <label htmlFor="containerType">Container Type</label>
+    <label htmlFor="containerType">Container Type*</label>
     <FormInput
       name="containerType"
       id="containerType"
       type="text"
       value={action.containerType || ''}
       onChange={e => onEdit({ ...action, containerType: e.target.value })}
+      placeholder="Dry, Refrigerated, Insulated..."
       required
     />
   </FormGroup>
@@ -49,7 +51,7 @@ const EditContainerType = ({ action, onEdit }) => (
 
 const EditShippingLine = ({ action, onEdit }) => (
   <div>
-    <label htmlFor="shippingLine">Shipping Line</label>
+    <label htmlFor="shippingLine">Shipping Line*</label>
     <FormInput
       name="shippingLine"
       id="shippingLine"
@@ -71,7 +73,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <EditContainerType action={action} onEdit={onEdit} />
 
           <div>
-            <label htmlFor="formNumber705">705 Form Number</label>
+            <label htmlFor="formNumber705">705 Form Number*</label>
             <FormInput
               name="formNumber705"
               id="formNumber705"
@@ -87,12 +89,12 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
     case 'STORAGE_EMPTY': {
       return (
         <div>
-          <EditContainerType action={action} onEdit={onEdit} />
+          <EditContainerType action={action} onEdit={onEdit} isNew />
 
           {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
 
           <FormGroup>
-            <label htmlFor="emptyForCityFormNumber">Empty For City Form Number</label>
+            <label htmlFor="emptyForCityFormNumber">Empty For City Form Number*</label>
             <FormInput
               name="emptyForCityFormNumber"
               id="emptyForCityFormNumber"
@@ -101,6 +103,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
               onChange={e => onEdit({ ...action, emptyForCityFormNumber: e.target.value})}
               required
             />
+            {isNew && <FormNote>Form number received from <a href="http://www.bctc-lb.com/services.aspx">BCTC's Empty for City Request</a></FormNote>}
           </FormGroup>
 
           <EditShippingLine action={action} onEdit={onEdit} />
@@ -115,7 +118,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <EditContainerType action={action} onEdit={onEdit} />
 
           <FormGroup>
-            <label htmlFor="containerWeight">Container Weight</label>
+            <label htmlFor="containerWeight">Container Weight*</label>
             <FormInput
               name="containerWeight"
               id="containerWeight"
@@ -127,7 +130,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           </FormGroup>
 
           <FormGroup>
-            <label htmlFor="bookingNumber">Booking Number</label>
+            <label htmlFor="bookingNumber">Booking Number*</label>
             <FormInput
               id="bookingNumber"
               type="text"
