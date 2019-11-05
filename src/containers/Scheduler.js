@@ -9,6 +9,10 @@ import EditAction from '../components/EditAction';
 import { FormButton, FormSelect, FormNote } from '../components/Form';
 import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
+import { ReactComponent as ImportFullIcon} from '../images/truck-import-full.svg';
+import { ReactComponent as StorageEmptyIcon} from '../images/truck-storage-empty.svg';
+import { ReactComponent as ExportFullIcon} from '../images/truck-export-full.svg';
+import { ReactComponent as ExportEmptyIcon} from '../images/truck-export-empty.svg';
 
 const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
 const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
@@ -105,10 +109,10 @@ const Start = ({ onStart }) => (
 
 const getActionTypeOptions = (appt, currActionIndex) => {
   const allOptions = [
-    { name: 'Pick Up Full Container', value: 'IMPORT_FULL' },
-    { name: 'Pick Up Empty Container', value: 'STORAGE_EMPTY' },
-    { name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
-    { name: 'Drop Off Empty Container', value: 'EXPORT_EMPTY' }
+    { IconComponent: ImportFullIcon, name: 'Pick Up Full Container', value: 'IMPORT_FULL' },
+    { IconComponent: ExportFullIcon, name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
+    { IconComponent: StorageEmptyIcon, name: 'Pick Up Empty Container', value: 'STORAGE_EMPTY' },
+    { IconComponent: ExportEmptyIcon, name: 'Drop Off Empty Container', value: 'EXPORT_EMPTY' }
   ];
 
   const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
@@ -187,22 +191,29 @@ const Scheduler = ({ refetchQueries }) => {
               setPage('ENTER_ACTION_DETAILS');
             }}>
               <h2 style={{ marginBottom: '0.5rem' }}>
-                <label htmlFor="actionType">Select  {indexToNthString(currActionIndex)} Action Type</label>
+                <label htmlFor="actionType">Select  {currActionIndex ? indexToNthString(currActionIndex) : ''} Action Type</label>
               </h2>
 
-              <FormSelect
-                name="actionType"
-                id="actionType"
-                value={newAppt.actions[currActionIndex].type}
-                onChange={e => {
-                  const newActions = [...newAppt.actions];
-                  newActions[currActionIndex].type = e.target.value;
-                  setNewAppt({ ...newAppt, actions: newActions });
-                }}
-                options={getActionTypeOptions(newAppt, currActionIndex)}
-                placeholder="Select action type"
-                required
-              />
+              <div className="action-type-select">
+                {getActionTypeOptions(newAppt, currActionIndex).map(({ IconComponent, name, value }) => (
+                  <div 
+                    className={newAppt.actions[currActionIndex].type === value 
+                      ? 'action-type-select__item action-type-select__item--selected'
+                      : 'action-type-select__item'
+                    }
+                    onClick={() => {
+                      const newActions = [...newAppt.actions];
+                      newActions[currActionIndex].type = value;
+                      setNewAppt({ ...newAppt, actions: newActions });
+                    }}
+                  >
+                    <div className="action-type-select__icon">
+                      <IconComponent title={name} />
+                    </div>
+                    <div className="action-type-select__name">{name}</div>
+                  </div>
+                ))}
+              </div>
 
               {currActionIndex === 0 && <FormNote>You will have the option to add additional actions to this appointment later</FormNote>}
 
@@ -223,7 +234,7 @@ const Scheduler = ({ refetchQueries }) => {
                       }
                   }
                 >{currActionIndex === 0 ? 'Cancel' : 'Back'}</FormButton>
-                <FormButton type="submit">Continue</FormButton>
+                <FormButton disabled={!newAppt.actions[currActionIndex].type} type="submit">Continue</FormButton>
               </RightAlign>
             </form>
           );
