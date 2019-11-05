@@ -6,7 +6,7 @@ import './Scheduler.scss';
 import { getFriendlyActionType, calculateApptTFU, getHourString, containerSizeToTFU } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
-import { FormButton, FormSelect, FormNote } from '../components/Form';
+import { FormButton, FormNote } from '../components/Form';
 import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
 import { ReactComponent as ImportFullIcon} from '../images/truck-import-full.svg';
