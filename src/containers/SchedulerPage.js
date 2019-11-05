@@ -45,10 +45,6 @@ const SchedulerPage = () => {
   const [selectedAppt, selectAppt] = useState(null);
   const { data, error, loading } = useQuery(MY_APPTS);
 
-  if (error) return <div>err</div>;
-
-  if (loading) return <div>loading...</div>;
-
   return (
     <div className="scheduler-page">
       <div className="scheduler-box">
@@ -58,8 +54,10 @@ const SchedulerPage = () => {
       <div className="my-appts">
         <h1 style={{ marginTop: '0.5rem' }}>My Appointments</h1>
         <div className="my-appts__list">
-          {data.myAppts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} isCustomer />)}
-        </div>        
+          {error && 'An error occurred when fetching appointments. Please try reloading this page.'}
+          {loading && 'Loading appointments...'}
+          {data && data.myAppts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} isCustomer />)}
+        </div>
       </div>
 
       <Modal 
