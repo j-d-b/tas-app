@@ -145,13 +145,13 @@ const Dashboard = () => {
     setSort(INIT_SORT);
   };
 
-  if (error) return <div>{error.toString()}</div>;
-  if (loading) return <div>Loading</div>;
-
-  const appts = data.appts
-    .filter(satisfiesSearch(search))
-    .filter(satisfiesFilters(filters))
-    .sort(createSort(sort));
+  let appts;
+  if (data) {
+    appts = data.appts
+      .filter(satisfiesSearch(search))
+      .filter(satisfiesFilters(filters))
+      .sort(createSort(sort));
+  }
 
   return (
     <div className="dashboard-page">
@@ -168,9 +168,15 @@ const Dashboard = () => {
       </div>
 
       <div className="appts-col">
-        {!appts.length && <NoAppts />}
         <div className="appts-container">
-          {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
+          {error && <div>{error.toString()}</div>}
+          {loading && <div>Loading appointments...</div>}
+          {data && (
+            <>
+              {!appts.length && <NoAppts />}
+              {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
+            </>
+          )}
         </div>
       </div>
 
@@ -179,7 +185,7 @@ const Dashboard = () => {
         closeModal={() => selectAppt(null)}
         title="Edit Appt"
       >
-        <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS  }]} onDelete={() => selectAppt(null)} />
+        <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => selectAppt(null)} />
       </Modal>
     </div>
   );
