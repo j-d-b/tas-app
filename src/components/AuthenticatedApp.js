@@ -48,13 +48,15 @@ const AuthenticatedApp = ({ userRole }) => {
     <BrowserRouter>
       <Navbar navLinks={routes} />
 
-      <div className="page">
-        <Switch>
-          {routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)}
-          <Route path="/">
-            <Redirect to={userRole === 'CUSTOMER' ? '/scheduler' : '/dashboard'} />
-          </Route>
-        </Switch>
+      <div className="page-wrapper">
+        <div className="page">
+          <Switch>
+            {routes.map(({ path, component }) => <Route path={path} key={path} component={component} />)}
+            <Route path="/">
+              <Redirect to={userRole === 'CUSTOMER' ? '/scheduler' : '/dashboard'} />
+            </Route>
+          </Switch>
+        </div>
       </div>
     </BrowserRouter>
   );

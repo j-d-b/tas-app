@@ -1,15 +1,29 @@
 @import '../styles/colors';
 @import '../styles/constants';
 
-.navbar {
+$breakpoint: 700px;
+
+.navbar-container {
   display: flex;
+  justify-content: center;
   background-color: $main;
   height: $navbar-height;
+}
+
+.navbar {
+  max-width: $content-max-width;
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .navbar__logo {
   padding: 0.7rem;
   width: 90px;
+
+  @media(min-width: calc(#{$content-max-width} + 16px)) { // 1rem doesn't work
+    padding-left: 0;
+  }
 }
 
 .navbar__link {
@@ -19,6 +33,7 @@
   padding: 0 1rem;
   color: white;
   text-decoration: none;
+  transition: background-color 0.075s ease-in-out;
 
   &:hover {
     background-color: $dark;
@@ -53,5 +68,9 @@
     &:hover {
       background-color: darken($accent, 20%);
     }
+  }
+
+  @media(min-width: calc(#{$content-max-width} + 16px)) { // 1rem doesn't work
+    padding-left: 0;
   }
 }

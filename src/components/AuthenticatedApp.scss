@@ -1,6 +1,14 @@
 @import '../styles/constants';
 
-.page {
+.page-wrapper {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: calc(100% - #{$navbar-height});
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+  max-width: $content-max-width;
 }

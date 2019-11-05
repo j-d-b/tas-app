@@ -1,4 +1,6 @@
-$mobile-breakpoint: 900px;
+@import '../styles/constants';
+ 
+$mobile-breakpoint: 800px;
 
 .dashboard-page {
   height: 100%;
@@ -19,6 +21,10 @@ $mobile-breakpoint: 900px;
     padding: 2rem;
     min-width: 350px;
     width: 350px;
+  }
+
+  @media (min-width: calc(#{$content-max-width} + 64px)) {
+    padding-left: 0;
   }
 }
 
