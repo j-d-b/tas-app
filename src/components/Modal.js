@@ -19,9 +19,9 @@ const Modal = ({ title, isOpen, closeModal, onClosed, children }) => {
       </CSSTransition>
 
       <CSSTransition in={isOpen} classNames="modal" timeout={300} onExited={() => onClosed()} unmountOnExit>
-        <div className="modal" tabindex="-1" role="dialog" onClick={closeModal}>
+        <div className="modal" tabIndex="-1" role="dialog" onClick={closeModal}>
           <div className="modal-dialog" role="document" aria-label={title}>
-            <div class="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
               <div className="modal-content__close-row">
                 <div className="modal-content__close-icon" aria-label="close" onClick={closeModal}>✕</div>
               </div>
