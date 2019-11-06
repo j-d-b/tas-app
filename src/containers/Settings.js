@@ -23,9 +23,9 @@ const USER_DETAILS = gql`
 const Settings = () => {
   const { data, loading, error } = useQuery(USER_DETAILS);
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div style={{ margin: '2rem' }}>Loading user details...</div>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <div style={{ margin: '2rem' }}>An error occurred <pre>{error.toString()}</pre></div>;
 
   if (data) {
     return (
