@@ -14,15 +14,17 @@ const AVAILABLE_SLOTS = gql`
   }
 `;
 
-const ScheduleAppt = ({ appt, setTimeSlot }) => {
-  const [selectedDate, selectDate]= useState(null);
+const isValidDate = (availableDateTimes, selectedDate) => availableDateTimes.includes(selectedDate.getTime());
+
+const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
+  const [selectedDate, selectDate] = useState(null);
   const containerSizes = appt.actions.map(({ containerSize }) => containerSize);
 
   const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }});
 
   if (loading) return <p>Fetching available time slots...</p>;
 
-  if (error) return <p>An error occurred, while fetching available time slots. {error.toString()}</p>;
+  if (error) return <p>An error occurred, while fetching available time slots. <pre>{error.toString()}</pre></p>;
 
   const availableDateTimes = data.availableSlots.map(getDateFromTimeslot);
 
@@ -32,7 +34,8 @@ const ScheduleAppt = ({ appt, setTimeSlot }) => {
         selected={selectedDate}
         onChange={date => {
           selectDate(date);
-          setTimeSlot(getTimeSlotFromDate(date));
+          setIsValid && setIsValid(isValidDate(availableDateTimes, date));
+          selectTimeSlot(getTimeSlotFromDate(date));
         }}
         inline
         showTimeSelect
@@ -44,9 +47,10 @@ const ScheduleAppt = ({ appt, setTimeSlot }) => {
       />
 
       {selectedDate && (
-        availableDateTimes.includes(selectedDate.getTime())
-          ? <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>{selectedDate.toDateString()} at {getHourString(new Date(selectedDate).getHours())}</div>
-          : <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>The appointment cannot be booked for this time slot.</div>
+        <div>
+          <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>{selectedDate.toDateString()} at {getHourString(new Date(selectedDate).getHours())}</div>
+          {!isValidDate(availableDateTimes, selectedDate) && <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>The appointment cannot be booked for this time slot.</div>}
+        </div>
       )}
     </div>
   );

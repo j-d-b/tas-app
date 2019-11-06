@@ -167,6 +167,7 @@ const INIT_APPT = { actions: [{ type: '' }] };
 const Scheduler = ({ refetchQueries }) => {
   const [page, setPage] = useState('START');
   const [currActionIndex, setCurrActionIndex] = useState(0);
+  const [selectedTimeSlot, selectTimeSlot] = useState(null);
   const [newAppt, setNewAppt] = useState(INIT_APPT);
   const [addAppt, { data, error, loading }] = useMutation(
     ADD_APPT,
@@ -196,7 +197,8 @@ const Scheduler = ({ refetchQueries }) => {
 
               <div className="action-type-select">
                 {getActionTypeOptions(newAppt, currActionIndex).map(({ IconComponent, name, value }) => (
-                  <div 
+                  <div
+                    key={value}
                     className={newAppt.actions[currActionIndex].type === value 
                       ? 'action-type-select__item action-type-select__item--selected'
                       : 'action-type-select__item'
@@ -302,10 +304,18 @@ const Scheduler = ({ refetchQueries }) => {
 
               <ScheduleAppt
                 appt={newAppt}
-                setTimeSlot={timeSlot => setNewAppt({ ...newAppt, timeSlot })}
+                selectTimeSlot={selectTimeSlot}
               />
               <RightAlign>
-                <FormButton onClick={() => newAppt.timeSlot && setPage('REVIEW_APPOINTMENT')} disabled={!newAppt.timeSlot}>Confirm Time Slot</FormButton>
+                <FormButton
+                  onClick={() => {
+                    if (selectedTimeSlot) {
+                      setNewAppt({ ...newAppt, timeSlot: selectedTimeSlot });
+                      setPage('REVIEW_APPOINTMENT');
+                    }
+                  }} 
+                  disabled={!newAppt.timeSlot}
+                >Confirm Time Slot</FormButton>
               </RightAlign>
             </div>
           );
