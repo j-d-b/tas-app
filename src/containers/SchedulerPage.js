@@ -77,7 +77,7 @@ const SchedulerPage = () => {
         onClosed={() => selectAppt(null)}
         title="Edit Appt"
       >
-        <EditAppt appt={selectedAppt} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => selectAppt(null)} />
+        <EditAppt appt={selectedAppt} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );

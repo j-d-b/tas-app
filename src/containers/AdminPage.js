@@ -100,7 +100,7 @@ const AdminPage = () => {
           <h1>{selectedUser && selectedUser.name} ({selectedUser && selectedUser.email})</h1>
         </div>
 
-        <UserActionsButtons user={selectedUser} onChangesQuery={ALL_USERS} exit={() => selectUser(null)} />
+        <UserActionsButtons user={selectedUser} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );

@@ -196,7 +196,7 @@ const Dashboard = () => {
         closeModal={() => setIsModalOpen(false)}
         title="Edit Appt"
       >
-        <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => selectAppt(null)} />
+        <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );
