@@ -17,7 +17,7 @@ const ApptCardAction = ({ action, isCustomer }) => {
 const ApptCard = ({ appt, onClick, isCustomer }) => (
   <div>
     <div className="appt-card" onClick={onClick}>
-      <div className="appt-card__date">{getApptDate(appt).toDateString()} {!isCustomer && '(' + getHourString(getApptDate(appt).getHours()) + ')'}</div>
+      <div className="appt-card__date">{getApptDate(appt).toDateString()} {!isCustomer && '— ' + getHourString(getApptDate(appt).getHours())}</div>
 
       {!isCustomer && (
         <div>
