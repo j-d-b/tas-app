@@ -1,39 +1,115 @@
-.modal-overlay {
+.modal-backdrop-enter {
+  opacity: 0;
+}
+
+.modal-backdrop-enter-active {
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}
+
+.modal-backdrop-enter-exit {
+  opacity: 1;
+}
+
+.modal-backdrop-exit-active {
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+
+.modal-enter {
+  opacity: 0;
+  
+  .modal-dialog {
+    transform: translate(0, -25%);
+  }
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s linear;
+
+  .modal-dialog {
+    transform: translate(0, 0);
+    transition: all 0.3s ease-out;
+  }
+}
+
+.modal-enter-exit {
+  opacity: 1;
+
+  .modal-dialog {
+    transform: translate(0, 0);
+  }
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+
+  .modal-dialog {
+    transform: translate(0, -25%);
+    transition: all 0.3s ease-out;
+  }  
+}
+
+.modal-backdrop {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  outline: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+// Shell div to position the modal
 .modal-dialog {
-  margin: 2rem 0.5rem;
-  max-width: 550px;
-  width: 550px;
-  max-height: calc(100vh - 4rem);
-  border: 1px solid rgb(204, 204, 204);
+  position: relative;
+  width: auto;
+  max-width: 500px;
+  margin: 0.5rem;
+  
+  @media (min-width: 532px) {
+    margin: 2rem auto;
+  }
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+
   background-color: rgb(255, 255, 255);
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
   border-radius: 4px;
-  outline: none;
+  outline: 0;
 }
 
-.modal-dialog__content {
+.modal-content__content {
   padding: 0 1.5rem 1.5rem 1.5rem; // top padding is accounted for by close row
-  max-height: calc(100vh - 7rem );
-  overflow: auto;
 }
 
-.modal-dialog__close-row {
+.modal-content__close-row {
   display: flex;
   justify-content: flex-end;
   height: 1.5rem;
 }
 
-.modal-dialog__close-icon {
+.modal-content__close-icon {
   cursor: pointer;
   margin-right: 0.5rem;
   margin-top: 0.5rem;

@@ -133,6 +133,7 @@ const createSort = sort => (apptA, apptB) => {
 };
 
 const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAppt, selectAppt] = useState(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(INIT_FILTERS);
@@ -174,15 +175,25 @@ const Dashboard = () => {
           {data && (
             <>
               {!appts.length && <NoAppts />}
-              {appts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} />)}
+              {appts.map(appt => (
+                <ApptCard
+                  appt={appt}
+                  key={appt.id}
+                  onClick={() => {
+                    selectAppt(appt);
+                    setIsModalOpen(true);
+                  }} 
+                />
+              ))}
             </>
           )}
         </div>
       </div>
 
       <Modal 
-        isOpen={selectedAppt}
-        closeModal={() => selectAppt(null)}
+        isOpen={isModalOpen}
+        onClosed={() => selectAppt(null)}
+        closeModal={() => setIsModalOpen(false)}
         title="Edit Appt"
       >
         <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => selectAppt(null)} />

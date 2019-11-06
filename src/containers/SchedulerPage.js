@@ -42,6 +42,7 @@ const MY_APPTS = gql`
 `;
 
 const SchedulerPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAppt, selectAppt] = useState(null);
   const { data, error, loading } = useQuery(MY_APPTS);
 
@@ -56,13 +57,24 @@ const SchedulerPage = () => {
         <div className="my-appts__list">
           {error && 'An error occurred when fetching appointments. Please try reloading this page.'}
           {loading && 'Loading appointments...'}
-          {data && data.myAppts.map(appt => <ApptCard appt={appt} key={appt.id} onClick={() => selectAppt(appt)} isCustomer />)}
+          {data && data.myAppts.map(appt => (
+            <ApptCard
+              appt={appt}
+              key={appt.id}
+              onClick={() => {
+                selectAppt(appt);
+                setIsModalOpen(true);
+              }}
+              isCustomer
+            />
+          ))}
         </div>
       </div>
 
       <Modal 
-        isOpen={selectedAppt}
-        closeModal={() => selectAppt(null)}
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        onClosed={() => selectAppt(null)}
         title="Edit Appt"
       >
         <EditAppt appt={selectedAppt} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => selectAppt(null)} />

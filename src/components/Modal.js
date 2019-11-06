@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import './Modal.scss';
 
-const Modal = ({ title, isOpen, closeModal, children }) => {
-  if (!isOpen) return null;
+const Modal = ({ title, isOpen, closeModal, onClosed, children }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.setAttribute('style', 'overflow: hidden; position: fixed;');
+    } else {
+      document.body.setAttribute('style', null);
+    }
+  }, [isOpen]);
 
   return (
-    <div className="modal-overlay" onClick={closeModal}>
-      <div className="modal-dialog" role="dialog" aria-label={title} tabIndex="-1" onClick={e => e.stopPropagation()}>
-        <div className="modal-dialog__close-row">
-          <div className="modal-dialog__close-icon" aria-label="close" onClick={closeModal}>✕</div>
+    <div>
+      <CSSTransition in={isOpen} classNames="modal-backdrop" timeout={300} unmountOnExit>
+        <div className="modal-backdrop"></div>
+      </CSSTransition>
+
+      <CSSTransition in={isOpen} classNames="modal" timeout={300} onExited={() => onClosed()} unmountOnExit>
+        <div className="modal" tabindex="-1" role="dialog" onClick={closeModal}>
+          <div className="modal-dialog" role="document" aria-label={title}>
+            <div class="modal-content" onClick={e => e.stopPropagation()}>
+              <div className="modal-content__close-row">
+                <div className="modal-content__close-icon" aria-label="close" onClick={closeModal}>✕</div>
+              </div>
+              <div className="modal-content__content">{children}</div>
+            </div>
+          </div>
         </div>
-        <div className="modal-dialog__content">{children}</div>
-      </div>
+      </CSSTransition>
     </div>
   );
-};
+}
 
 export default Modal;
