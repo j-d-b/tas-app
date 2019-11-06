@@ -137,12 +137,12 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         name="reminderSetting"
         id="reminderSetting"
         value={edits.reminderSetting}
-        onChange={onEdit}
+        onChange={e => setEdits({ ...edits, reminderSetting: e.target.value })}
         options={[
           { name: 'Email', value: 'EMAIL' },
           { name: 'SMS', value: 'SMS' },
-          { name: 'Both', value: 'BOTH'},
-          { name: 'None', value: 'NONE' }
+          { name: 'Email & SMS', value: 'BOTH'},
+          { name: 'Notifications Off', value: 'NONE' }
         ]}
       />
 
