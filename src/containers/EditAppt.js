@@ -96,7 +96,6 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
         {edits.actions.map((action, index) => (
           <div key={action.id}>
             <h2>Action {index + 1}: {getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
-            <div><strong>Container Size: </strong>{action.containerSize}</div>
             <EditAction
               action={action}
               onEdit={editedAction => {

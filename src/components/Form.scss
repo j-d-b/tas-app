@@ -88,6 +88,11 @@
 	border: 2px solid #dddddd;
 	border-radius: 3px;
   background-color: #fff;
+
+  &:disabled {
+    cursor: default;
+    color: rgb(90, 90, 90);
+  }
   
   &:focus {
     outline: none;

@@ -16,10 +16,11 @@ const EditContainerId = ({ action, onEdit }) => (
   </FormGroup>
 );
 
-const EditContainerSize = ({ action, onEdit, options }) => (
+const EditContainerSize = ({ action, onEdit, options, disabled }) => (
   <FormGroup>
     <label htmlFor="containerSize">Container Size*</label>
     <FormSelect
+      disabled={disabled}
       name="containerSize"
       id="containerSize"
       options={options || [
@@ -69,7 +70,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
+          <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} disabled={!isNew} />
           <EditContainerType action={action} onEdit={onEdit} />
 
           <div>
@@ -91,7 +92,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
         <div>
           <EditContainerType action={action} onEdit={onEdit} isNew />
 
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
+          <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} disabled={!isNew} />
 
           <FormGroup>
             <label htmlFor="emptyForCityFormNumber">Empty For City Form Number*</label>
@@ -114,7 +115,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
+          <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} disabled={!isNew} />
           <EditContainerType action={action} onEdit={onEdit} />
 
           <FormGroup>
@@ -148,7 +149,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
       return (
         <div>
           <EditContainerId action={action} onEdit={onEdit} />
-          {isNew && <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} />}
+          <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} disabled={!isNew} />
           <EditContainerType action={action} onEdit={onEdit} />
           <EditShippingLine action={action} onEdit={onEdit} />
         </div>

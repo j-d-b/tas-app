@@ -11,8 +11,8 @@ export const FormGroup = ({ children }) => <div className="form-group">{children
 
 export const FormInput = props => <input className="form-input" {...props} />;
 
-export const FormSelect = ({ options, name, value, placeholder, ...rest}) => (
-  <select className="form-select" style={{ color: !value ? 'lightgray' : 'black' }} value={value} {...rest}>
+export const FormSelect = ({ options, name, value, placeholder, disabled, ...rest}) => (
+  <select className="form-select" style={{ color: !value ? 'lightgray' : (disabled ? 'graytext' : 'black') }} value={value} disabled={disabled} {...rest}>
     <option value="" hidden>{placeholder}</option>
     {options.map(({ name, value: val }) => <option key={val} value={val}>{name}</option>)}
   </select>
