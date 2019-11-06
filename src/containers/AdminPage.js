@@ -74,17 +74,26 @@ const AdminPage = () => {
   ];
 
   const [selectedUser, selectUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error</div>
 
   return data && (
     <div>
-      <UsersTable columns={columns} users={data.users} onUserClick={(e, user) => selectUser(user)}/>
+      <UsersTable
+        columns={columns}
+        users={data.users}
+        onUserClick={(e, user) => {
+          selectUser(user);
+          setIsModalOpen(true);
+        }}
+      />
 
       <Modal 
-        isOpen={selectedUser}
-        closeModal={() => selectUser(null)}
+        isOpen={isModalOpen}
+        onClosed={() => selectUser(null)}
+        closeModal={() => setIsModalOpen(false)}
         title="Edit User"
       >
         <div style={{ textAlign: 'center' }}>
