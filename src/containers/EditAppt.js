@@ -7,6 +7,7 @@ import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
 import RightAlign from '../components/RightAlign';
+import ScheduleAppt from './ScheduleAppt';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {
@@ -22,11 +23,25 @@ const DELETE_APPT = gql`
   }
 `;
 
+const RESCHEDULE_APPT = gql`
+  mutation RescheduleAppt ($id: ID!, $timeSlot: TimeSlotInput!) {
+    rescheduleAppt(input: { id: $id, timeSlot: $timeSlot }) {
+      id
+    }
+  }
+`;
+
 const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
   const [edits, setEdits] = useState(appt);
-  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [updateAppt, { data, error, loading}] = useMutation(UPDATE_APPT, { refetchQueries });
+
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [deleteAppt, deleteApptResults] = useMutation(DELETE_APPT, { refetchQueries, onCompleted: onDelete });
+
+  const [isReschedule, setIsReschedule] = useState(false);
+  const [newTimeSlot, setNewTimeSlot] = useState(null);
+  const [isValidTimeSlot, setIsValidTimeSlot] = useState(false);
+  const [rescheduleAppt, rescheduleApptResults] = useMutation(RESCHEDULE_APPT, { refetchQueries, onCompleted: () => setIsReschedule(false) });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -48,10 +63,37 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
     })
   };
 
+  if (isReschedule) {
+    return (
+      <div>
+        <h1 style={{ marginTop: '0.5rem' }}>Reschedule Appointment</h1>
+        <p>Currently Scheduled for <strong>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</strong></p>
+
+        <h2>Select a new Time Slot</h2>
+        <ScheduleAppt appt={appt} selectTimeSlot={setNewTimeSlot} setIsValid={setIsValidTimeSlot} />
+        <RightAlign>
+          <FormButton
+            type="button"
+            style={{ marginRight: '0.5rem' }}
+            onClick={() => setIsReschedule(false)}
+          >Cancel</FormButton>
+
+          <FormButton 
+            type="button"
+            variety="SUCCESS"
+            disabled={rescheduleApptResults.loading || !isValidTimeSlot}
+            onClick={() => !rescheduleApptResults.loading && isValidTimeSlot && rescheduleAppt({ variables: { id: appt.id, timeSlot: newTimeSlot } })}
+          >{rescheduleApptResults.loading ? 'Rescheduling...' : 'Reschedule'}</FormButton>
+          {rescheduleApptResults.error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+        </RightAlign>
+      </div>
+    );
+  }
+
   if (isDeleteConfirm) {
     return (
       <div>
-        <h1>Confirm Deletion</h1>
+        <h1 style={{ marginTop: '0.5rem' }}>Confirm Deletion</h1>
         <p>Are you sure you want to delete your appointment for <strong>{getApptDate(appt).toDateString()}</strong> at <strong>{appt.arrivalWindow}</strong>?</p>
         <RightAlign>
           <FormButton
@@ -65,6 +107,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
             disabled={deleteApptResults.loading}
             onClick={() => !deleteApptResults.loading && deleteAppt({ variables: { id: appt.id } })}
           >{deleteApptResults.loading ? 'Deleting...' : 'Delete'}</FormButton>
+          {deleteApptResults.error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
         </RightAlign>
       </div>
     );
@@ -117,7 +160,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
           <FormButton
             style={{ marginRight: '0.5rem' }}
             type="button"
-            onClick={() => console.log('todo')}
+            onClick={() => setIsReschedule(true)}
           >Reschedule</FormButton>
 
           <FormButton
@@ -129,6 +172,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
 
         {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
         {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
+        {rescheduleApptResults.data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Appointment rescheduled successfully!</div>}
       </form>
     </div>
   );
