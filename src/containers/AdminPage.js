@@ -97,7 +97,7 @@ const AdminPage = () => {
         title="Edit User"
       >
         <div style={{ textAlign: 'center' }}>
-          <h1>{selectedUser && selectedUser.name} ({selectedUser && selectedUser.email})</h1>
+          <h1 style={{ marginTop: 0 }}>{selectedUser && selectedUser.name} ({selectedUser && selectedUser.email})</h1>
         </div>
 
         <UserActionsButtons user={selectedUser} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />

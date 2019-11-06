@@ -72,7 +72,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
 
   return (
     <div>
-      <h1>Appointment: {appt.id}</h1>
+      <h1 style={{ marginTop: 0 }}>Appointment: {appt.id}</h1>
 
       <div>
         <h2 style={{ marginBottom: 0 }}>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</h2>
