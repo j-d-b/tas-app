@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { FormSelect, FormInput, FormGroup, FormButton } from '../components/Form';
+import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {
@@ -14,7 +14,7 @@ const UPDATE_USER = gql`
 
 const UserDetailsInput = ({ field, label, value, onEdit, isRequired, type }) => (
   <>
-    <label htmlFor={field}>{label}</label>
+    <label htmlFor={field}>{label}{isRequired ? '*' : ''}</label>
     <FormInput
       name={field}
       id={field}
@@ -76,7 +76,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
 
       {edits.role && (
         <FormGroup>
-          <label htmlFor="role">Role</label>
+          <label htmlFor="role">Role*</label>
           <FormSelect
             name="role"
             id="role"
@@ -132,7 +132,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         />
       </FormGroup>
 
-      <label htmlFor="reminderSetting">Reminder Setting</label>
+      <label htmlFor="reminderSetting">Reminder Setting*</label>
       <FormSelect
         name="reminderSetting"
         id="reminderSetting"
@@ -145,6 +145,8 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
           { name: 'None', value: 'NONE' }
         ]}
       />
+
+      <FormNote>* indicates a required field</FormNote>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}

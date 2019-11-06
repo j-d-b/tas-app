@@ -260,7 +260,7 @@ const Scheduler = ({ refetchQueries }) => {
                 containerSizeOptions={getContainerSizeOptions(newAppt, currActionIndex)}
               />
 
-              <p><small>* indicates a required field</small></p>
+              <FormNote>* indicates a required field</FormNote>
 
               <RightAlign>
                 <FormButton type="button" style={{ marginRight: '0.5rem' }} onClick={() => setPage('SELECT_ACTION_TYPE')}>Back</FormButton>
