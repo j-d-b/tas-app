@@ -31,7 +31,7 @@ const Settings = () => {
     return (
       <div>
         <h1 style={{ margin: '2rem 0 0 2rem' }}>{data.me.email}</h1>
-        <div style={{ maxWidth: 400, width: 400, margin: '1rem 2rem 1rem 2rem' }}>
+        <div style={{ maxWidth: 500, margin: '1rem 2rem 1rem 2rem' }}>
           <EditUser user={data.me} refetchQueries={[{ query: USER_DETAILS }]} />
         </div>
       </div>
