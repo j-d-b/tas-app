@@ -38,10 +38,15 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
   const [deleteAppt, deleteApptResults] = useMutation(DELETE_APPT, { refetchQueries, onCompleted: onDelete });
 
-  const [isReschedule, setIsReschedule] = useState(false);
   const [newTimeSlot, setNewTimeSlot] = useState(null);
   const [isValidTimeSlot, setIsValidTimeSlot] = useState(false);
-  const [rescheduleAppt, rescheduleApptResults] = useMutation(RESCHEDULE_APPT, { refetchQueries, onCompleted: () => setIsReschedule(false) });
+  const [isReschedule, setIsReschedule] = useState(false);
+  const closeRescheduleWindow = () => {
+    setIsValidTimeSlot(false);
+    setNewTimeSlot(null);
+    setIsReschedule(false);
+  };
+  const [rescheduleAppt, rescheduleApptResults] = useMutation(RESCHEDULE_APPT, { refetchQueries, onCompleted: closeRescheduleWindow });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -75,7 +80,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
           <FormButton
             type="button"
             style={{ marginRight: '0.5rem' }}
-            onClick={() => setIsReschedule(false)}
+            onClick={closeRescheduleWindow}
           >Cancel</FormButton>
 
           <FormButton 
