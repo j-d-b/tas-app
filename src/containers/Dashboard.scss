@@ -6,7 +6,6 @@ $mobile-breakpoint: 800px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
 
   @media (min-width: $mobile-breakpoint) {
     flex-direction: row;
@@ -23,19 +22,23 @@ $mobile-breakpoint: 800px;
     width: 350px;
   }
 
-  @media (min-width: calc(#{$content-max-width} + 64px)) {
+  @media (min-width: calc(#{$content-max-width} + 64px)) { // 4rem doesn't work
     padding-left: 0;
   }
 }
 
 .appts-col {
-  flex-basis: 75%;
+  flex-grow: 1;
   padding: 1rem;
 
   @media (min-width: $mobile-breakpoint) {
     padding: 2rem 2rem 2rem 0;
     height: calc(100% - 4rem);
     overflow: auto;
+  }
+
+  @media (min-width: calc(#{$content-max-width} + 64px)) { // 4rem doesn't work
+    padding-right: 0;
   }
 }
 

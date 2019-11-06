@@ -4,10 +4,13 @@
 $breakpoint: 700px;
 
 .navbar-container {
+  position: relative;
+  z-index: $navbar-z-index;
   display: flex;
   justify-content: center;
   background-color: $main;
   height: $navbar-height;
+  box-shadow: 0px 1px 1px rgba(46, 46, 46, 0.05);
 }
 
 .navbar {
@@ -71,6 +74,6 @@ $breakpoint: 700px;
   }
 
   @media(min-width: calc(#{$content-max-width} + 16px)) { // 1rem doesn't work
-    padding-left: 0;
+    margin-right: 0;
   }
 }
