@@ -164,3 +164,12 @@ export const buildActionDetailsInput = action => {
     default: return {};
   }
 };
+
+export const formatError = error => {
+  const errorString = error.toString();
+  if (errorString.startsWith('Error: GraphQL Error: ')) {
+    return errorString.replace('Error: GraphQL Error: ', '');
+  }
+
+  return errorString;
+}

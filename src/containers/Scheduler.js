@@ -168,14 +168,15 @@ const Scheduler = ({ refetchQueries }) => {
   const [page, setPage] = useState('START');
   const [currActionIndex, setCurrActionIndex] = useState(0);
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
-  const [newAppt, setNewAppt] = useState(INIT_APPT);
+  const [isSelectedTimeSlotValid, setIsSelectedTimeSlotValid] = useState(false);
+  const [newAppt, setNewAppt] = useState({ ...INIT_APPT });
   const [addAppt, { data, error, loading }] = useMutation(
     ADD_APPT,
     { 
       refetchQueries,
       onCompleted: () => {
         setPage('BOOKING_SUCCESS');
-        setNewAppt({});
+        setNewAppt({ ...INIT_APPT });
         setCurrActionIndex(0);
       }
     }
@@ -305,6 +306,7 @@ const Scheduler = ({ refetchQueries }) => {
               <ScheduleAppt
                 appt={newAppt}
                 selectTimeSlot={selectTimeSlot}
+                setIsValid={setIsSelectedTimeSlotValid}
               />
               <RightAlign>
                 <FormButton
@@ -314,7 +316,7 @@ const Scheduler = ({ refetchQueries }) => {
                       setPage('REVIEW_APPOINTMENT');
                     }
                   }} 
-                  disabled={!newAppt.timeSlot}
+                  disabled={!isSelectedTimeSlotValid}
                 >Confirm Time Slot</FormButton>
               </RightAlign>
             </div>
