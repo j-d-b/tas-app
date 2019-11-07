@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
+import RightAlign from '../components/RightAlign';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {
@@ -148,13 +149,15 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
 
       <FormNote>* indicates a required field</FormNote>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <RightAlign>
         {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}
         <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
-      </div>
+      </RightAlign>
 
-      {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
-      {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
+      <RightAlign direction="column">
+        {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+        {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
+      </RightAlign>
     </form>
   );
 };

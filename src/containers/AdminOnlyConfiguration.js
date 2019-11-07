@@ -45,8 +45,6 @@ const AdminOnlyConfiguration = () => {
   return (
     <form name="adminConfig" onSubmit={e => {
       e.preventDefault();
-      console.log(defaultAllowed);
-      console.log(arrivalWindow);
       updateDefaultAllowed({ variables: { newValue: defaultAllowed } });
       updateArrivalWindow({ variables: { newValue: arrivalWindow } });
     }}> 
@@ -88,7 +86,7 @@ const AdminOnlyConfiguration = () => {
 
 
       <FormGroup>
-        <RightAlign>
+        <RightAlign direction="column">
           <FormButton
             type="submit"
             variety="SUCCESS"
@@ -96,13 +94,7 @@ const AdminOnlyConfiguration = () => {
           >
             {updateArrivalWindowResults.loading || updateDefaultAllowedResults.loading ? 'Saving...' : 'Save'}
           </FormButton>
-        </RightAlign>
-
-        <RightAlign>
           {(updateArrivalWindowResults.data || updateDefaultAllowedResults.data) && <div style={{ color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
-        </RightAlign>
-
-        <RightAlign>
           {(updateArrivalWindowResults.error || updateDefaultAllowedResults.erro) && <div style={{ color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>An error occurred!</div>}
         </RightAlign>
       </FormGroup>
