@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './ResponseMessage.scss';
 import { formatError } from '../utils';
 
 export const SuccessMessage = ({ children }) => (

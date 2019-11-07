@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormButton } from '../components/Form';
+import RightAlign from '../components/RightAlign';
+import { ErrorMessage } from '../components/ResponseMessage';
 
 const DELETE_USER = gql`
   mutation DeleteUser ($email: String!) {
@@ -28,7 +30,9 @@ const DeleteUser = ({ user, onCancel, refetchQueries }) => {
         <FormButton type="button" variety="DANGER" disabled={loading} onClick={() => !loading && deleteUser({ variables: { email: user.email }})}>{loading ? 'Requesting...' : 'Delete'}</FormButton>
       </div>
 
-      {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+      <RightAlign>
+        {error && <ErrorMessage error={error} />}
+      </RightAlign>
     </div>
   );
 };

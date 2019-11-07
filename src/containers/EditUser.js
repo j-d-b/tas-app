@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 
 import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
 import RightAlign from '../components/RightAlign';
+import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {
@@ -155,8 +156,8 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
       </RightAlign>
 
       <RightAlign direction="column">
-        {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
-        {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
+        {error && <ErrorMessage error={error} />}
+        {data && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
       </RightAlign>
     </form>
   );

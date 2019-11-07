@@ -8,6 +8,7 @@ import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
 import RightAlign from '../components/RightAlign';
+import { ErrorMessage } from '../components/ResponseMessage';
 import ScheduleAppt from './ScheduleAppt';
 import { ReactComponent as ImportFullIcon} from '../images/truck-import-full.svg';
 import { ReactComponent as StorageEmptyIcon} from '../images/truck-storage-empty.svg';
@@ -358,7 +359,10 @@ const Scheduler = ({ refetchQueries }) => {
 
               <RightAlign>
                 <FormButton type="submit" disabled={loading}>{loading ? 'Booking...' : 'Book Appointment'}</FormButton>
-                <div>{error && error.toString()}</div>
+              </RightAlign>
+
+              <RightAlign>
+                {error && <ErrorMessage error={error} />}
               </RightAlign>
             </form>
           );

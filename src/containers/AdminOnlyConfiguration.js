@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 
 import RightAlign from '../components/RightAlign';
 import { FormInput, FormSelect, FormGroup, FormNote, FormButton } from '../components/Form';
+import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const DEFAULT_ALLOWED_APPTS_PER_HOUR = gql`
   { defaultAllowedApptsPerHour }
@@ -94,8 +95,8 @@ const AdminOnlyConfiguration = () => {
           >
             {updateArrivalWindowResults.loading || updateDefaultAllowedResults.loading ? 'Saving...' : 'Save'}
           </FormButton>
-          {(updateArrivalWindowResults.data || updateDefaultAllowedResults.data) && <div style={{ color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
-          {(updateArrivalWindowResults.error || updateDefaultAllowedResults.erro) && <div style={{ color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>An error occurred!</div>}
+          {(updateArrivalWindowResults.data || updateDefaultAllowedResults.data) && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
+          {(updateArrivalWindowResults.error || updateDefaultAllowedResults.error) && <ErrorMessage error={updateArrivalWindowResults.error || updateDefaultAllowedResults.error} />}
         </RightAlign>
       </FormGroup>
     </form>
