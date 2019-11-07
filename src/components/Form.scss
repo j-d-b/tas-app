@@ -78,6 +78,11 @@
   &::placeholder {
     color: #aaaaaa;
   }
+
+  &:disabled {
+    cursor: default;
+    color: graytext;
+  }
 }
 
 .form-select {
