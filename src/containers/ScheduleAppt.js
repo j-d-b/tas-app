@@ -20,7 +20,7 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
   const [selectedDate, selectDate] = useState(null);
   const containerSizes = appt.actions.map(({ containerSize }) => containerSize);
 
-  const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }, fetchPolicy: 'network-only' });
+  const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }, fetchPolicy: 'network-only', pollInterval: 30000 });
 
   if (loading) return <p>Fetching available time slots...</p>;
 
