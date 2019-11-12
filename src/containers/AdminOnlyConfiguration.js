@@ -54,7 +54,7 @@ const AdminOnlyConfiguration = () => {
         <FormInput
           id="defaultAllowedApptsPerHour"
           name="defaultAllowedApptsPerHour"
-          type={defaultAllowedResults.data ? 'number' : 'text'}
+          type="text"
           min="0"
           value={defaultAllowed}
           required
