@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './Form.scss';
 
@@ -9,13 +9,40 @@ export const FormButton = ({ variety, children, className, ...props }) => {
 
 export const FormGroup = ({ children }) => <div className="form-group">{children}</div>;
 
-export const FormInput = React.forwardRef((props, ref) => <input className="form-input" ref={ref} {...props} />);
+export const FormInput = React.forwardRef(({ onChange, ...rest}, ref) => {
+  const [touched, setTouched] = useState(false);
 
-export const FormSelect = ({ options, name, value, placeholder, disabled, ...rest}) => (
-  <select className="form-select" style={{ color: !value ? 'lightgray' : (disabled ? 'graytext' : 'black') }} value={value} disabled={disabled} {...rest}>
-    <option value="" hidden>{placeholder}</option>
-    {options.map(({ name, value: val }) => <option key={val} value={val}>{name}</option>)}
-  </select>
-);
+  return (
+    <input
+      className={`form-input${touched ? ' touched' : ''}`}
+      ref={ref}
+      onChange={e => {
+        if (!touched) setTouched(true);
+        if (onChange) onChange(e);
+      }}
+      {...rest}
+    />
+  );
+});
+
+export const FormSelect = ({ options, name, value, placeholder, disabled, onChange, ...rest}) => {
+  const [touched, setTouched] = useState(false);
+
+  return (
+    <select
+      className="form-select"
+      style={{ color: !value ? 'lightgray' : (disabled ? 'graytext' : 'black') }}
+      value={value}
+      disabled={disabled} {...rest}
+      onChange={e => {
+        if (!touched) setTouched(true);
+        if (onChange) onChange(e);
+      }}
+    >
+      <option value="" hidden>{placeholder}</option>s
+      {options.map(({ name, value: val }) => <option key={val} value={val}>{name}</option>)}
+    </select>
+  );
+};
 
 export const FormNote = ({ children }) => <div className="form-note">{children}</div>;
