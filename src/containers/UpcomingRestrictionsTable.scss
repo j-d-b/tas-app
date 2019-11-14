@@ -1,0 +1,17 @@
+.response-message-enter {
+  opacity: 0;
+}
+
+.response-message-enter-active {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+.response-message-enter-exit {
+  opacity: 1;
+}
+
+.response-message-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}

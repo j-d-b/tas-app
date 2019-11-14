@@ -23,15 +23,15 @@ const USER_DETAILS = gql`
 const Settings = () => {
   const { data, loading, error } = useQuery(USER_DETAILS);
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div style={{ margin: '2rem' }}>Loading user details...</div>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <div style={{ margin: '2rem' }}>An error occurred <pre>{error.toString()}</pre></div>;
 
   if (data) {
     return (
       <div>
         <h1 style={{ margin: '2rem 0 0 2rem' }}>{data.me.email}</h1>
-        <div style={{ maxWidth: 400, width: 400, margin: '1rem 2rem 1rem 2rem' }}>
+        <div style={{ maxWidth: 500, margin: '1rem 2rem 1rem 2rem' }}>
           <EditUser user={data.me} refetchQueries={[{ query: USER_DETAILS }]} />
         </div>
       </div>

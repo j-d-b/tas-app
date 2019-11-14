@@ -164,3 +164,18 @@ export const buildActionDetailsInput = action => {
     default: return {};
   }
 };
+
+export const formatError = error => {
+  const errorString = error.toString();
+  if (errorString.startsWith('Error: GraphQL error: ')) {
+    return errorString.replace('Error: GraphQL error: ', '');
+  }
+
+  return errorString;
+}
+
+export const isTimeSlotEqual = (slot1, slot2) => slot1.date === slot2.date && slot1.hour === slot2.hour;
+
+export const isTemplateTimeSlotEqual = (templateSlot1, templateSlot2) => (
+  templateSlot1.dayOfWeek === templateSlot2.dayOfWeek && templateSlot1.hour === templateSlot2.hour
+);

@@ -2,7 +2,8 @@ import React from 'react';
 
 import './UnauthenticatedFormPage.scss';
 import BoxPage from './BoxPage';
-import { FormInput } from './Form';
+import { SuccessMessage, ErrorMessage } from './ResponseMessage';
+import { FormInput, FormButton } from './Form';
 
 const UnauthenticatedFormPage = ({ 
   title,
@@ -18,10 +19,10 @@ const UnauthenticatedFormPage = ({
   belowForm
 }) => (
   <BoxPage afterBox={belowForm}>
-    <div className="form-page__title">{title}</div>
+    <div className="unauthenticated-form-page__title">{title}</div>
     {
       data 
-        ? (Success ? <Success /> : <div className="form-page__success-message">{successMessage}</div>)
+        ? (Success ? <Success /> : <SuccessMessage>{successMessage}</SuccessMessage>)
         : (
           <form name={title} onSubmit={onSubmit}>
             {
@@ -37,15 +38,14 @@ const UnauthenticatedFormPage = ({
                 />
               ))
             }
-            <input
-              className="form-page__submit-button"
+            <FormButton
+              style={{ width: '100%' }}
               type="submit"
               disabled={loading}
-              value={loading ? loadingText : actionName}
-            />
-            {
-              error && <div className="form-page__error-message">{error.toString()}</div>
-            }
+            >
+              {loading ? loadingText : actionName}
+            </FormButton>
+            {error && <ErrorMessage error={error} />}
           </form>
         )
     }

@@ -59,7 +59,16 @@ const AdminPage = () => {
     },
     {
       field: 'reminderSetting',
-      title: 'Reminder Setting'
+      title: 'Reminder Setting',
+      show: user => {
+        switch (user.reminderSetting) {
+          case 'EMAIL': return 'Email';
+          case 'SMS': return 'SMS';
+          case 'BOTH': return 'Email & SMS';
+          case 'NONE': return 'Notifications Off';
+          default: return 'Notifications Off';
+        }
+      }
     },
     {
       field: 'confirmed',

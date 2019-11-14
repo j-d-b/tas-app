@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
+import RightAlign from '../components/RightAlign';
+import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_USER = gql`
   mutation UpdateUser ($user: UpdateUserInput!) {
@@ -137,24 +139,26 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         name="reminderSetting"
         id="reminderSetting"
         value={edits.reminderSetting}
-        onChange={onEdit}
+        onChange={e => setEdits({ ...edits, reminderSetting: e.target.value })}
         options={[
           { name: 'Email', value: 'EMAIL' },
           { name: 'SMS', value: 'SMS' },
-          { name: 'Both', value: 'BOTH'},
-          { name: 'None', value: 'NONE' }
+          { name: 'Email & SMS', value: 'BOTH'},
+          { name: 'Notifications Off', value: 'NONE' }
         ]}
       />
 
       <FormNote>* indicates a required field</FormNote>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <RightAlign>
         {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}
         <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
-      </div>
+      </RightAlign>
 
-      {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
-      {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
+      <RightAlign direction="column">
+        {error && <ErrorMessage error={error} />}
+        {data && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
+      </RightAlign>
     </form>
   );
 };

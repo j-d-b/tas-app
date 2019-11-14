@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormInput, FormButton } from '../components/Form';
+import RightAlign from '../components/RightAlign';
+import { ErrorMessage } from '../components/ResponseMessage';
 
 const CHANGE_EMAIL = gql`
   mutation ChangeEmail ($currEmail: String!, $newEmail: String!) {
@@ -43,7 +45,9 @@ const ChangeUserEmail = ({ currEmail, onCancel, refetchQueries }) => {
         <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Requesting...' : 'Change Email'}</FormButton>
       </div>
 
-      {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+      <RightAlign>
+        {error && <ErrorMessage error={error} />}
+      </RightAlign>
     </form>
   );
 };

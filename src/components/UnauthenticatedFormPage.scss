@@ -1,41 +1,7 @@
 @import '../styles/colors';
 
-.form-page__title {
+.unauthenticated-form-page__title {
   margin-bottom: 1.3rem;
   font-weight: 300;
   font-size: 2rem;
-}
-
-.form-page__submit-button {
-  width: 100%;
-  border-radius: 3px;
-  border: none;
-  padding: 0;
-  margin: 0.3rem 0;
-  height: 45px;
-  cursor: pointer;
-  color: white;
-  background-color: $accent;
-
-  font-size: 1rem;
-
-  &:hover {
-    background-color: darken($accent, 5%);
-  }
-
-  &:disabled {
-    cursor: default;
-    background-color: lighten($accent, 5%);
-  }
-}
-
-.form-page__success-message {
-  font-size: 0.9rem;
-  color: green;
-}
-
-.form-page__error-message {
-  font-size: 0.9rem;
-  margin-top: 0.75rem;
-  color: red;
 }

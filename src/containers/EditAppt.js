@@ -8,6 +8,7 @@ import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
 import RightAlign from '../components/RightAlign';
 import ScheduleAppt from './ScheduleAppt';
+import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_APPT = gql`
   mutation UpdateAppt ($input: UpdateApptDetailsInput!) {
@@ -76,6 +77,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
 
         <h2>Select a new Time Slot</h2>
         <ScheduleAppt appt={appt} selectTimeSlot={setNewTimeSlot} setIsValid={setIsValidTimeSlot} />
+
         <RightAlign>
           <FormButton
             type="button"
@@ -89,7 +91,10 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
             disabled={rescheduleApptResults.loading || !isValidTimeSlot}
             onClick={() => !rescheduleApptResults.loading && isValidTimeSlot && rescheduleAppt({ variables: { id: appt.id, timeSlot: newTimeSlot } })}
           >{rescheduleApptResults.loading ? 'Rescheduling...' : 'Reschedule'}</FormButton>
-          {rescheduleApptResults.error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+        </RightAlign>
+
+        <RightAlign>
+          {rescheduleApptResults.error && <ErrorMessage error={rescheduleApptResults.error} />}
         </RightAlign>
       </div>
     );
@@ -112,7 +117,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
             disabled={deleteApptResults.loading}
             onClick={() => !deleteApptResults.loading && deleteAppt({ variables: { id: appt.id } })}
           >{deleteApptResults.loading ? 'Deleting...' : 'Delete'}</FormButton>
-          {deleteApptResults.error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
+          {deleteApptResults.error && <ErrorMessage error={deleteApptResults.error} />}
         </RightAlign>
       </div>
     );
@@ -154,7 +159,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
           </div>
         ))}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <RightAlign>
           <FormButton
             style={{ marginRight: '0.5rem' }}
             type="button"
@@ -173,11 +178,13 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
             variety="SUCCESS"
             disabled={loading}
           >{loading ? 'Saving...' : 'Save'}</FormButton>
-        </div>
+        </RightAlign>
 
-        {error && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'red', marginTop: '0.5rem', fontSize: '0.9rem' }}>{error.toString()}</div>}
-        {data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Changes saved successfully!</div>}
-        {rescheduleApptResults.data && <div style={{ display: 'flex', justifyContent: 'flex-end', color: 'green', marginTop: '0.5rem', fontSize: '0.9rem' }}>Appointment rescheduled successfully!</div>}
+        <RightAlign direction="column">
+          {error && <ErrorMessage error={error} />}
+          {data && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
+          {rescheduleApptResults.data && <SuccessMessage>Appointment rescheduled successfully!</SuccessMessage>}
+        </RightAlign>
       </form>
     </div>
   );

@@ -1,0 +1,13 @@
+@import '../styles/colors';
+
+.success-message {
+  color: $error-message;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: $success-message;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
