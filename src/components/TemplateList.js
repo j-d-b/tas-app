@@ -5,7 +5,6 @@ import { ReactComponent as EditIcon} from '../images/edit-icon.svg';
 import { ReactComponent as TrashIcon} from '../images/trash-icon.svg';
 import { ReactComponent as CheckIcon} from '../images/check-icon.svg';
 import { ReactComponent as TimesIcon} from '../images/times-icon.svg';
-import { FormButton } from './Form';
 
 const TemplateLine = ({ template, onApply, onDelete, onEdit, hideButtons }) => (
   <div className={`template-list__line ${template.isApplied ? 'template-list__line--applied' : ''}`}>
