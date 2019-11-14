@@ -10,6 +10,19 @@ import RightAlign from '../components/RightAlign';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 import { isTimeSlotEqual, getDateFromTimeslot } from '../utils';
 
+const APPLIED_TEMPLATE = gql`
+  {
+    appliedRestrictionTemplate (input: {}) {
+      name
+      restrictions {
+        dayOfWeek
+        gateCapacity
+        hour
+      }
+    }
+  }
+`;
+
 const DEFAULT_ALLOWED_APPTS_PER_HOUR = gql`
   { defaultAllowedApptsPerHour }
 `;
@@ -55,7 +68,9 @@ const getDatesInNextWeek = () => {
   return datesInNextWeek;
 };
 
-const UpcomingRestrictionsTable = ({ appliedTemplate }) => {
+const UpcomingRestrictionsTable = () => {
+  const { data: appliedTemplateData } = useQuery(APPLIED_TEMPLATE);
+  
   const { data: defaultAllowedApptsData } = useQuery(DEFAULT_ALLOWED_APPTS_PER_HOUR);
 
   const nextWeekGlobalRestrictionsVariables = {
@@ -93,9 +108,9 @@ const UpcomingRestrictionsTable = ({ appliedTemplate }) => {
       return { value: matchingGlobalRestriction.gateCapacity, style: { color: 'blue' } };
     }
   
-    if (appliedTemplate) {
+    if (appliedTemplateData && appliedTemplateData.appliedRestrictionTemplate) {
       const dayOfWeek = format(getDateFromTimeslot(timeSlot), 'EEEE').toUpperCase();
-      const matchingTemplateRestriction = appliedTemplate.restrictions.find(res => res.dayOfWeek === dayOfWeek && res.hour === timeSlot.hour);
+      const matchingTemplateRestriction = appliedTemplateData.appliedRestrictionTemplate.restrictions.find(res => res.dayOfWeek === dayOfWeek && res.hour === timeSlot.hour);
       if (matchingTemplateRestriction) {
         return { value: matchingTemplateRestriction.gateCapacity };
       }
