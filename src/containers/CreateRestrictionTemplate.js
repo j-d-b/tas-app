@@ -20,10 +20,10 @@ const isTemplateTimeSlotEqual = (templateTimeSlot1, templateTimeSlot2) => (
 );
 
 const TemplateCellValue = ({ restrictions, timeSlot, editableValue, isSelected }) => {
+  if (isSelected) return <div>{editableValue}</div>;
+
   const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
-  if (matchingRestriction) {
-    return <div>{matchingRestriction.gateCapacity}</div>
-  }
+  if (matchingRestriction) return <div>{matchingRestriction.gateCapacity}</div>;
 
   return <div></div>;
 };
