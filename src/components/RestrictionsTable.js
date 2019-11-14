@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { format, isAfter } from 'date-fns/esm';
+import { format, isAfter, set } from 'date-fns/esm';
 
 import { getHourString, getDateFromTimeslot, isTimeSlotEqual } from '../utils';
 import './RestrictionsTable.scss';
@@ -27,12 +27,17 @@ const RestrictionsTableCellInput = ({ value, setValue, onBlur }) => {
       ref={inputEl}
       className="restrictions-table-input-cell"
       value={value}
+      pattern="[0-9]+$"
       maxLength="4"
       type="text"
-      pattern="[0-9]*"
       step="1"
       onBlur={onBlur}
-      onChange={e => setValue(e.target.value)}
+      onChange={e => {
+        const { target } = e;
+        if (/[0-9]+$/.test(target.value) || !target.value) {
+          setValue(target.value);
+        }
+      }}
     />
   );
 }
