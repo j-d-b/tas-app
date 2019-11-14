@@ -167,9 +167,11 @@ export const buildActionDetailsInput = action => {
 
 export const formatError = error => {
   const errorString = error.toString();
-  if (errorString.startsWith('Error: GraphQL Error: ')) {
-    return errorString.replace('Error: GraphQL Error: ', '');
+  if (errorString.startsWith('Error: GraphQL error: ')) {
+    return errorString.replace('Error: GraphQL error: ', '');
   }
 
   return errorString;
 }
+
+export const isTimeSlotEqual = (slot1, slot2) => slot1.date === slot2.date && slot1.hour === slot2.hour;

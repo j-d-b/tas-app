@@ -1,0 +1,88 @@
+@import '../styles/colors';
+
+.manage-templates-box {
+  background-color: $subtle;
+  border-radius: 4px;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px 1px rgba(214, 214, 214, 0.315);
+}
+
+.manage-templates-box__divider-line {
+  border-top: 1px solid #ccc;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.applied-template-label {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.template-list {
+  max-height: 19.5rem; // show half on overflow encourage scroll
+  overflow-y: auto;
+
+  > div {
+    margin-bottom: 0.5rem;
+  }
+
+  > div:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.template-list__line {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  justify-content: space-between;
+  background-color: #ffffff;
+  height: 2rem;
+
+  &.template-list__line--applied {
+    border-width: 2px;
+    border-color: rgba($dark, 0.6);
+  }
+}
+
+.template-list__line__name {
+  margin: 0.25rem;
+  overflow: auto;
+}
+
+.template-list__line__action-icons {
+  display: flex;
+  align-items: center;
+}
+
+.template-list__line__action-icons__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease-in-out, fill 0.15s ease-in-out;
+  fill: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+
+  &:hover {
+    fill: rgba(0, 0, 0, 0.9);
+
+    &.template-list__line__action-icons__icon--trash {
+      fill: rgb(207, 0, 0);
+    }
+
+    background-color: $subtle;
+  }
+
+  > svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}

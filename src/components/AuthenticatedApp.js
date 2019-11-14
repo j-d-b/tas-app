@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 import SchedulerPage from '../containers/SchedulerPage';
 import Dashboard from '../containers/Dashboard';
 import AdminPage from '../containers/AdminPage';
-import Configuration from '../containers/Configuration';
+import ConfigurationPage from '../containers/ConfigurationPage';
 import Settings from '../containers/Settings';
 
 const ALL_ROUTES = [
@@ -32,7 +32,7 @@ const ALL_ROUTES = [
     name: 'Configuration',
     path: '/configuration',
     requiredRole: 'OPERATOR',
-    component: Configuration
+    component: ConfigurationPage
   },
   {
     name: 'Settings',
