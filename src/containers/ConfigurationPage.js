@@ -1,10 +1,20 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 import AdminOnlyConfiguration from './AdminOnlyConfiguration';
 import UpcomingRestrictionsTable from './UpcomingRestrictionsTable';
 import ManageTemplates from './ManageTemplates';
 
+const USER_STATUS = gql`
+  {
+    userRole @client
+  }
+`;
+
 const ConfigurationPage = () => {
+  const { data } = useQuery(USER_STATUS);
+
   return (
     <div style={{ margin: '2rem' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -18,10 +28,12 @@ const ConfigurationPage = () => {
         <ManageTemplates />
       </div>
 
-      <div style={{ maxWidth: 500 }}>
-        <h1 style={{ fontSize: '1.6rem' }}>System Defaults</h1>
-        <AdminOnlyConfiguration />
-      </div>
+      {data && data.userRole === 'ADMIN' && (
+        <div style={{ maxWidth: 500 }}>
+          <h1 style={{ fontSize: '1.6rem' }}>System Defaults</h1>
+          <AdminOnlyConfiguration />
+        </div>
+      )}
     </div>
   );
 }
