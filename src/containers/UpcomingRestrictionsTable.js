@@ -55,42 +55,6 @@ const getDatesInNextWeek = () => {
   return datesInNextWeek;
 };
 
-const GateCapacityValue = ({ timeSlot, globalRestrictions, appliedTemplate, defaultValue, editableValue, isSelected }) => {
-  let value, isTemplateValue, isDefaultValue;
-
-  if (isSelected) {
-    value = editableValue;
-  }
-
-  if (value === undefined) {
-    const matchingGlobalRestriction = globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
-    if (matchingGlobalRestriction) {
-      value = matchingGlobalRestriction.gateCapacity;
-    }
-  }
-
-  if (value === undefined && appliedTemplate) {
-    const dayOfWeek = format(getDateFromTimeslot(timeSlot), 'EEEE').toUpperCase();
-    const matchingTemplateRestriction = appliedTemplate.restrictions.find(res => res.dayOfWeek === dayOfWeek && res.hour === timeSlot.hour);
-    if (matchingTemplateRestriction) {
-      value = matchingTemplateRestriction.gateCapacity;
-      isTemplateValue = true;
-    }
-  }
-
-  if (value === undefined) {
-    value = defaultValue;
-    isDefaultValue = true;
-  }
-
-  const modiferClassName = isTemplateValue || isDefaultValue
-    ? `gate-capacity-value--${isTemplateValue ? 'template' : 'default'}`
-    : '';
-
-  return <div className={`gate-capacity-value ${modiferClassName}`} style={{ pointerEvents: 'none' }}>{value}</div>;
-};
-
-
 const UpcomingRestrictionsTable = ({ appliedTemplate }) => {
   const { data: defaultAllowedApptsData } = useQuery(DEFAULT_ALLOWED_APPTS_PER_HOUR);
 
@@ -123,6 +87,23 @@ const UpcomingRestrictionsTable = ({ appliedTemplate }) => {
 
   if (!globalRestrictionsData || !defaultAllowedApptsData) return <div>Loading...</div> // TODO include applied template
 
+  const getValueStyle = timeSlot => {
+    const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
+    if (matchingGlobalRestriction) {
+      return { value: matchingGlobalRestriction.gateCapacity, style: { color: 'blue' } };
+    }
+  
+    if (appliedTemplate) {
+      const dayOfWeek = format(getDateFromTimeslot(timeSlot), 'EEEE').toUpperCase();
+      const matchingTemplateRestriction = appliedTemplate.restrictions.find(res => res.dayOfWeek === dayOfWeek && res.hour === timeSlot.hour);
+      if (matchingTemplateRestriction) {
+        return { value: matchingTemplateRestriction.gateCapacity };
+      }
+    }
+  
+    return { value: defaultAllowedApptsData.defaultAllowedApptsPerHour, style: { color: 'graytext' } };
+  };
+
   return (
     <div>
       <RestrictionsTable
@@ -134,14 +115,7 @@ const UpcomingRestrictionsTable = ({ appliedTemplate }) => {
             deleteRestriction({ variables: { id: restriction.id }});
           }
         }}
-        cellValueComponent={props => (
-          <GateCapacityValue
-            globalRestrictions={globalRestrictionsData ? globalRestrictionsData.globalRestrictions : null}
-            appliedTemplate={appliedTemplate}
-            defaultValue={defaultAllowedApptsData && defaultAllowedApptsData.defaultAllowedApptsPerHour}
-            {...props}
-          />
-        )}
+        getValueStyle={getValueStyle}
       />
       
       <div style={{ height: '1.5rem' }}>

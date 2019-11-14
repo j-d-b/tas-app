@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
+import { isTemplateTimeSlotEqual } from '../utils';
 import RestrictionsTable from '../components/RestrictionsTable';
 import { FormButton, FormGroup, FormInput } from '../components/Form';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
@@ -15,19 +16,6 @@ const ADD_RESTRICTION_TEMPLATE = gql`
   }
 `;
 
-const isTemplateTimeSlotEqual = (templateTimeSlot1, templateTimeSlot2) => (
-  templateTimeSlot1.dayOfWeek === templateTimeSlot2.dayOfWeek && templateTimeSlot1.hour === templateTimeSlot2.hour
-);
-
-const TemplateCellValue = ({ restrictions, timeSlot, editableValue, isSelected }) => {
-  if (isSelected) return <div>{editableValue}</div>;
-
-  const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
-  if (matchingRestriction) return <div>{matchingRestriction.gateCapacity}</div>;
-
-  return <div></div>;
-};
-
 const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
   const [templateName, setTemplateName] = useState('');
   const [restrictions, setRestrictions] = useState([]);
@@ -39,6 +27,12 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
       onCompleted: () => onSave && onSave()
     }
   );
+
+  const getValue = timeSlot => {
+    const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
+    if (matchingRestriction) return matchingRestriction.gateCapacity;
+    return '';
+  };
 
   const addRestriction = (timeSlot, gateCapacity) => {
     const newRestriction = { ...timeSlot, gateCapacity };
@@ -63,7 +57,8 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
 
       <form
         name="newRestrictionTemplate"
-        onSubmit={() => {
+        onSubmit={e => {
+          e.preventDefault();
           createTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) }});
         }}
       >
@@ -82,15 +77,9 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
         </FormGroup>
 
         <RestrictionsTable
-          isEdit
           addRestriction={addRestriction}
           deleteRestriction={deleteRestriction}
-          cellValueComponent={props => (
-            <TemplateCellValue
-              restrictions={restrictions}
-              {...props}
-            />
-          )}
+          getValue={getValue}
         />
 
         <RightAlign>

@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { format, isAfter, addDays } from 'date-fns/esm';
+import React, { useState, useEffect, useRef } from 'react';
+import { format, isAfter } from 'date-fns/esm';
 
 import { getHourString, getDateFromTimeslot, isTimeSlotEqual } from '../utils';
 import './RestrictionsTable.scss';
-import { FormInput } from './Form';
 
 const ALL_HOURS_IN_DAY = new Array(24).fill(0).map((_, i) => i);
 
@@ -17,156 +16,147 @@ const ALL_WEEKDAYS = [
   'SUNDAY'
 ];
 
-const getNextTimeSlot = currTimeSlot => {
-  if (currTimeSlot.hour === 23) {
-    return { hour: 0, date: format(addDays(new Date(currTimeSlot.date)), 1) }
-  }
+const RestrictionsTableCellInput = ({ value, setValue, onBlur }) => {
+  const inputEl = useRef(null);
 
-  return { hour: currTimeSlot.hour + 1, date: currTimeSlot.date };
-};
+  useEffect(() => inputEl.current.select(), []);
 
-const InputBox = React.forwardRef(({ left, top, value, setValue, isOpen, onBlur, onEnter }, ref) => (
-  <div
-    id="input-box"
-    className="input-box"
-    style={{
-      top: !isOpen ? '-10000px' : `calc(${top}px)`,
-      left: !isOpen ? '-10000px' : `calc(${left}px + 3rem)`
-    }}
-  >
-    <div className="input-box__triangle"></div>
-    <div className="input-box__input-container">
-      <FormInput
-        id="newValue"
-        onBlur={onBlur}
-        name="newValue"
-        type="number"
-        min="0"
-        style={{ margin: 0 }}
-        value={value}
-        ref={ref}
-        onChange={e => setValue(e.target.value)}
-        onKeyDown={e => {
-          const code = e.keyCode || e.charCode;
-          if (code === 13) onEnter();
-        }}
-      />
-    </div>
-  </div>
-));
+  return (
+    <input
+      name="gateCapacityValue"
+      ref={inputEl}
+      className="restrictions-table-input-cell"
+      value={value}
+      maxLength="4"
+      type="text"
+      pattern="[0-9]*"
+      step="1"
+      onBlur={onBlur}
+      onChange={e => setValue(e.target.value)}
+    />
+  );
+}
 
-const RestrictionsTableCell = ({ onClick, isSelected, isDisabled, children }) => (
-  <div
-    tabIndex={isDisabled ? '-1' : '0'}
-    onKeyDown={e => {
-      const code = e.keyCode || e.charCode;
-      if (code === 13) onClick(e);
-    }}
-    className={`restrictions-table-cell ${isDisabled && 'restrictions-table-cell--disabled'} ${isSelected && 'restrictions-table-cell--selected'}`}
-    onClick={e => !isDisabled && onClick(e)}
-  >
-    {children}
-  </div>
-);
-
-const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, isEdit, cellValueComponent: CellValue }) => {
+const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue }) => {
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
   const [editableValue, setEditableValue] = useState('');
-  const [inputBoxPosition, setInputBoxPosition] = useState({ left: -200, top: -200 });
-  const editableValueInputEl = useRef(null);
 
   return (
     <div>
       <div className="restrictions-table-wrapper">
-        <div className="restrictions-table" style={{ gridTemplateRows: `min-content repeat(${isEdit ? 7 : 8}, 3rem)` }}>
+        <div className="restrictions-table" style={{ gridTemplateRows: `min-content repeat(${dates ? 8 : 7}, 3rem)` }}>
           {ALL_HOURS_IN_DAY.map((hour, i) => <div style={{ gridColumnStart: i + 2}} className="restrictions-table-hour" key={hour}>{getHourString(hour)}</div>)}
           
-          {!isEdit && dates.map((date, i) => (
+          {dates && dates.map((date, i) => (
             <React.Fragment key={date}>
               <div style={{ gridRowStart: i + 2 }} className="restrictions-table-date">{format(date, 'MMM d, yyyy (EEE)')}</div>
               
               {ALL_HOURS_IN_DAY.map((hour, j) => {
                 const timeSlot = { date: format(date, 'yyyy-MM-dd'), hour };
                 const isUpcoming = isAfter(getDateFromTimeslot(timeSlot), new Date());
+                const isSelected = selectedTimeSlot && isTimeSlotEqual(timeSlot, selectedTimeSlot);
+                const { value, style } = getValueStyle(timeSlot);
+
+                if (!isUpcoming) return <div key={date.toString() + hour} className="restrictions-table-cell restrictions-table-cell--disabled">{value}</div>;
 
                 return (
-                  <RestrictionsTableCell
+                  <div
+                    {...(style && { style })}
                     key={date.toString() + hour}
-                    style={{ gridRowStart: i + 2, gridColumnStart: j + 2}}
-                    onClick={e => {
-                      selectTimeSlot(timeSlot);
-                      setEditableValue(editableValue);
-                      setInputBoxPosition({ left: e.target.getBoundingClientRect().left, top: e.target.offsetTop });
-                      editableValueInputEl.current.select();
+                    aria-label={`${timeSlot.date}, ${hour}`}
+                    tabIndex="0"
+                    onKeyDown={e => {
+                      const code = e.keyCode || e.charCode;
+                      if (!isSelected) {
+                        if (code === 13) {
+                          setEditableValue(value);
+                          selectTimeSlot(timeSlot);
+                        }
+                      } else {
+                        if (code === 13) {
+                          if (editableValue === '') {
+                            deleteRestriction(selectedTimeSlot);
+                          } else {
+                            addRestriction(selectedTimeSlot, editableValue);
+                          }
+                          selectTimeSlot(null);
+                        }
+                      }
                     }}
-                    isSelected={selectedTimeSlot && isTimeSlotEqual(timeSlot, selectedTimeSlot)}
-                    isDisabled={!isUpcoming}
+                    className={`restrictions-table-cell${isSelected ? ' restrictions-table-cell--selected' : ''}`}
+                    onClick={() => {
+                      setEditableValue(value);
+                      selectTimeSlot(timeSlot);
+                    }}
                   >
-                    <CellValue
-                      timeSlot={timeSlot}
-                      isSelected={selectedTimeSlot && isTimeSlotEqual(timeSlot, selectedTimeSlot)}
-                      isDisabled={!isUpcoming}
-                      editableValue={editableValue}
-                    />
-                  </RestrictionsTableCell>
-                )
+                    {isSelected
+                      ? <RestrictionsTableCellInput
+                          value={editableValue}
+                          setValue={setEditableValue}
+                          onBlur={() => selectTimeSlot(null)}
+                        />
+                      : value
+                    }
+                  </div>
+                );
               })}
             </React.Fragment>
           ))}
 
-          {isEdit && ALL_WEEKDAYS.map((dayOfWeek, i) => (
+          {!dates && ALL_WEEKDAYS.map((dayOfWeek, i) => (
             <React.Fragment key={dayOfWeek}>
               <div style={{ gridRowStart: i + 2, textTransform: 'capitalize' }} className="restrictions-table-date">{dayOfWeek.toLowerCase()}</div>
               
               {ALL_HOURS_IN_DAY.map((hour, j) => {
                 const timeSlot = { dayOfWeek, hour };
+                const isSelected = selectedTimeSlot && (selectedTimeSlot.dayOfWeek === dayOfWeek && selectedTimeSlot.hour === hour);
+                const value = getValue(timeSlot);
 
                 return (
-                  <RestrictionsTableCell
+                  <div
                     key={dayOfWeek + hour}
-                    style={{ gridRowStart: i + 2, gridColumnStart: j + 2}}
-                    onClick={e => {
-                      selectTimeSlot(timeSlot);
-                      setEditableValue(editableValue);
-                      setInputBoxPosition({ left: e.target.getBoundingClientRect().left, top: e.target.offsetTop });
-                      editableValueInputEl.current.select();
+                    aria-label={`${dayOfWeek}, ${hour}`}
+                    tabIndex="0"
+                    onKeyDown={e => {
+                      const code = e.keyCode || e.charCode;
+                      if (!isSelected) {
+                        if (code === 13) {
+                          setEditableValue(value);
+                          selectTimeSlot(timeSlot);
+                        }
+                      } else {
+                        if (code === 13) {
+                          if (editableValue === '') {
+                            deleteRestriction(selectedTimeSlot);
+                          } else {
+                            addRestriction(selectedTimeSlot, editableValue);
+                          }
+                          selectTimeSlot(null);
+                        }
+                      }
                     }}
-                    isSelected={selectedTimeSlot && (timeSlot.dayOfWeek === selectedTimeSlot.dayOfWeek && timeSlot.hour === selectedTimeSlot.hour)}
+                    className={`restrictions-table-cell${isSelected ? ' restrictions-table-cell--selected' : ''}`}
+                    onClick={() => {
+                      setEditableValue(value);
+                      selectTimeSlot(timeSlot);
+                    }}
                   >
-                    <CellValue
-                      timeSlot={timeSlot}
-                      isSelected={selectedTimeSlot && (timeSlot.dayOfWeek === selectedTimeSlot.dayOfWeek && timeSlot.hour === selectedTimeSlot.hour)}
-                      editableValue={editableValue}
-                    />
-                  </RestrictionsTableCell>
-                )
+                    {isSelected
+                      ? <RestrictionsTableCellInput
+                          value={editableValue}
+                          setValue={setEditableValue}
+                          onBlur={() => selectTimeSlot(null)}
+                        />
+                      : value
+                    }
+                  </div>
+                );
               })}
             </React.Fragment>
           ))}
         </div>
       </div>
-
-      <InputBox
-        left={inputBoxPosition.left}
-        top={inputBoxPosition.top}
-        onEnter={() => {
-          if (editableValue === '') {
-            deleteRestriction(selectedTimeSlot);
-          } else {
-            addRestriction(selectedTimeSlot, editableValue);
-          }
-          editableValueInputEl.current.blur();
-          setEditableValue('');
-          selectTimeSlot(null);
-        }}
-        onBlur={() => selectTimeSlot(null)}
-        value={editableValue}
-        setValue={setEditableValue}
-        ref={editableValueInputEl}
-        isOpen={selectedTimeSlot}
-      />
     </div>
-
   );
 };
 

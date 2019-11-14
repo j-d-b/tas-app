@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
+import { isTemplateTimeSlotEqual } from '../utils';
 import RestrictionsTable from '../components/RestrictionsTable';
 import { FormButton } from '../components/Form';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
@@ -30,19 +31,6 @@ const UPDATE_RESTRICTION_TEMPLATE = gql`
     }
   }
 `;
-
-const isTemplateTimeSlotEqual = (templateTimeSlot1, templateTimeSlot2) => (
-  templateTimeSlot1.dayOfWeek === templateTimeSlot2.dayOfWeek && templateTimeSlot1.hour === templateTimeSlot2.hour
-);
-
-const TemplateCellValue = ({ restrictions, timeSlot, editableValue, isSelected }) => {
-  if (isSelected) return <div>{editableValue}</div>
-
-  const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
-  if (matchingRestriction) return <div>{matchingRestriction.gateCapacity}</div>;
-
-  return <div></div>;
-};
 
 const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
   const [restrictions, setRestrictions] = useState([]);
@@ -93,6 +81,12 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
 
   if (restrictionTemplateError) return <div>Error loading restriction template</div>
 
+  const getValue = timeSlot => {
+    const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
+    if (matchingRestriction) return matchingRestriction.gateCapacity;
+    return '';
+  };
+
   return (
     <div>
       <h1 style={{ marginTop: 0 }}>Edit {templateName}</h1>
@@ -101,12 +95,7 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
         isEdit
         addRestriction={addRestriction}
         deleteRestriction={deleteRestriction}
-        cellValueComponent={props => (
-          <TemplateCellValue
-            restrictions={restrictions}
-            {...props}
-          />
-        )}
+        getValue={getValue}
       />
 
       <RightAlign>
@@ -124,6 +113,6 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
       </RightAlign>
     </div>
   );
-}
+};
 
 export default EditRestrictionTemplate;
