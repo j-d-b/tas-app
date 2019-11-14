@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
@@ -7,7 +7,7 @@ import EditRestrictionTemplate from './EditRestrictionTemplate';
 import Modal from '../components/Modal';
 import { FormButton } from '../components/Form';
 import RightAlign from '../components/RightAlign';
-import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
+import { ErrorMessage } from '../components/ResponseMessage';
 import TemplateList from '../components/TemplateList';
 
 const ALL_TEMPLATES = gql`
