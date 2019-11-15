@@ -8,7 +8,7 @@ const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 600, children }
     if (isOpen) {
       document.body.setAttribute('style', 'overflow: hidden; position: fixed;');
     } else {
-      document.body.setAttribute('style', null);
+      document.body.removeAttribute('style');
     }
   }, [isOpen]);
 
