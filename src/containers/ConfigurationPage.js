@@ -25,6 +25,7 @@ const ConfigurationPage = () => {
       <UpcomingRestrictionsTable />
 
       <div style={{ maxWidth: 500 }}>
+        <h1 style={{ fontSize: '1.6rem', marginTop: 0 }}>Manage Templates</h1>
         <ManageTemplates />
       </div>
 

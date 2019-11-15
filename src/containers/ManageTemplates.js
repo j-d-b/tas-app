@@ -72,8 +72,6 @@ const ManageTemplates = () => {
   return (
     <div>
       <div>
-        <h1 style={{ fontSize: '1.6rem', marginTop: 0 }}>Manage Templates</h1>
-        
         <TemplateList
           isLoading={setAppliedTemplateResults.loading || deleteTemplateResults.loading}
           allTemplates={allTemplatesResults.data.restrictionTemplates}
