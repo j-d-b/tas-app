@@ -100,7 +100,7 @@ const UpcomingRestrictionsTable = () => {
     return () => window.clearTimeout(timeout);
   }, [addGlobalRestrictionData, deleteRestrictionData, addGlobalRestrictionError, deleteRestrictionError]);
 
-  if (!globalRestrictionsData || !defaultAllowedApptsData) return <div>Loading...</div> // TODO include applied template
+  if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div>Loading...</div>
 
   const getValueStyle = timeSlot => {
     const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
@@ -137,7 +137,7 @@ const UpcomingRestrictionsTable = () => {
         <CSSTransition in={hasSaveResponse} classNames="response-message" timeout={300} unmountOnExit>
           <RightAlign>
             {(addGlobalRestrictionData || deleteRestrictionData) && <SuccessMessage>Saved successfully!</SuccessMessage>}
-            {(addGlobalRestrictionError || deleteRestrictionError) && <ErrorMessage>Error: value not saved</ErrorMessage>}
+            {(addGlobalRestrictionError || deleteRestrictionError) && <ErrorMessage>An error occurred. the value may have not been saved</ErrorMessage>}
           </RightAlign>
         </CSSTransition>
       </div>
