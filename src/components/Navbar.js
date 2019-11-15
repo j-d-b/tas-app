@@ -1,24 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import AnimateHeight from 'react-animate-height';
 
 import './Navbar.scss';
 import LogoutButton from './LogoutButton';
 import logo from '../images/bctc-tas-simple-logo.svg';
+import { ReactComponent as BarsIcon } from '../images/bars-solid.svg';
+ 
 
-const Navbar = ({ navLinks }) => (
-  <div className="navbar-container">
-    <nav className="navbar">
-      <img src={logo} alt="BCTC TAS" className="navbar__logo" />
-      {
-        navLinks.map(({ path, name }) => (
-          <NavLink to={path} key={name} className="navbar__link" activeClassName="navbar__link--active">
-            {name}
-          </NavLink>
-        ))
-      }
-      <LogoutButton className="navbar__logout-button" />
-    </nav>
-  </div>
-);
+const Navbar = ({ navLinks }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <div>
+      <div className="navbar-container">
+        <nav className="navbar">
+          <img src={logo} alt="BCTC TAS" className="navbar__logo" />
+          {
+            navLinks.map(({ path, name }) => (
+              <NavLink to={path} key={name} className="navbar__link navbar__link--desktop" activeClassName="navbar__link--active">
+                {name}
+              </NavLink>
+            ))
+          }
+
+          <button className={`navbar__menu-button${isMenuOpen ? ' navbar__menu-button--pressed' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <BarsIcon height="1.3rem" />
+          </button>
+
+          <LogoutButton className="navbar__logout-button" />
+        </nav>
+      </div>
+
+      <AnimateHeight height={isMenuOpen ? 'auto' : 0}>
+        <div className="navbar-mobile-menu">
+          {
+            navLinks.map(({ path, name }) => (
+              <NavLink to={path} key={name} className="navbar__link navbar__link--mobile" activeClassName="navbar__link--active">
+                {name}
+              </NavLink>
+            ))
+          }
+          <LogoutButton className="navbar__link navbar__link--mobile navbar__link--mobile--logout-button" />
+        </div>
+      </AnimateHeight>
+    </div>
+  );
+};
 
 export default Navbar;
