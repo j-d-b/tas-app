@@ -53,4 +53,9 @@ The TAS (and thus tas-server) was built for [BCTC](http://bctc-lb.com) by @j-d-b
 See [LICENSE.md](./LICENSE.md) for details.
 
 
+## Acknowledgements
+
+This project uses some icons from Font Awesome [license here](https://fontawesome.com/license)
+
+
 *Copyright 2019 KCUS, Inc.*
