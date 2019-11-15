@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import AnimateHeight from 'react-animate-height';
 
 import './Navbar.scss';
@@ -10,6 +11,14 @@ import { ReactComponent as BarsIcon } from '../images/bars-solid.svg';
 
 const Navbar = ({ navLinks }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.setAttribute('class', 'disable-body-scroll');
+    } else {
+      document.body.removeAttribute('class');
+    }
+  }, [isMenuOpen]);
 
   return (
     <div>
@@ -44,6 +53,10 @@ const Navbar = ({ navLinks }) => {
           <LogoutButton className="navbar__link navbar__link--mobile navbar__link--mobile--logout-button" />
         </div>
       </AnimateHeight>
+
+      <CSSTransition in={isMenuOpen} classNames="mobile-menu-backdrop" timeout={300} unmountOnExit>
+        <div className="mobile-menu-backdrop" onClick={() => setIsMenuOpen(false)}></div>
+      </CSSTransition>
     </div>
   );
 };
