@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
 
+  background-image: url("../images/lines-background.svg");
   background-color: $main;
 }
 
@@ -19,12 +20,10 @@
   max-width: 400px;
   background-color: #fefefe;
   text-align: center;
+  border-radius: 4px;
   padding: 2rem;
   padding-bottom: 1.5rem;
-
-  @media (min-width: 400px) {
-    border-radius: 5px;
-  }
+  margin: 0 0.5rem;
 }
 
 .box-page__after-box {
