@@ -14,7 +14,8 @@ const SIGNUP = gql`
 `;
 
 const Signup = () => {
-  const [entries, setEntries] = useState({ name: '', email: '', password: '', company: '' });
+  const [clientError, setClientError] = useState(null);
+  const [entries, setEntries] = useState({ name: '', email: '', password: '', confirmPassword: '', company: '' });
   const setEntry = (propName, value) => setEntries({ ...entries, [propName]: value });
 
   const [signup, { data, error, loading }] = useMutation(SIGNUP);
@@ -42,6 +43,13 @@ const Signup = () => {
       isRequired: true
     },
     {
+      name: 'Confirm Password',
+      type: 'password',
+      value: entries.confirmPassword,
+      handleChange: e => setEntry('confirmPassword', e.target.value),
+      isRequired: true
+    },
+    {
       name: 'Company',
       type: 'text',
       value: entries.company,
@@ -55,12 +63,18 @@ const Signup = () => {
       title="Sign Up"
       onSubmit={e => {
         e.preventDefault();
-        signup({ variables: { ...entries } });
+
+        if (entries.confirmPassword === entries.password) {
+          setClientError(null);
+          signup({ variables: { ...entries } });
+        } else {
+          setClientError('Passwords must match');
+        }
       }}
       actionName="Sign Up"
       loadingText="Requesting sign up..."
       data={data}
-      error={error && error.toString()}
+      error={clientError || error}
       successMessage={`Sign up success! Confirmation email and next steps have been sent to ${entries.email}`}
       loading={loading}
       inputs={inputs}
