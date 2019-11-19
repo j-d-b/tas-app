@@ -9,13 +9,12 @@ export const FormButton = ({ variety, children, className, ...props }) => {
 
 export const FormGroup = ({ children }) => <div className="form-group">{children}</div>;
 
-export const FormInput = React.forwardRef(({ onChange, ...rest}, ref) => {
+export const FormInput = ({ onChange, ...rest}) => {
   const [touched, setTouched] = useState(false);
 
   return (
     <input
       className={`form-input${touched ? ' touched' : ''}`}
-      ref={ref}
       onChange={e => {
         if (!touched) setTouched(true);
         if (onChange) onChange(e);
@@ -23,7 +22,7 @@ export const FormInput = React.forwardRef(({ onChange, ...rest}, ref) => {
       {...rest}
     />
   );
-});
+};
 
 export const FormSelect = ({ options, name, value, placeholder, disabled, onChange, ...rest}) => {
   const [touched, setTouched] = useState(false);
