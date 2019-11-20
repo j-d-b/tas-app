@@ -2,15 +2,15 @@
 
 This repository contains the web application for the [KCUS](https://kcus.org)-designed custom truck appointment system for the [Beirut Container Terminal Consortium](http://bctc-lb.com).
 
-The companion backend API can be found here(https://github.com/j-d-b/tas-server).
+The companion backend API can be found [here](https://github.com/j-d-b/tas-server).
 
 ## Installation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and I have not yet felt the need to `eject`. Thus, the standard scripts apply.
 
-Install dependencies with 
+Install dependencies with
 
-```
+```shell
 yarn install
 ```
 
@@ -18,7 +18,7 @@ yarn install
 
 ### Running the app
 
-```
+```shell
 yarn start
 ```
 
@@ -36,7 +36,7 @@ For setting up a fresh development environment, I'd recommend setting up the bac
 
 ## Production
 
-```
+```shell
 yarn build
 ```
 
@@ -46,16 +46,14 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
-## License 
+## License
 
 The TAS (and thus tas-server) was built for [BCTC](http://bctc-lb.com) by [@j-d-b](https://github.com/j-d-b) of [KCUS, Inc.](https://kcus.org) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 See [LICENSE.md](./LICENSE.md) for details.
 
-
 ## Acknowledgements
 
 This project uses some icons from Font Awesome [license here](https://fontawesome.com/license)
-
 
 *Copyright 2019 KCUS, Inc.*
