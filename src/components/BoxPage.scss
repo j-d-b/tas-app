@@ -16,12 +16,14 @@
 
 .box-page__logo {
   height: 2.5rem;
+  filter: drop-shadow(1px 1px 2px rgba(82, 82, 82, 0.6));
 }
 
 .box-page__box {
   max-width: 400px;
   background-color: #fefefe;
   text-align: center;
+  box-shadow: 2px 2px 4px rgba(82, 82, 82, 0.6);
   border-radius: 4px;
   padding: 2rem;
   padding-bottom: 1.5rem;
@@ -32,6 +34,7 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(82, 82, 82, 0.6);
   font-size: 0.8rem;
   text-align: center;
 }
