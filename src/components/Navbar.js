@@ -44,7 +44,7 @@ const Navbar = ({ navLinks }) => {
         <div className="navbar-mobile-menu">
           {
             navLinks.map(({ path, name }) => (
-              <NavLink to={path} key={name} className="navbar__link navbar__link--mobile" activeClassName="navbar__link--active">
+              <NavLink to={path} key={name} className="navbar__link navbar__link--mobile" activeClassName="navbar__link--active" onClick={() => setIsMenuOpen(false)}>
                 {name}
               </NavLink>
             ))
