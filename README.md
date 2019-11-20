@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Connecting to the GraphQL API backend ([`tas-server`](https://github.com/j-d-b/tas-server/))
 
-This web app is designed to connect to a GraphQL API backend designed and developed as part of the same project. 
+This web app is designed to connect to a GraphQL API backend designed and developed as part of the same project.
 
 The URI of this backend is configured at line 13 of `src/index.js`.
 
