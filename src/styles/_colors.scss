@@ -1,9 +1,14 @@
-$main: limegreen;
+$main: #4383ab;//#38c639;//#39c639;// limegreen;
 $light: #a8f0f1;
-$dark: #18ab18;
-$accent: tomato;
+$dark: #326585;//#19b319; //#18ab18;
+$accent: #44ab96; //#4383ab; //tomato
 $subtle: #f8f0ff;
 $gray: #f1efef;
 
-$error-message: red;
-$success-message: green;
+$success-green: #389e38;
+$danger-red: #e53855;
+
+$import-full-tag: #ffb017;
+$export-full-tag: #da774a;
+$storage-empty-tag: indianred;
+$export-empty-tag: #683F99;

@@ -44,19 +44,19 @@
   display: inline-block;
   
   &.appt-card__action--IMPORT_FULL {
-    background-color: seagreen;
+    background-color: $import-full-tag;
   }
 
   &.appt-card__action--EXPORT_FULL {
-    background-color: darkblue;
+    background-color: $export-full-tag;
   }
 
   &.appt-card__action--STORAGE_EMPTY {
-    background-color: #dc3939;
+    background-color: $storage-empty-tag;
   }
 
   &.appt-card__action--EXPORT_EMPTY {
-    background-color: rebeccapurple;
+    background-color: $export-empty-tag;
   }
 }
 

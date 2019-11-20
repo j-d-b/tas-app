@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 
 import { isPassedExpiration } from '../utils';
+import { SuccessMessage } from '../components/ResponseMessage';
 import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 
 const RESET_PASSWORD = gql`
@@ -55,7 +56,7 @@ const ResetPasswordPage = ({ match }) => {
       error={error}
       successComponent={() => (
         <div>
-          <div style={{ color: 'green' }}>Password for {currentUser} reset successfully.</div>
+          <SuccessMessage>Password for {currentUser} reset successfully.</SuccessMessage>
           <div style={{ marginTop: '0.75rem' }}><Link to="/login">Log in here</Link></div>
         </div>
       )}

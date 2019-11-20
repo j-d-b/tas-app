@@ -27,30 +27,30 @@
   }
 
   &.form-button--success {
-    background-color: green;
+    background-color: $success-green;
 
     &:hover {
-      background-color: darken(green, 5%);
+      background-color: darken($success-green, 5%);
     }
   
     &:disabled {
       cursor: default;
       opacity: 0.7;
-      background-color: lighten(green, 5%);
+      background-color: lighten($success-green, 5%);
     }
   }
 
   &.form-button--danger {
-    background-color: red;
+    background-color: $danger-red;
     
     &:hover {
-      background-color: darken(red, 5%);
+      background-color: darken($danger-red, 5%);
     }
   
     &:disabled {
       cursor: default;
       opacity: 0.7;
-      background-color: lighten(red, 5%);
+      background-color: lighten($danger-red, 5%);
     }
   }
 }
@@ -85,7 +85,7 @@
   }
 
   &.touched:invalid  {
-    border-color: red;
+    border-color: $danger-red;
   }
 }
 
@@ -115,7 +115,7 @@
   }
 
   &.touched:invalid  {
-    border-color: red;
+    border-color: $danger-red;
   }
 }
 

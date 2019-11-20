@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
+import { applyNewToken } from '../utils';
 import BoxPage from '../components/BoxPage';
 import FullPageSpinner from '../components/FullPageSpinner';
-import { applyNewToken } from '../utils';
+import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const VERIFY_EMAIL = gql`
   mutation verifyEmail($verifyToken: String!) {
@@ -36,10 +37,8 @@ const VerifyEmailPage = ({ match }) => {
     return (
       <BoxPage>
         <div className="form-page__title">Verify Email</div>
-        <div style={{ color: 'red' }}>
-          <p>{error.toString()}</p>
-          <p>Please contact a system administrator</p>
-        </div>
+        <ErrorMessage error={error} />
+        <ErrorMessage>Please contact a system administrator</ErrorMessage>
       </BoxPage>
     );
   }
@@ -48,10 +47,10 @@ const VerifyEmailPage = ({ match }) => {
     return (
       <BoxPage>
         <div className="form-page__title">Verify Email</div>
-        <div style={{ color: 'green' }}>
+        <SuccessMessage>
           <p>Email verification success!</p>
           <p>Logging in...</p>
-        </div>
+        </SuccessMessage>
       </BoxPage>
     );
   }
