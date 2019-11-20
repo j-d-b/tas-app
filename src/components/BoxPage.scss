@@ -8,12 +8,14 @@
   flex-direction: column;
   align-items: center;
 
-  background-image: url("../images/lines-background.svg");
   background-color: $main;
+  background-image: url("../images/lines-background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .box-page__logo {
-  height: 2rem;
+  height: 2.5rem;
 }
 
 .box-page__box {
