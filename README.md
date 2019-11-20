@@ -48,7 +48,7 @@ The build is minified and the filenames include the hashes.
 
 ## License 
 
-The TAS (and thus tas-server) was built for [BCTC](http://bctc-lb.com) by @j-d-b of [KCUS, Inc.](https://kcus.org) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+The TAS (and thus tas-server) was built for [BCTC](http://bctc-lb.com) by [@j-d-b](https://github.com/j-d-b) of [KCUS, Inc.](https://kcus.org) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 See [LICENSE.md](./LICENSE.md) for details.
 
