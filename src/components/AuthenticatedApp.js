@@ -4,7 +4,8 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './AuthenticatedApp.scss';
 import { meetsRequiredRole } from '../utils';
 import Navbar from './Navbar';
-import SchedulerPage from '../containers/SchedulerPage';
+import Scheduler from '../containers/Scheduler';
+import MyApptsPage from '../containers/MyApptsPage';
 import Dashboard from '../containers/Dashboard';
 import AdminPage from '../containers/AdminPage';
 import ConfigurationPage from '../containers/ConfigurationPage';
@@ -14,7 +15,12 @@ const ALL_ROUTES = [
   {
     name: 'Scheduler',
     path: '/scheduler',
-    component: SchedulerPage
+    component: Scheduler
+  },
+  {
+    name: 'My Appointments',
+    path: '/my-appts',
+    component: MyApptsPage
   },
   { 
     name: 'Dashboard',
