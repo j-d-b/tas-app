@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { format } from 'date-fns';
 
 import './Dashboard.scss';
 import { getDateFromTimeslot } from '../utils';
@@ -10,8 +11,8 @@ import ApptCard from '../components/ApptCard';
 import EditAppt from './EditAppt';
 
 const ALL_APPTS = gql`
-  {
-    appts (input: {}) {
+  query Appts ($startDate: ISODate, $endDate: ISODate, $actionType: ActionType) {
+    appts (input: { startDate: $startDate, endDate: $endDate, where: { actionType: $actionType } }) {
       id
       user {
         email
@@ -94,17 +95,12 @@ const satisfiesSearch = search => appt => {
   || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false)
 };
 
-const satisfiesFilters = filters => appt => {
-  const satisfiesType = filters.type === 'ALL'
-    || appt.actions.reduce((matchesType, action) => matchesType || action.type === filters.type, false);
-
+// backend API only allows selecting within a date range, not hour range
+const satisfiesHourFilters = filters => appt => {
   const apptDate = getDateFromTimeslot(appt.timeSlot);
-
   const satisfiesFrom = !filters.from || apptDate >= filters.from;
-
   const satisfiesTo = !filters.to || apptDate <= filters.to;
-
-  return satisfiesType && satisfiesFrom && satisfiesTo;
+  return satisfiesFrom && satisfiesTo;
 };
 
 const createSort = sort => (apptA, apptB) => {
@@ -138,7 +134,16 @@ const Dashboard = () => {
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(INIT_FILTERS);
   const [sort, setSort] = useState(INIT_SORT);
-  const { data, error, loading } = useQuery(ALL_APPTS);
+  const { data, error, loading } = useQuery(
+    ALL_APPTS,
+    { 
+      variables: { 
+        ...(filters.from && { startDate: format(filters.from, 'yyyy-MM-dd') }),
+        ...(filters.to && { endDate: format(filters.to, 'yyyy-MM-dd') }),
+        ...(filters.type !== 'ALL' && { where: { actionType: filters.type } })
+      }
+    }
+  );
 
   const reset = () => {
     setSearch('');
@@ -150,7 +155,7 @@ const Dashboard = () => {
   if (data) {
     appts = data.appts
       .filter(satisfiesSearch(search))
-      .filter(satisfiesFilters(filters))
+      .filter(satisfiesHourFilters(filters))
       .sort(createSort(sort));
   }
 
