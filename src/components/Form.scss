@@ -68,8 +68,8 @@
   border: 2px solid #dddddd;
   border-radius: 0.5rem;
   box-sizing: border-box;
-
   font-size: 1rem;
+  transition: border-color 0.09s ease-in-out;
 
   &:focus {
     outline: none;
