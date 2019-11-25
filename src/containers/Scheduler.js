@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import './Scheduler.scss';
-import { getFriendlyActionType, calculateApptTFU, getHourString, containerSizeToTFU } from '../utils';
+import { getFriendlyActionType, calculateApptTFU, formatTimeSlot, containerSizeToTFU } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
@@ -14,6 +15,7 @@ import { ReactComponent as ImportFullIcon} from '../images/truck-import-full.svg
 import { ReactComponent as StorageEmptyIcon} from '../images/truck-storage-empty.svg';
 import { ReactComponent as ExportFullIcon} from '../images/truck-export-full.svg';
 import { ReactComponent as ExportEmptyIcon} from '../images/truck-export-empty.svg';
+import { ReactComponent as BackArrowIcon } from '../images/back-arrow.svg';
 
 const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
 const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
@@ -21,6 +23,7 @@ const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
 const ADD_APPT = gql`
   mutation AddAppt ($input: AddApptInput!) {
     addAppt (input: $input) {
+      id
       arrivalWindow
       timeSlot {
         date
@@ -98,21 +101,33 @@ const buildAddActionInput = action => {
   }
 };
 
+const BackArrow = ({ onClick }) => (
+  <div className="back-arrow-container">
+    <button
+      type="button"
+      className="back-arrow"
+      onClick={onClick}
+    >
+      <BackArrowIcon/>
+    </button>
+  </div>
+);
+
 const Start = ({ onStart }) => (
   <div className="start-page">
     <h1 className="start-page__title">BCTC Truck Appointment System Scheduler</h1>
     <p>Weclome to the appointment scheduler for the BCTC Truck Appointment System</p>
     <p>You will be able to schedule up to four container actions (pick up or drop off) per appointment, depending on container sizes</p>
     <p>Click the button below to begin</p>
-    <FormButton className="start-page__button" onClick={onStart}>SCHEDULE AN APPOINTMENT</FormButton>
+    <FormButton className="scheduler-button" onClick={onStart}>SCHEDULE AN APPOINTMENT</FormButton>
   </div>
 );
 
 const getActionTypeOptions = (appt, currActionIndex) => {
   const allOptions = [
     { IconComponent: ImportFullIcon, name: 'Pick Up Full Container', value: 'IMPORT_FULL' },
-    { IconComponent: ExportFullIcon, name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
     { IconComponent: StorageEmptyIcon, name: 'Pick Up Empty Container', value: 'STORAGE_EMPTY' },
+    { IconComponent: ExportFullIcon, name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
     { IconComponent: ExportEmptyIcon, name: 'Drop Off Empty Container', value: 'EXPORT_EMPTY' }
   ];
 
@@ -181,10 +196,10 @@ const Scheduler = () => {
       }
     }
   );
-
+  
   return (
     <div className="scheduler-page">
-      <div className="scheduler">
+      <div className="scheduler" id="scheduler">
         {(() => {
           switch (page) {
             case 'START': return <Start onStart={() => setPage('SELECT_ACTION_TYPE')} />;
@@ -193,13 +208,28 @@ const Scheduler = () => {
                 e.preventDefault();
                 setPage('ENTER_ACTION_DETAILS');
               }}>
-                <h2 style={{ marginBottom: '0.5rem' }}>
-                  <label htmlFor="actionType">Select  {currActionIndex ? indexToNthString(currActionIndex) : ''} Action Type</label>
-                </h2>
+
+              <BackArrow
+                onClick={currActionIndex === 0
+                  ? () => {
+                      setPage('START');
+                      setNewAppt(INIT_APPT);
+                      setCurrActionIndex(0);
+                    }
+                  : () => {
+                      setPage('REVIEW_ACTIONS');
+                      setNewAppt({ ...newAppt, actions: newAppt.actions.filter((a, i) => i !== currActionIndex) });
+                      setCurrActionIndex(currActionIndex - 1);
+                    }
+                  }
+                />
+
+                <h1>Select  {currActionIndex ? indexToNthString(currActionIndex) : ''} Action Type</h1>
 
                 <div className="action-type-select">
                   {getActionTypeOptions(newAppt, currActionIndex).map(({ IconComponent, name, value }) => (
                     <div
+                      tabIndex="0"
                       key={value}
                       className={newAppt.actions[currActionIndex].type === value 
                         ? 'action-type-select__item action-type-select__item--selected'
@@ -211,35 +241,17 @@ const Scheduler = () => {
                         setNewAppt({ ...newAppt, actions: newActions });
                       }}
                     >
-                      <div className="action-type-select__icon">
-                        <IconComponent title={name} />
+                      <div className="action-type-select__icon-container">
+                        <IconComponent title={name} className="action-type-select__icon-svg" />
                       </div>
                       <div className="action-type-select__name">{name}</div>
                     </div>
                   ))}
                 </div>
 
-                {currActionIndex === 0 && <FormNote>You will have the option to add additional actions to this appointment later</FormNote>}
-
-                <RightAlign>
-                  <FormButton
-                    type="button"
-                    style={{ marginRight: '0.5rem' }}
-                    onClick={currActionIndex === 0
-                      ? () => {
-                          setPage('START');
-                          setNewAppt(INIT_APPT);
-                          setCurrActionIndex(0);
-                        }
-                      : () => {
-                          setPage('ENTER_ACTION_DETAILS');
-                          setNewAppt({ ...newAppt, actions: newAppt.actions.filter((a, i) => i !== currActionIndex) });
-                          setCurrActionIndex(currActionIndex - 1);
-                        }
-                    }
-                  >{currActionIndex === 0 ? 'Cancel' : 'Back'}</FormButton>
-                  <FormButton disabled={!newAppt.actions[currActionIndex].type} type="submit">Continue</FormButton>
-                </RightAlign>
+                {currActionIndex === 0 && <p style={{ fontSize: '0.8rem', opactiy: 0.8 }}>You will have the option to add additional actions to this appointment later</p>}
+                
+                <FormButton className="scheduler-button" disabled={!newAppt.actions[currActionIndex].type} type="submit">Continue</FormButton>
               </form>
             );
             case 'ENTER_ACTION_DETAILS': return (
@@ -250,24 +262,24 @@ const Scheduler = () => {
                   setPage('REVIEW_ACTIONS');
                 }}
               >
-                <h2>Enter Action {currActionIndex === 0 ? '' : currActionIndex + 1} Details</h2>
-                <EditAction
-                  isNew
-                  action={newAppt.actions[currActionIndex]}
-                  onEdit={editedAction => {
-                    const newActions = [...newAppt.actions];
-                    newActions[currActionIndex] = { ...newAppt.actions[currActionIndex], ...editedAction };
-                    setNewAppt({ ...newAppt, actions: newActions });
-                  }}
-                  containerSizeOptions={getContainerSizeOptions(newAppt, currActionIndex)}
-                />
+                <BackArrow onClick={() => setPage('SELECT_ACTION_TYPE')} />
+                <h1>Enter Action {currActionIndex === 0 ? '' : currActionIndex + 1} Details</h1>
+                <div style={{ textAlign: 'left' }}>
+                  <EditAction
+                    isNew
+                    action={newAppt.actions[currActionIndex]}
+                    onEdit={editedAction => {
+                      const newActions = [...newAppt.actions];
+                      newActions[currActionIndex] = { ...newAppt.actions[currActionIndex], ...editedAction };
+                      setNewAppt({ ...newAppt, actions: newActions });
+                    }}
+                    containerSizeOptions={getContainerSizeOptions(newAppt, currActionIndex)}
+                  />
+                </div>
 
                 <FormNote>* indicates a required field</FormNote>
 
-                <RightAlign>
-                  <FormButton type="button" style={{ marginRight: '0.5rem' }} onClick={() => setPage('SELECT_ACTION_TYPE')}>Back</FormButton>
-                  <FormButton type="submit">Continue</FormButton>
-                </RightAlign>
+                <FormButton className="scheduler-button" type="submit">Continue</FormButton>
               </form>
             );
             case 'REVIEW_ACTIONS': return (
@@ -278,49 +290,56 @@ const Scheduler = () => {
                   setPage('SELECT_TIME_SLOT');
                 }}
               >
-                <h2>Current Actions</h2>
-                <ul>
+                <BackArrow onClick={() => setPage('ENTER_ACTION_DETAILS')} />
+                <h1>Current Actions</h1>
+                <ol style={{ textAlign: 'left', fontFamily: `'Roboto Condensed', sans-serif`, fontSize: '1.2rem' }}>
                   {newAppt.actions.map((action, i) => <li key={i}><strong>{getFriendlyActionType(action.type)}</strong> {action.containerId ? `(CID: ${action.containerId})` : ''}</li>)}
-                </ul>
-                <p><strong>Note: </strong>You will be able to review/edit all details prior to confirmation.</p>
-                <RightAlign>
-                  {calculateApptTFU(newAppt) < (MAX_TFU_PER_ACTION_CATEGORY * 2) && ( // TODO THIS VALUE
-                    <FormButton 
-                      type="button"
-                      onClick={() => {
-                        setNewAppt({ ...newAppt, actions: [...newAppt.actions, {}]});
-                        setCurrActionIndex(currActionIndex + 1);
-                        setPage('SELECT_ACTION_TYPE');
-                      }}
-                      style={{ marginRight: '0.5rem' }}
-                    >Add Another Action</FormButton>
-                  )}
-                  <FormButton type="submit">Proceed to Booking</FormButton>
-                </RightAlign>
+                </ol>
+
+                <FormNote>You will be able to review/edit all details prior to confirmation.</FormNote>
+
+                {calculateApptTFU(newAppt) < (MAX_TFU_PER_ACTION_CATEGORY * 2) && ( // TODO THIS VALUE
+                  <FormButton
+                    className="scheduler-button"
+                    type="button"
+                    onClick={() => {
+                      setNewAppt({ ...newAppt, actions: [...newAppt.actions, {}]});
+                      setCurrActionIndex(currActionIndex + 1);
+                      setPage('SELECT_ACTION_TYPE');
+                    }}
+                    style={{ marginRight: '0.5rem' }}
+                  >Add Another Action</FormButton>
+                )}
+
+                <FormButton className="scheduler-button" style={{ marginTop: '0.5rem' }} type="submit">Proceed to Booking</FormButton>
               </form>
             );
             case 'SELECT_TIME_SLOT': return (
-              <div>
-                <h2>Select an Appointment Time Slot</h2>
-                <p>After booking, you will be assigned a specific arrival time within the selected time slot</p>
+              <form onSubmit={e => {
+                e.preventDefault();
+                setNewAppt({ ...newAppt, timeSlot: selectedTimeSlot });
+                setPage('REVIEW_APPOINTMENT');
+              }}>
+                <BackArrow onClick={() => setPage('REVIEW_ACTIONS')} />
+
+                <h1 style={{ marginBottom: '1rem' }}>Choose Appointment Time Slot</h1>
 
                 <ScheduleAppt
                   appt={newAppt}
                   selectTimeSlot={selectTimeSlot}
                   setIsValid={setIsSelectedTimeSlotValid}
                 />
-                <RightAlign>
+
+                <p style={{ fontSize: '0.8rem', opacity: '0.8' }}>After booking, you will be assigned a specific arrival time within the selected time slot</p>
+
+                <div style={{ marginTop: '0.5rem' }}>
                   <FormButton
-                    onClick={() => {
-                      if (selectedTimeSlot) {
-                        setNewAppt({ ...newAppt, timeSlot: selectedTimeSlot });
-                        setPage('REVIEW_APPOINTMENT');
-                      }
-                    }} 
+                    type="submit"
+                    className="scheduler-button"
                     disabled={!isSelectedTimeSlotValid}
                   >Confirm Time Slot</FormButton>
-                </RightAlign>
-              </div>
+                </div>
+              </form>
             );
             case 'REVIEW_APPOINTMENT': return (
               <form onSubmit={e => {
@@ -334,32 +353,38 @@ const Scheduler = () => {
                   } 
                 });
               }}>
-                <h2>Review Appointment Details</h2>
+                <BackArrow onClick={() => setPage('SELECT_TIME_SLOT')} />
 
-                <EditApptDetails appt={newAppt} onEdit={setNewAppt} />
+                <h1>Review Appointment Details</h1>
+
+                <div style={{ textAlign: 'left' }}>
+                  <EditApptDetails appt={newAppt} onEdit={setNewAppt} />
+                </div>
 
                 {newAppt.actions.map((action, index) => (
                   <div key={index}>
-                    <h3>Action {index + 1}: {getFriendlyActionType(action.type, 'CUSTOMER')}</h3>
+                    <h2>Action {index + 1}: {getFriendlyActionType(action.type, 'CUSTOMER')}</h2>
 
-                    <EditAction
-                      action={action}
-                      isNew
-                      onEdit={editedAction => {
-                        const newActions = newAppt.actions.map((a, i) => i === index ? editedAction : a);
-                        setNewAppt({ ...newAppt, actions: newActions });
-                      }}
-                    />
+                    <div style={{ textAlign: 'left' }}>
+                      <EditAction
+                        action={action}
+                        isNew
+                        onEdit={editedAction => {
+                          const newActions = newAppt.actions.map((a, i) => i === index ? editedAction : a);
+                          setNewAppt({ ...newAppt, actions: newActions });
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
 
-                <h3>Time Slot</h3>
-                <p>{newAppt.timeSlot.date} at {getHourString(newAppt.timeSlot.hour)}</p>
-                <p>After booking, you will be assigned a specific arrival time within the this time slot</p>
+                <h2>Time Slot</h2>
+                <div className="selected-time-slot">{formatTimeSlot(newAppt.timeSlot)}</div>
+                <p style={{ fontSize: '0.8rem', opacity: '0.8' }}>After booking, you will be assigned a specific arrival time within this time slot</p>
 
-                <RightAlign>
-                  <FormButton type="submit" disabled={loading}>{loading ? 'Booking...' : 'Book Appointment'}</FormButton>
-                </RightAlign>
+                <div style={{ marginTop: '0.5rem' }}>
+                  <FormButton className="scheduler-button" type="submit" disabled={loading}>{loading ? 'Booking...' : 'Book Appointment'}</FormButton>
+                </div>
 
                 <RightAlign>
                   {error && <ErrorMessage error={error} />}
@@ -369,11 +394,13 @@ const Scheduler = () => {
             case 'BOOKING_SUCCESS': return (
               <div>
                 <h1>Appointment Booked Successfully!</h1>
-                <p>Appointment Date: {data.addAppt.timeSlot.date}</p>
-                <p>Please arrive between {data.addAppt.arrivalWindow}</p>
-                <RightAlign>
-                  <FormButton onClick={() => setPage('SELECT_ACTION_TYPE')}>Book Another Appointment</FormButton>
-                </RightAlign>
+                <p><strong style={{ fontFamily: `'Roboto Condensed', sans-serif`, textTransform: 'uppercase' }}>Appointment ID</strong> · {data.addAppt.id}</p>
+                <p><strong style={{ fontFamily: `'Roboto Condensed', sans-serif`, textTransform: 'uppercase' }}>Appointment Date</strong> · {data.addAppt.timeSlot.date}</p>
+                <p>Please arrive between <strong>{data.addAppt.arrivalWindow}</strong></p>
+                <p>
+                  <Link to="/my-appts" style={{ marginBottom: '0.5rem'}}>View My Appointments</Link>
+                </p>
+                <FormButton className="scheduler-button" type="button" onClick={() => setPage('SELECT_ACTION_TYPE')}>Book Another Appointment</FormButton>
               </div>
             );
             default: return <Start onStart={() => setPage('SELECT_ACTION_TYPE')} />

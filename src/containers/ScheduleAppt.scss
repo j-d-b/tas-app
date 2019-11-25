@@ -1,0 +1,18 @@
+@import '../styles/colors';
+
+.selected-date {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+
+  &.selected-date--invalid {
+    color: $danger-red;
+  }
+}
+
+.invalid-date-message {
+  margin-top: 0.3rem;
+  font-style: italic;
+  font-size: 0.8rem;
+}

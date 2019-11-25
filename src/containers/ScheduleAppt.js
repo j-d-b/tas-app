@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { format } from 'date-fns';
 
-import { getDateFromTimeslot, getHourString, getTimeSlotFromDate } from '../utils';
+import './ScheduleAppt.scss';
+import { getDateFromTimeslot, getTimeSlotFromDate } from '../utils';
 import StyledDatePicker from '../components/StyledDatePicker';
 
 const AVAILABLE_SLOTS = gql`
@@ -17,7 +19,7 @@ const AVAILABLE_SLOTS = gql`
 const isValidDate = (availableDateTimes, selectedDate) => availableDateTimes.includes(selectedDate.getTime());
 
 const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
-  const [selectedDate, selectDate] = useState(null);
+  const [selectedDate, selectDate] = useState(appt.timeSlot ? new Date(getDateFromTimeslot(appt.timeSlot)) : null);
   const containerSizes = appt.actions.map(({ containerSize }) => containerSize);
 
   const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }, fetchPolicy: 'network-only', pollInterval: 30000 });
@@ -48,8 +50,8 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
 
       {selectedDate && (
         <div>
-          <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>{selectedDate.toDateString()} at {getHourString(new Date(selectedDate).getHours())}</div>
-          {!isValidDate(availableDateTimes, selectedDate) && <div style={{ marginTop: '0.5rem', fontSize: '1.2rem' }}>The appointment cannot be booked for this time slot.</div>}
+          <div className={`selected-date${!isValidDate(availableDateTimes, selectedDate) ? ' selected-date--invalid' : ''}`}>{format(selectedDate, `iii, MMM d, yyyy 'at' HH:mm`)}</div> 
+          {!isValidDate(availableDateTimes, selectedDate) && <div className="invalid-date-message">The appointment cannot be booked for this time slot</div>}
         </div>
       )}
     </div>
