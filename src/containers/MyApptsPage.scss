@@ -1,7 +1,9 @@
+@import '../styles/constants';
+
 .my-appts-page {
   margin: 1rem;
 
-  @media(min-width: 700px) {
+  @media(min-width: $mobile-breakpoint) {
     margin: 2rem;
   }
 }

@@ -1,4 +1,5 @@
 @import '../styles/colors';
+@import '../styles/constants';
 
 .scheduler-page {
   background-color: $main;
@@ -28,7 +29,7 @@
     font-family: 'Roboto Condensed', sans-serif;
   }
 
-  @media(min-width: 700px) {
+  @media(min-width: $mobile-breakpoint) {
     padding: 2rem;
   }
 
@@ -58,7 +59,7 @@
   cursor: pointer;
   transition: opacity 0.1s ease-in-out;
 
-  @media(min-width: 700px) {
+  @media(min-width: $mobile-breakpoint) {
     top: -1rem;
     left: -1rem;
   }
