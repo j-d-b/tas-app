@@ -26,7 +26,7 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
 
   if (loading) return <p>Fetching available time slots...</p>;
 
-  if (error) return <p>An error occurred, while fetching available time slots. <pre>{error.toString()}</pre></p>;
+  if (error) return <p>An error occurred while fetching available time slots.</p>;
 
   const availableDateTimes = data.availableSlots.map(getDateFromTimeslot);
 
