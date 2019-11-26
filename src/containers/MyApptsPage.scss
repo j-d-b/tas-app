@@ -1,11 +1,12 @@
 @import '../styles/constants';
 
 .my-appts-page {
+  width: 100%;
   max-width: $content-max-width;
   margin: 1rem;
 
   @media(min-width: $mobile-breakpoint) {
-    margin: 2rem;
+    margin: 1rem 2rem;
   }
 
   @media (min-width: calc(#{$content-max-width} + 32px)) { // 4rem doesn't work

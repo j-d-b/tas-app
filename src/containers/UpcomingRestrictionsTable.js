@@ -100,7 +100,7 @@ const UpcomingRestrictionsTable = () => {
     return () => window.clearTimeout(timeout);
   }, [addGlobalRestrictionData, deleteRestrictionData, addGlobalRestrictionError, deleteRestrictionError]);
 
-  if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div>Loading...</div>
+  if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>
 
   const getValueStyle = timeSlot => {
     const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));

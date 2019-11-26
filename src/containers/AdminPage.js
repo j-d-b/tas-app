@@ -86,8 +86,8 @@ const AdminPage = () => {
   const [selectedUser, selectUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error</div>
+  if (loading) return <div className="admin-page-loading-error">Loading...</div>
+  if (error) return <div className="admin-page-loading-error">An error occurred. Please reload this page.</div>
 
   return data && (
     <div className="admin-page">
