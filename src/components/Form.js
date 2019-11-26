@@ -9,12 +9,12 @@ export const FormButton = ({ variety, children, className, ...props }) => {
 
 export const FormGroup = ({ children }) => <div className="form-group">{children}</div>;
 
-export const FormInput = ({ onChange, ...rest}) => {
+export const FormInput = ({ onChange, disableInvalidHighlighting, ...rest}) => {
   const [touched, setTouched] = useState(false);
 
   return (
     <input
-      className={`form-input${touched ? ' touched' : ''}`}
+      className={`form-input${touched ? ' touched' : ''}${disableInvalidHighlighting ? ' disable-invalid-highlighting' : ''}`}
       onChange={e => {
         if (!touched) setTouched(true);
         if (onChange) onChange(e);
@@ -24,12 +24,12 @@ export const FormInput = ({ onChange, ...rest}) => {
   );
 };
 
-export const FormSelect = ({ options, name, value, placeholder, disabled, onChange, ...rest}) => {
+export const FormSelect = ({ options, name, value, placeholder, disabled, onChange, disableInvalidHighlighting, ...rest}) => {
   const [touched, setTouched] = useState(false);
 
   return (
     <select
-      className="form-select"
+    className={`form-select${touched ? ' touched' : ''}${disableInvalidHighlighting ? ' disable-invalid-highlighting' : ''}`}
       style={{ color: !value ? 'lightgray' : (disabled ? 'graytext' : 'black') }}
       value={value}
       disabled={disabled} {...rest}

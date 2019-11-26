@@ -85,7 +85,7 @@
     color: graytext;
   }
 
-  &.touched:invalid  {
+  &.touched:invalid:not(.disable-invalid-highlighting) {
     border-color: $danger-red;
   }
 }
@@ -115,7 +115,7 @@
     border-color: #aaaaaa;
   }
 
-  &.touched:invalid  {
+  &.touched:invalid:not(.disable-invalid-highlighting) {
     border-color: $danger-red;
   }
 }

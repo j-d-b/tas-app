@@ -29,8 +29,10 @@ const UnauthenticatedFormPage = ({
               inputs.map(input => (
                 <FormInput
                   key={input.name}
+                  disableInvalidHighlighting={input.disableInvalidHighlighting}
                   name={input.name}
                   type={input.type}
+                  {...(input.minLength && { minLength: input.minLength })}
                   value={input.value}
                   placeholder={input.name}
                   onChange={input.handleChange}
