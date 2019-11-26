@@ -107,7 +107,7 @@ export const getFriendlyUserRole = userRole => {
 
 export const getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
 
-export const getDateFromTimeslot = timeSlot => Date.parse(`${timeSlot.date}T${getHourString(timeSlot.hour)}:00`);
+export const getDateFromTimeSlot = timeSlot => Date.parse(`${timeSlot.date}T${getHourString(timeSlot.hour)}:00`);
 
 export const getTimeSlotFromDate = date => {
   return {
@@ -175,7 +175,7 @@ export const formatError = error => {
   return errorString;
 }
 
-export const formatTimeSlot = timeSlot => format(new Date(getDateFromTimeslot(timeSlot)), `iii, MMM d, yyyy 'at' HH:mm`);
+export const formatTimeSlot = timeSlot => format(new Date(getDateFromTimeSlot(timeSlot)), `iii, MMM d, yyyy 'at' HH:mm`);
 
 export const isTimeSlotEqual = (slot1, slot2) => slot1.date === slot2.date && slot1.hour === slot2.hour;
 

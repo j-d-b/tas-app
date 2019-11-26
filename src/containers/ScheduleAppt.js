@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
 import './ScheduleAppt.scss';
-import { getDateFromTimeslot, getTimeSlotFromDate } from '../utils';
+import { getDateFromTimeSlot, getTimeSlotFromDate } from '../utils';
 import StyledDatePicker from '../components/StyledDatePicker';
 
 const AVAILABLE_SLOTS = gql`
@@ -19,7 +19,7 @@ const AVAILABLE_SLOTS = gql`
 const isValidDate = (availableDateTimes, selectedDate) => availableDateTimes.includes(selectedDate.getTime());
 
 const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
-  const [selectedDate, selectDate] = useState(appt.timeSlot ? new Date(getDateFromTimeslot(appt.timeSlot)) : null);
+  const [selectedDate, selectDate] = useState(appt.timeSlot ? new Date(getDateFromTimeSlot(appt.timeSlot)) : null);
   const containerSizes = appt.actions.map(({ containerSize }) => containerSize);
 
   const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }, fetchPolicy: 'network-only', pollInterval: 30000 });
@@ -28,7 +28,7 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
 
   if (error) return <p>An error occurred while fetching available time slots.</p>;
 
-  const availableDateTimes = data.availableSlots.map(getDateFromTimeslot);
+  const availableDateTimes = data.availableSlots.map(getDateFromTimeSlot);
 
   return (
     <div>

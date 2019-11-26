@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { isAfter, isBefore } from 'date-fns';
 
-import { getDateFromTimeslot } from '../utils';
+import { getDateFromTimeSlot } from '../utils';
 import './MyApptsPage.scss';
 import ApptCard from '../components/ApptCard';
 import Modal from '../components/Modal';
@@ -51,8 +51,8 @@ const MyApptsPage = () => {
   if (loading) return <div>Loading appointments...</div>;
   if (error) return <div>An error occurred when fetching appointments. Please try reloading this page.</div>;
 
-  const upcomingAppts = data.myAppts.filter(appt => isAfter(new Date(getDateFromTimeslot(appt.timeSlot)), new Date()));
-  const pastAppts = data.myAppts.filter(appt => isBefore(new Date(getDateFromTimeslot(appt.timeSlot)), new Date()));
+  const upcomingAppts = data.myAppts.filter(appt => isAfter(new Date(getDateFromTimeSlot(appt.timeSlot)), new Date()));
+  const pastAppts = data.myAppts.filter(appt => isBefore(new Date(getDateFromTimeSlot(appt.timeSlot)), new Date()));
 
   return (
     <div className="my-appts-page">

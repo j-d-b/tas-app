@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { format, isAfter } from 'date-fns/esm';
 
-import { getHourString, getDateFromTimeslot, isTimeSlotEqual } from '../utils';
+import { getHourString, getDateFromTimeSlot, isTimeSlotEqual } from '../utils';
 import './RestrictionsTable.scss';
 
 const ALL_HOURS_IN_DAY = new Array(24).fill(0).map((_, i) => i);
@@ -58,7 +58,7 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
               
               {ALL_HOURS_IN_DAY.map((hour, j) => {
                 const timeSlot = { date: format(date, 'yyyy-MM-dd'), hour };
-                const isUpcoming = isAfter(getDateFromTimeslot(timeSlot), new Date());
+                const isUpcoming = isAfter(getDateFromTimeSlot(timeSlot), new Date());
                 const isSelected = selectedTimeSlot && isTimeSlotEqual(timeSlot, selectedTimeSlot);
                 const { value, style } = getValueStyle(timeSlot);
 

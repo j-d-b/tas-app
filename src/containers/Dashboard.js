@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
 import './Dashboard.scss';
-import { getDateFromTimeslot } from '../utils';
+import { getDateFromTimeSlot } from '../utils';
 import Modal from '../components/Modal';
 import OrganizeBox from '../components/OrganizeBox';
 import ApptCard from '../components/ApptCard';
@@ -97,7 +97,7 @@ const satisfiesSearch = search => appt => {
 
 // backend API only allows selecting within a date range, not hour range
 const satisfiesHourFilters = filters => appt => {
-  const apptDate = getDateFromTimeslot(appt.timeSlot);
+  const apptDate = getDateFromTimeSlot(appt.timeSlot);
   const satisfiesFrom = !filters.from || apptDate >= filters.from;
   const satisfiesTo = !filters.to || apptDate <= filters.to;
   return satisfiesFrom && satisfiesTo;
@@ -106,8 +106,8 @@ const satisfiesHourFilters = filters => appt => {
 const createSort = sort => (apptA, apptB) => {
   switch (sort.by) {
     case 'TIME_SLOT': {
-      const dateA = getDateFromTimeslot(apptA.timeSlot);
-      const dateB = getDateFromTimeslot(apptB.timeSlot);
+      const dateA = getDateFromTimeSlot(apptA.timeSlot);
+      const dateB = getDateFromTimeSlot(apptB.timeSlot);
       if (dateA > dateB) return sort.direction === 'ASCENDING' ? 1 : -1;
       if (dateB > dateA) return sort.direction === 'ASCENDING' ? -1 : 1;
       return 0;

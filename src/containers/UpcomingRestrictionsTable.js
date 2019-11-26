@@ -8,7 +8,7 @@ import './UpcomingRestrictionsTable.scss';
 import RestrictionsTable from '../components/RestrictionsTable';
 import RightAlign from '../components/RightAlign';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
-import { isTimeSlotEqual, getDateFromTimeslot } from '../utils';
+import { isTimeSlotEqual, getDateFromTimeSlot } from '../utils';
 
 const APPLIED_TEMPLATE = gql`
   {
@@ -109,7 +109,7 @@ const UpcomingRestrictionsTable = () => {
     }
   
     if (appliedTemplateData && appliedTemplateData.appliedRestrictionTemplate) {
-      const dayOfWeek = format(getDateFromTimeslot(timeSlot), 'EEEE').toUpperCase();
+      const dayOfWeek = format(getDateFromTimeSlot(timeSlot), 'EEEE').toUpperCase();
       const matchingTemplateRestriction = appliedTemplateData.appliedRestrictionTemplate.restrictions.find(res => res.dayOfWeek === dayOfWeek && res.hour === timeSlot.hour);
       if (matchingTemplateRestriction) {
         return { value: matchingTemplateRestriction.gateCapacity };
