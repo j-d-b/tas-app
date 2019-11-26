@@ -38,6 +38,10 @@
   white-space: nowrap;
   transition: background-color 0.075s ease-in-out;
 
+  &:focus {
+    outline: rgb(163, 163, 163) auto 5px;
+  }
+
   &:hover {
     background-color: $dark;
   }
