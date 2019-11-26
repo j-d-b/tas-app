@@ -1,5 +1,7 @@
 @import '../styles/colors';
 
+$time-picker-breakpoint: 450px;
+
 .react-datepicker-wrapper {
   width: 100%;
 }
@@ -23,17 +25,19 @@
 
 .react-datepicker__navigation--previous {
   border-right-color: $dark;
+  transition: border-color 0.075s ease-in-out;
 
   &:hover {
-    border-right-color: $accent;
+    border-right-color: lighten($accent, 5);
   }
 }
 
 .react-datepicker__navigation--next {
   border-left-color: $dark;
+  transition: border-color 0.075s ease-in-out;
 
   &:hover {
-    border-left-color: $accent;
+    border-left-color: lighten($accent, 5);
   }
 }
 
@@ -69,6 +73,7 @@
 .react-datepicker__close-icon {
   padding-right: 0.5rem;
   padding-bottom: 0.2rem;
+  margin-left: 0.25rem;
 
   &::after {
     background-color: transparent;
@@ -95,4 +100,70 @@
 
 .react-datepicker__day--keyboard-selected {
   background-color: $accent !important;
+}
+
+// fixes next arrow positioning, don't add this if date picker is collapsed
+.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
+  right: 10px;
+  
+  @media (min-width: $time-picker-breakpoint) {
+    right: 90px;
+  }
+}
+
+.react-datepicker__month-container {
+  float: none;
+
+  @media (min-width: $time-picker-breakpoint) {
+    float: left;
+  }
+}
+
+.react-datepicker__time-container {
+  float: none;
+  width: 100%;
+  border: none;
+  border-bottom-left-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+
+  overflow: hidden;
+
+  @media (min-width: $time-picker-breakpoint) {
+    float: right;
+    border-bottom-left-radius: 0;
+    width: auto;
+    border-left: 1px solid #aeaeae;
+  }
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+  margin: 0;
+  width: 100%;
+
+  @media (min-width: $time-picker-breakpoint) {
+    margin: 0 auto;
+    width: 85px;
+  }
+}
+
+.react-datepicker__header {
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+
+  @media (min-width: $time-picker-breakpoint) {
+    border-top-right-radius: 0;
+  }
+}
+
+.react-datepicker__header--time {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+
+  @media (min-width: $time-picker-breakpoint) {
+    border-top-right-radius: 0.2rem;
+  }
+}
+
+.react-datepicker {
+  box-shadow: 1px 1px 4px rgba(105, 105, 105, 0.37);
 }
