@@ -104,7 +104,7 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
           type="button"
           disabled={updateTemplateResults.loading}
           onClick={() => !updateTemplateResults.loading && updateTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) }})}
-        >{updateTemplateResults.loading ? 'Saving...' : 'Save'}</FormButton>
+        >{updateTemplateResults.loading ? 'Saving...' : 'Save Changes'}</FormButton>
       </RightAlign>
 
       <RightAlign>

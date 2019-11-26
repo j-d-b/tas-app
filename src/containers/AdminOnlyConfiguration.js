@@ -93,7 +93,7 @@ const AdminOnlyConfiguration = () => {
             variety="SUCCESS"
             disabled={updateArrivalWindowResults.loading || updateDefaultAllowedResults.loading}
           >
-            {updateArrivalWindowResults.loading || updateDefaultAllowedResults.loading ? 'Saving...' : 'Save'}
+            {updateArrivalWindowResults.loading || updateDefaultAllowedResults.loading ? 'Saving...' : 'Save Defaults'}
           </FormButton>
           {(updateArrivalWindowResults.data || updateDefaultAllowedResults.data) && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
           {(updateArrivalWindowResults.error || updateDefaultAllowedResults.error) && <ErrorMessage error={updateArrivalWindowResults.error || updateDefaultAllowedResults.error} />}
