@@ -90,19 +90,21 @@ const UserActionsButtons = ({ user, exit, onChangesQuery }) => {
             </div>
           )}
 
-          <div>
-            <FormButton
-              type="button"
-              style={{ width: '100%' }}
-              onClick={() => !sendVerifyLinkResults.loading && !sendVerifyLinkResults.data && sendVerifyLink({ variables: { email: user.email } })}
-              disabled={sendVerifyLinkResults.loading || sendVerifyLinkResults.data}
-            >
-              {sendVerifyLinkResults.loading && 'Sending...'} 
-              {sendVerifyLinkResults.error && 'Error; Try again?'}
-              {sendVerifyLinkResults.data && 'Link sent!'}
-              {!sendVerifyLinkResults.data && !sendVerifyLinkResults.error && !sendVerifyLinkResults.loading && 'Resend Verification Email'}
-            </FormButton>
-          </div>
+          {!user.emailVerified && (
+            <div>
+              <FormButton
+                type="button"
+                style={{ width: '100%' }}
+                onClick={() => !sendVerifyLinkResults.loading && !sendVerifyLinkResults.data && sendVerifyLink({ variables: { email: user.email } })}
+                disabled={sendVerifyLinkResults.loading || sendVerifyLinkResults.data}
+              >
+                {sendVerifyLinkResults.loading && 'Sending...'} 
+                {sendVerifyLinkResults.error && 'Error; Try again?'}
+                {sendVerifyLinkResults.data && 'Link sent!'}
+                {!sendVerifyLinkResults.data && !sendVerifyLinkResults.error && !sendVerifyLinkResults.loading && 'Resend Verification Email'}
+              </FormButton>
+            </div>
+          )}
 
           <div>
             <FormButton
