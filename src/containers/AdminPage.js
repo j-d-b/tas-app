@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
+import './AdminPage.scss';
 import UserActionsButtons from './UserActionsButtons';
 import Modal from '../components/Modal';
 import UsersTable from '../components/UsersTable';
@@ -89,7 +90,7 @@ const AdminPage = () => {
   if (error) return <div>Error</div>
 
   return data && (
-    <div>
+    <div className="admin-page">
       <UsersTable
         columns={columns}
         users={data.users}

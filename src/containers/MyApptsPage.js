@@ -48,11 +48,11 @@ const MyApptsPage = () => {
   const [selectedAppt, selectAppt] = useState(null);
   const { data, error, loading } = useQuery(MY_APPTS, { fetchPolicy: 'network-only' });
 
-  if (loading) return <div>Loading appointments...</div>;
-  if (error) return <div>An error occurred when fetching appointments. Please try reloading this page.</div>;
+  if (loading) return <div className="my-appts-page">Loading appointments...</div>;
+  if (error) return <div className="my-appts-page">An error occurred when fetching appointments. Please try reloading this page.</div>;
 
-  const upcomingAppts = data.myAppts.filter(appt => isAfter(new Date(getDateFromTimeSlot(appt.timeSlot)), new Date()));
-  const pastAppts = data.myAppts.filter(appt => isBefore(new Date(getDateFromTimeSlot(appt.timeSlot)), new Date()));
+  const upcomingAppts = data.myAppts.filter(appt => isAfter(getDateFromTimeSlot(appt.timeSlot), new Date()));
+  const pastAppts = data.myAppts.filter(appt => isBefore(getDateFromTimeSlot(appt.timeSlot), new Date()));
 
   return (
     <div className="my-appts-page">

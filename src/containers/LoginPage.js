@@ -27,7 +27,8 @@ const LoginPage = () => {
   const inputs = [
     {
       name: 'Email Address',
-      type: 'email',
+      type: 'text',
+      disableInvalidHighlighting: true,
       value: email,
       handleChange: e => setEmail(e.target.value),
       isRequired: true
@@ -35,6 +36,7 @@ const LoginPage = () => {
     {
       name: 'Password',
       type: 'password',
+      disableInvalidHighlighting: true,
       value: password,
       handleChange: e => setPassword(e.target.value),
       isRequired: true

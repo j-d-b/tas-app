@@ -175,7 +175,7 @@ export const formatError = error => {
   return errorString;
 }
 
-export const formatTimeSlot = timeSlot => format(new Date(getDateFromTimeSlot(timeSlot)), `iii, MMM d, yyyy 'at' HH:mm`);
+export const formatTimeSlot = timeSlot => format(getDateFromTimeSlot(timeSlot), `iii, MMM d, yyyy 'at' HH:mm`);
 
 export const isTimeSlotEqual = (slot1, slot2) => slot1.date === slot2.date && slot1.hour === slot2.hour;
 
