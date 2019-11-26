@@ -230,6 +230,14 @@ const Scheduler = () => {
                   {getActionTypeOptions(newAppt, currActionIndex).map(({ IconComponent, name, value }) => (
                     <div
                       tabIndex="0"
+                      onKeyDown={e => {
+                        const code = e.keyCode || e.charCode;
+                        if (code === 13) {
+                          const newActions = [...newAppt.actions];
+                          newActions[currActionIndex].type = value;
+                          setNewAppt({ ...newAppt, actions: newActions });
+                        }
+                      }}
                       key={value}
                       className={newAppt.actions[currActionIndex].type === value 
                         ? 'action-type-select__item action-type-select__item--selected'

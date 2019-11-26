@@ -17,7 +17,7 @@
   margin: 3rem 2rem;
   border-radius: 4px;
   padding: 1.5rem;
-  max-width: 400px;
+  width: 400px;
   height: min-content;
   text-align: center;
   box-shadow: 2px 2px 3px rgba(82, 82, 82, 0.5);
@@ -37,6 +37,10 @@
     font-family: 'Roboto Condensed', sans-serif;
     text-transform: uppercase;
     font-size: 0.93rem;
+  }
+
+  input, select {
+    margin-top: 0.1rem;
   }
 }
 
@@ -115,6 +119,10 @@
         opacity: 1;
       }
     }
+  }
+
+  &:focus {
+    outline: rgb(163, 163, 163) auto 5px;
   }
 }
 
