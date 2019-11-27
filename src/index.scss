@@ -67,7 +67,7 @@ code {
   margin: 2px;
 }
 
-button:focus {
+:focus {
   @include focus-outline;
 }
 
