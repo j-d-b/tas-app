@@ -102,18 +102,32 @@
 }
 
 .modal-content__content {
-  padding: 0 1.5rem 1.5rem 1.5rem; // top padding is accounted for by close row
+  padding: 0 1.5rem 1.5rem 1.5rem; // top is accounted for by close-button-container
 }
 
-.modal-content__close-row {
-  display: flex;
-  justify-content: flex-end;
+.close-button-container {
+  text-align: right;
+  height: 1.5rem;
 }
 
-.modal-content__close-icon {
+.close-button {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
   cursor: pointer;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: opacity 0.1s ease-in-out;
+
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+  }
+
+  svg {
+    opacity: 0.6;
+    width: 1.4rem;
+    height: 1.4rem;
+  }
 }

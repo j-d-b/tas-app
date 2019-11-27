@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import './Modal.scss';
+import { ReactComponent as CloseIcon } from '../images/times.svg';
 
-const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 600, children }) => {
+const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 400, children }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.setAttribute('style', 'overflow: hidden; position: fixed;');
@@ -22,8 +23,10 @@ const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 600, children }
         <div className="modal" tabIndex="-1" role="dialog" onClick={closeModal}>
           <div className="modal-dialog" style={{ maxWidth }} role="document" aria-label={title}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <div className="modal-content__close-row">
-                <div className="modal-content__close-icon" aria-label="close" onClick={closeModal}>✕</div>
+              <div className="close-button-container">
+                <button className="close-button" aria-label="close" onClick={closeModal}>
+                  <CloseIcon />
+                </button>
               </div>
               <div className="modal-content__content">{children}</div>
             </div>
