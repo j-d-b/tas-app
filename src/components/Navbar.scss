@@ -1,5 +1,6 @@
 @import '../styles/colors';
 @import '../styles/constants';
+@import '../styles/mixins';
 
 .navbar-container {
   position: relative;
@@ -39,7 +40,7 @@
   transition: background-color 0.075s ease-in-out;
 
   &:focus {
-    outline: rgb(163, 163, 163) auto 5px;
+    @include focus-outline;
   }
 
   &:hover {

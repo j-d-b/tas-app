@@ -1,4 +1,6 @@
-@import-normalize;
+@import './styles/mixins';
+
+//@import-normalize;
 
 html {
   width: 100%;
@@ -66,7 +68,7 @@ code {
 }
 
 button:focus {
-  outline: rgb(163, 163, 163) auto 5px;
+  @include focus-outline;
 }
 
 #root {

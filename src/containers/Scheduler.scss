@@ -1,5 +1,6 @@
 @import '../styles/colors';
 @import '../styles/constants';
+@import '../styles/mixins';
 
 .scheduler-page {
   background-color: $main;
@@ -123,7 +124,7 @@
   }
 
   &:focus {
-    outline: rgb(163, 163, 163) auto 5px;
+    @include focus-outline;
   }
 }
 

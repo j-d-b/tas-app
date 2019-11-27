@@ -23,10 +23,6 @@
     background-color: lighten($accent, 5%);
   }
 
-  &:focus {
-    outline: rgb(163, 163, 163) auto 5px;
-  }
-
   &.form-button--success {
     background-color: $success-green;
 
