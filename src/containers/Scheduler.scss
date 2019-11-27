@@ -115,7 +115,9 @@
   opacity: 1;
   cursor: pointer;
 
-  &:hover, &.action-type-select__item--selected {
+  &:hover, &.action-type-select__item--selected, &:focus {
+    outline: none;
+    
     > .action-type-select__icon-container {
       background-color: rgba($accent, 0.8);
 
@@ -123,10 +125,6 @@
         opacity: 1;
       }
     }
-  }
-
-  &:focus {
-    @include focus-outline;
   }
 }
 

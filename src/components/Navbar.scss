@@ -39,11 +39,8 @@
   white-space: nowrap;
   transition: background-color 0.075s ease-in-out;
 
-  &:focus {
-    @include focus-outline;
-  }
-
-  &:hover {
+  &:hover, &:focus {
+    outline: none;    
     background-color: $dark;
   }
 
@@ -83,22 +80,28 @@
   margin-left: auto;
   padding: 0.5rem;
   margin-right: 0.5rem;
-  background-color: $dark;
   border-radius: 4px;
   color: white;
   display: flex;
+  background: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
   transition: background-color 0.1s ease-in-out;
 
-  &:hover, &:active {
+  &:hover, &:focus {
+    outline: none;
     background-color: $accent;
   }
 
   &.navbar__menu-button--pressed {
-    background-color: $accent;
+    background-color: $dark;
+
+    &:hover, &:focus {
+      outline: none;
+      background-color: $accent;
+  }
   }
 
   @media (min-width: $mobile-breakpoint) {
@@ -121,7 +124,8 @@
   color: white;
   transition: background-color 0.1s ease-in-out;
 
-  &:hover {
+  &:hover, &:focus {
+    outline: 0;
     background-color: $accent;
   }
 
