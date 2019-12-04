@@ -7,19 +7,28 @@
   background-image: url('../images/lines-background.svg');
   background-repeat: no-repeat;
   background-size: cover;
-  display: flex;
-  justify-content: center;
   height: 100%;
   width: 100%;
   overflow: auto;
 }
 
+// shell div to position the scheduler
+.scheduler-wrapper {
+  width: auto;
+  max-width: 500px;
+  margin: 1rem;
+  
+  @media (min-width: 564px) {
+    margin: 3rem auto;
+  }
+}
+
 .scheduler {
   background-color: #fefefe;
-  margin: 3rem 2rem;
+  margin: 1rem;
   border-radius: 4px;
   padding: 1.5rem;
-  width: 400px;
+  max-width: 400px;
   height: min-content;
   text-align: center;
   box-shadow: 2px 2px 3px rgba(82, 82, 82, 0.5);
@@ -31,10 +40,6 @@
     font-family: 'Roboto Condensed', sans-serif;
   }
 
-  @media(min-width: $mobile-breakpoint) {
-    padding: 2rem;
-  }
-
   label {
     font-family: 'Roboto Condensed', sans-serif;
     text-transform: uppercase;
@@ -43,6 +48,16 @@
 
   input, select {
     margin-top: 0.1rem;
+  }
+
+  @media(min-width: $mobile-breakpoint) {
+    padding: 2rem;
+    margin: 3rem auto !important;
+  }
+
+  @media(min-width: calc(480px)) { // 400px + 4rem + 1rem 
+    width: 400px;
+    margin: 1rem auto;
   }
 }
 
@@ -117,7 +132,7 @@
 
   &:hover, &.action-type-select__item--selected, &:focus {
     outline: none;
-    
+
     > .action-type-select__icon-container {
       background-color: rgba($accent, 0.8);
 
