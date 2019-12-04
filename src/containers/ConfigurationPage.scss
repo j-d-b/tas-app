@@ -1,15 +1,32 @@
-@import '../styles/constants';
+@import '../styles/mixins';
 
 .configuration-page {
-  width: 100%;
-  max-width: $content-max-width;
-  padding: 2rem 1rem;
+  @include standard-page-wrapper;
+  overflow: hidden;
+}
 
-  @media(min-width: $mobile-breakpoint) {
-    padding: 2rem 2rem;
+.configuration-page__lower-line {
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    max-width: 400px;
+
+    &:first-child {
+      margin-bottom: 1rem;
+    }
   }
 
-  @media(min-width: calc(#{$content-max-width} + 64px)) {
-    padding: 2rem 0;
+  @media (min-width: 850px) { // arbitrary; looks decent 
+    flex-direction: row;
+
+    > div {
+      flex-basis: 400px;
+
+      &:first-child {
+        margin-right: 2rem;
+        margin-bottom: 0;
+      }
+    }
   }
 }

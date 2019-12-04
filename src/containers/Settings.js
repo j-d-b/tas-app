@@ -31,9 +31,11 @@ const Settings = () => {
   if (data) {
     return (
       <div className="settings-page">
-        <h1 style={{ marginTop: '0' }}>{data.me.email}</h1>
-        <div style={{ maxWidth: 500 }}>
-          <EditUser user={data.me} refetchQueries={[{ query: USER_DETAILS }]} />
+        <div className="settings-page__user-card">
+          <h1 className="settings-page__user-card__header">{data.me.email}</h1>
+          <div>
+            <EditUser user={data.me} refetchQueries={[{ query: USER_DETAILS }]} />
+          </div>
         </div>
       </div>
     );

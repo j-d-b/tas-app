@@ -1,11 +1,5 @@
 @import '../styles/colors';
 
-.restrictions-table-wrapper {
-  width: 100%;
-  margin: 1rem 0;
-  overflow: auto;
-}
-
 .restrictions-table {
   display: grid;
   grid-template-columns: min-content repeat(24, 3rem);
@@ -26,6 +20,7 @@
 }
 
 .restrictions-table-cell {
+  background-color: #ffffff;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   display: flex;
@@ -80,7 +75,7 @@
   }
 
   &.gate-capacity-value--template {
-    color: blue !important;
+    color: $dark !important;
   }
 }
 

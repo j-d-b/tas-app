@@ -5,7 +5,7 @@ import AnimateHeight from 'react-animate-height';
 
 import './Navbar.scss';
 import LogoutButton from './LogoutButton';
-import logo from '../images/bctc-tas-simple-logo.svg';
+import { ReactComponent as LogoIcon } from '../images/bctc-tas-simple-logo.svg';
 import { ReactComponent as BarsIcon } from '../images/bars-solid.svg';
  
 const Navbar = ({ navLinks }) => {
@@ -23,7 +23,7 @@ const Navbar = ({ navLinks }) => {
     <div>
       <div className="navbar-container">
         <nav className="navbar">
-          <img src={logo} alt="BCTC TAS" className="navbar__logo" />
+          <LogoIcon alt="BCTC TAS" className="navbar__logo" />
           {
             navLinks.map(({ path, name }) => (
               <NavLink to={path} key={name} className="navbar__link navbar__link--desktop" activeClassName="navbar__link--active">

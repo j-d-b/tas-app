@@ -3,11 +3,11 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { isAfter, isBefore } from 'date-fns';
 
+import Appt from '../components/Appt';
 import { getDateFromTimeSlot } from '../utils';
 import './MyApptsPage.scss';
 import ApptCard from '../components/ApptCard';
 import Modal from '../components/Modal';
-import EditAppt from './EditAppt';
 
 const MY_APPTS = gql`
   {
@@ -42,10 +42,9 @@ const MY_APPTS = gql`
   }
 `;
 
-
 const MyApptsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAppt, selectAppt] = useState(null);
+  const [selectedAppt, selectAppt] = useState({ appt: null, isReadOnly: true });
   const { data, error, loading } = useQuery(MY_APPTS, { fetchPolicy: 'network-only' });
 
   if (loading) return <div className="my-appts-page">Loading my appointments...</div>;
@@ -56,45 +55,49 @@ const MyApptsPage = () => {
 
   return (
     <div className="my-appts-page">
-      <h1>Upcoming Appointments</h1>
-      <div className="appts-list">
-        {upcomingAppts.map(appt => (
-          <ApptCard
-            appt={appt}
-            key={appt.id}
-            onClick={() => {
-              selectAppt(appt);
-              setIsModalOpen(true);
-            }}
-            isCustomer
-          />
-        ))}
-      </div>
-      {!upcomingAppts.length && <div>No Upcoming Appointments</div>}
+      <h1 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Upcoming Appointments</h1>
+      {upcomingAppts.length > 0 && (
+        <div className="appts-list">
+          {upcomingAppts.map(appt => (
+            <ApptCard
+              appt={appt}
+              key={appt.id}
+              onClick={() => {
+                selectAppt({ appt, isReadOnly: false });
+                setIsModalOpen(true);
+              }}
+              isCustomer
+            />
+          ))}
+        </div>
+      )}
+      {!upcomingAppts.length && <div style={{ fontSize: '1.2rem' }}>No upcoming appointments</div>}
 
-      <h1>Past Appointments</h1>
-      <div className="appts-list">
-        {pastAppts.map(appt => (
-          <ApptCard
-            appt={appt}
-            key={appt.id}
-            onClick={() => {
-              selectAppt(appt);
-              setIsModalOpen(true);
-            }}
-            isCustomer
-          />
-        ))}
-      </div>
-      {!pastAppts.length && <div>No Past Appointments</div>}
+      <h1 style={{ marginBottom: '0.5rem' }}>Past Appointments</h1>
+      {pastAppts.length > 0 && (
+        <div className="appts-list">
+          {pastAppts.map(appt => (
+            <ApptCard
+              appt={appt}
+              key={appt.id}
+              onClick={() => {
+                selectAppt({ appt, isReadOnly: true });
+                setIsModalOpen(true);
+              }}
+              isCustomer
+            />
+          ))}
+        </div>
+      )}
+      {!pastAppts.length && <div style={{ fontSize: '1.2rem' }}>No appointments within the last month</div>}
 
       <Modal 
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
-        onClosed={() => selectAppt(null)}
+        onClosed={() => selectAppt({ appt: null, isReadOnly: true })}
         title="Edit Appt"
       >
-        <EditAppt appt={selectedAppt} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
+        <Appt appt={selectedAppt.appt} isReadOnly={selectedAppt.isReadOnly} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   )

@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import './Modal.scss';
 import { ReactComponent as CloseIcon } from '../images/times.svg';
 
-const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 400, children }) => {
+const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 464, children }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.setAttribute('style', 'overflow: hidden; position: fixed;');

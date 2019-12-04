@@ -6,8 +6,6 @@ import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
-import RightAlign from '../components/RightAlign';
-import ScheduleAppt from './ScheduleAppt';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_APPT = gql`
@@ -18,36 +16,15 @@ const UPDATE_APPT = gql`
   }
 `;
 
-const DELETE_APPT = gql`
-  mutation DeleteAppt ($id: ID!) {
-    deleteAppt(input: { id: $id })
-  }
-`;
-
-const RESCHEDULE_APPT = gql`
-  mutation RescheduleAppt ($id: ID!, $timeSlot: TimeSlotInput!) {
-    rescheduleAppt(input: { id: $id, timeSlot: $timeSlot }) {
-      id
-    }
-  }
-`;
-
-const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
+const EditAppt = ({ appt, isCustomer, refetchQueries, onCompleted }) => {
   const [edits, setEdits] = useState(appt);
-  const [updateAppt, { data, error, loading}] = useMutation(UPDATE_APPT, { refetchQueries });
-
-  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
-  const [deleteAppt, deleteApptResults] = useMutation(DELETE_APPT, { refetchQueries, onCompleted: onDelete });
-
-  const [newTimeSlot, setNewTimeSlot] = useState(null);
-  const [isValidTimeSlot, setIsValidTimeSlot] = useState(false);
-  const [isReschedule, setIsReschedule] = useState(false);
-  const closeRescheduleWindow = () => {
-    setIsValidTimeSlot(false);
-    setNewTimeSlot(null);
-    setIsReschedule(false);
-  };
-  const [rescheduleAppt, rescheduleApptResults] = useMutation(RESCHEDULE_APPT, { refetchQueries, onCompleted: closeRescheduleWindow });
+  const [updateAppt, { data, error, loading}] = useMutation(
+    UPDATE_APPT,
+    { 
+      refetchQueries,
+      onCompleted: () => onCompleted()
+    }
+  );
 
   const onSubmit = e => {
     e.preventDefault();
@@ -69,77 +46,9 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
     })
   };
 
-  if (isReschedule) {
-    return (
-      <div>
-        <h1 style={{ marginTop: '0.5rem' }}>Reschedule Appointment</h1>
-        <p>Currently Scheduled for <strong>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</strong></p>
-
-        <h2>Select a new Time Slot</h2>
-        <ScheduleAppt appt={appt} selectTimeSlot={setNewTimeSlot} setIsValid={setIsValidTimeSlot} />
-
-        <RightAlign>
-          <FormButton
-            type="button"
-            style={{ marginRight: '0.5rem' }}
-            onClick={closeRescheduleWindow}
-          >Cancel</FormButton>
-
-          <FormButton 
-            type="button"
-            variety="SUCCESS"
-            disabled={rescheduleApptResults.loading || !isValidTimeSlot}
-            onClick={() => !rescheduleApptResults.loading && isValidTimeSlot && rescheduleAppt({ variables: { id: appt.id, timeSlot: newTimeSlot } })}
-          >{rescheduleApptResults.loading ? 'Rescheduling...' : 'Reschedule'}</FormButton>
-        </RightAlign>
-
-        <RightAlign>
-          {rescheduleApptResults.error && <ErrorMessage error={rescheduleApptResults.error} />}
-        </RightAlign>
-      </div>
-    );
-  }
-
-  if (isDeleteConfirm) {
-    return (
-      <div>
-        <h1 style={{ marginTop: '0.5rem' }}>Confirm Deletion</h1>
-        <p>Are you sure you want to delete your appointment for <strong>{getApptDate(appt).toDateString()}</strong> at <strong>{appt.arrivalWindow}</strong>?</p>
-        <RightAlign>
-          <FormButton
-            type="button"
-            style={{ marginRight: '0.5rem' }}
-            onClick={() => setIsDeleteConfirm(false)}
-          >Cancel</FormButton>
-          <FormButton 
-            type="button"
-            variety="DANGER"
-            disabled={deleteApptResults.loading}
-            onClick={() => !deleteApptResults.loading && deleteAppt({ variables: { id: appt.id } })}
-          >{deleteApptResults.loading ? 'Deleting...' : 'Delete'}</FormButton>
-          {deleteApptResults.error && <ErrorMessage error={deleteApptResults.error} />}
-        </RightAlign>
-      </div>
-    );
-  }
-
   return (
     <div>
       <h1 style={{ marginTop: 0 }}>Appointment: {appt.id}</h1>
-
-      <div>
-        <h2 style={{ marginBottom: 0 }}>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</h2>
-      </div>
-
-      {!isCustomer && (
-        <div>
-          <h2>Customer</h2>
-
-          <div><strong>Email: </strong>{appt.user.email}</div>
-          <div><strong>Name: </strong>{appt.user.name}</div>
-          <div><strong>Company: </strong>{appt.user.company}</div>
-        </div>
-      )}
 
       <form name="appt" onSubmit={onSubmit}>
         <h2>Details</h2>
@@ -159,32 +68,24 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onDelete }) => {
           </div>
         ))}
 
-        <RightAlign>
-          <FormButton
-            style={{ marginRight: '0.5rem' }}
-            type="button"
-            variety="DANGER"
-            onClick={() => setIsDeleteConfirm(true)}
-          >Delete</FormButton>
+        <FormButton 
+          type="button"
+          style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '1rem' }}
+          variety="PRIMARY"
+          onClick={() => onCompleted()}
+        >Cancel</FormButton>
 
-          <FormButton
-            style={{ marginRight: '0.5rem' }}
-            type="button"
-            onClick={() => setIsReschedule(true)}
-          >Reschedule</FormButton>
+        <FormButton
+          style={{ width: '50%' }}
+          type="submit"
+          variety="SUCCESS"
+          disabled={loading}
+        >{loading ? 'Saving...' : 'Save'}</FormButton>
 
-          <FormButton
-            type="submit"
-            variety="SUCCESS"
-            disabled={loading}
-          >{loading ? 'Saving...' : 'Save'}</FormButton>
-        </RightAlign>
-
-        <RightAlign direction="column">
+        <div style={{ textAlign: 'center' }}>
           {error && <ErrorMessage error={error} />}
           {data && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
-          {rescheduleApptResults.data && <SuccessMessage>Appointment rescheduled successfully!</SuccessMessage>}
-        </RightAlign>
+        </div>
       </form>
     </div>
   );

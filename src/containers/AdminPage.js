@@ -25,80 +25,84 @@ const ALL_USERS = gql`
   }
 `;
 
+const TableTrueFalse = ({ val }) => val === true ? <div className="checkmark checkmark--true">✔</div> : <div className="checkmark checkmark--false">✗</div>;
+
 const AdminPage = () => {
   const { data, loading, error } = useQuery(ALL_USERS);
 
   const columns = [
     {
       field: 'name',
-      title: 'Name',
+      title: 'User',
+      component: ({ user }) => (
+        <>
+          <div>{user.name}</div>
+          <div>{user.email}</div>
+          <div>{user.mobileNumber}</div>
+        </>
+      )
     },
     {
-      field: 'email',
-      title: 'Email',
+      field: 'company',
+      title: 'Company',
+      component: ({ user }) => (
+        <>
+          <div>{user.company}</div>
+          <div>{user.companyType}</div>
+          <div>{user.companyRegNumber}</div>
+        </>
+      )
     },
     {
       field: 'role',
       title: 'Role',
-      show: user => getFriendlyUserRole(user.role)
-    },
-    {
-      field: 'company',
-      title: 'Company'
-    },
-    {
-      field: 'companyType',
-      title: 'Company Type'
-    },
-    {
-      field: 'companyRegNumber',
-      title: 'Company Reg. Number'
-    },
-    {
-      field: 'mobileNumber',
-      title: 'Mobile Number'
+      component: ({ user }) => getFriendlyUserRole(user.role)
     },
     {
       field: 'reminderSetting',
-      title: 'Reminder Setting',
-      show: user => {
+      title: 'Reminders',
+      component: ({user}) => {
         switch (user.reminderSetting) {
           case 'EMAIL': return 'Email';
           case 'SMS': return 'SMS';
           case 'BOTH': return 'Email & SMS';
-          case 'NONE': return 'Notifications Off';
-          default: return 'Notifications Off';
+          case 'NONE': return 'Off';
+          default: return 'Off';
         }
       }
     },
     {
       field: 'confirmed',
       title: 'Confirmed',
-      show: user => user.confirmed ? '✔' : '✗'
+      component: ({ user }) => <TableTrueFalse val={user.confirmed} />
     },
     {
       field: 'emailVerified',
       title: 'Email Verified',
-      show: user => user.emailVerified ? '✔' : '✗'
+      component: ({user}) => <TableTrueFalse val={user.emailVerified} />
     }
   ];
 
   const [selectedUser, selectUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (loading) return <div className="admin-page-loading-error">Loading...</div>
-  if (error) return <div className="admin-page-loading-error">An error occurred. Please reload this page.</div>
+  if (loading) return <div className="admin-page">Loading...</div>
+  if (error) return <div className="admin-page">An error occurred. Please reload this page.</div>
 
   return data && (
     <div className="admin-page">
-      <UsersTable
-        columns={columns}
-        users={data.users}
-        onUserClick={(e, user) => {
-          selectUser(user);
-          setIsModalOpen(true);
-        }}
-      />
+      <h1 className="admin-page__heading">User Administration</h1>
+
+      <div className="admin-page__users-table">
+        <UsersTable
+          columns={columns}
+          users={data.users}
+          onUserClick={(e, user) => {
+            selectUser(user);
+            setIsModalOpen(true);
+          }}
+        />
+      </div>
 
       <Modal 
         isOpen={isModalOpen}

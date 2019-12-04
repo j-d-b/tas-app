@@ -150,15 +150,12 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
 
       <FormNote>* indicates a required field</FormNote>
 
-      <RightAlign>
-        {onCancel && <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>}
-        <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Saving...' : 'Save'}</FormButton>
-      </RightAlign>
+      <FormButton type="submit" variety="SUCCESS" disabled={loading} style={{ width: '100%' }}>{loading ? 'Saving...' : 'Save'}</FormButton>
 
-      <RightAlign direction="column">
+      <div style={{ textAlign: 'center' }}>
         {error && <ErrorMessage error={error} />}
         {data && <SuccessMessage>Changes saved successfully!</SuccessMessage>}
-      </RightAlign>
+      </div>
     </form>
   );
 };

@@ -1,3 +1,15 @@
+@import '../styles/constants';
+
+.upcoming-restrictions {
+  width: min-content;
+  max-width: 100%;
+}
+
+.upcoming-restrictions-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
 .response-message-enter {
   opacity: 0;
 }

@@ -22,23 +22,25 @@ const ConfigurationPage = () => {
   return (
     <div className="configuration-page">
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <h1 style={{ fontSize: '1.6rem', marginTop: 0 }}>Upcoming Gate Capacity Restrictions by Time Slot</h1>
+        <h1 style={{ marginTop: 0, marginBottom: '1rem' }}>Upcoming Gate Capacity Restrictions by Time Slot</h1>
         <div style={{ paddingLeft: '0.25rem', cursor: 'pointer', fontSize: '0.9rem' }} onClick={() => setIsInfoModalOpen(true)}>ⓘ</div>
       </div>
 
       <UpcomingRestrictionsTable />
 
-      <div style={{ maxWidth: 500 }}>
-        <h1 style={{ fontSize: '1.6rem', marginTop: 0 }}>Manage Templates</h1>
-        <ManageTemplates />
-      </div>
-
-      {data && data.userRole === 'ADMIN' && (
-        <div style={{ maxWidth: 500 }}>
-          <h1 style={{ fontSize: '1.6rem' }}>System Defaults</h1>
-          <AdminOnlyConfiguration />
+      <div className="configuration-page__lower-line">
+        <div>
+          <h1 style={{ marginTop: 0 }}>Manage Templates</h1>
+          <ManageTemplates />
         </div>
-      )}
+
+        {data && data.userRole === 'ADMIN' && (
+          <div>
+            <h1 style={{ marginTop: 0 }}>System Defaults</h1>
+            <AdminOnlyConfiguration />
+          </div>
+        )}
+      </div>
       
       <Modal isOpen={isInfoModalOpen} closeModal={() => setIsInfoModalOpen(false)}>
         <UpcomingRestrictionsTableInfo />

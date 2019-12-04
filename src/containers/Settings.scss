@@ -1,11 +1,19 @@
-@import '../styles/constants';
+@import '../styles/mixins';
 
 .settings-page {
-  width: 100%;
-  max-width: $content-max-width;
-  padding: 2rem;
+  @include standard-page-wrapper;
+}
 
-  @media(min-width: calc(#{$content-max-width} + 64px)) {
-    padding: 2rem 0;
-  }
+.settings-page__user-card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 400px;
+  background-color: #ffffff;
+  @include card-shadow;
+  margin-bottom: 2rem;
+}
+
+.settings-page__user-card__header {
+  margin-top: 0;
+  text-align: center;
 }

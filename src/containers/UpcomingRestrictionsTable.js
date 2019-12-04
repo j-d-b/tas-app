@@ -105,7 +105,7 @@ const UpcomingRestrictionsTable = () => {
   const getValueStyle = timeSlot => {
     const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
     if (matchingGlobalRestriction) {
-      return { value: matchingGlobalRestriction.gateCapacity, style: { color: 'blue' } };
+      return { value: matchingGlobalRestriction.gateCapacity, style: { color: '#0065ff' } };
     }
   
     if (appliedTemplateData && appliedTemplateData.appliedRestrictionTemplate) {
@@ -120,18 +120,20 @@ const UpcomingRestrictionsTable = () => {
   };
 
   return (
-    <div>
-      <RestrictionsTable
-        dates={getDatesInNextWeek()}
-        addRestriction={(timeSlot, gateCapacity) => addGlobalRestriction({ variables: { timeSlot, gateCapacity }})}
-        deleteRestriction={timeSlot => {
-          const restriction = globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(res.timeSlot, timeSlot));
-          if (restriction) {
-            deleteRestriction({ variables: { id: restriction.id }});
-          }
-        }}
-        getValueStyle={getValueStyle}
-      />
+    <div className="upcoming-restrictions">
+      <div className="upcoming-restrictions-table-wrapper">
+        <RestrictionsTable
+          dates={getDatesInNextWeek()}
+          addRestriction={(timeSlot, gateCapacity) => addGlobalRestriction({ variables: { timeSlot, gateCapacity }})}
+          deleteRestriction={timeSlot => {
+            const restriction = globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(res.timeSlot, timeSlot));
+            if (restriction) {
+              deleteRestriction({ variables: { id: restriction.id }});
+            }
+          }}
+          getValueStyle={getValueStyle}
+        />
+      </div>
       
       <div style={{ height: '1.5rem' }}>
         <CSSTransition in={hasSaveResponse} classNames="response-message" timeout={300} unmountOnExit>
