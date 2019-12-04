@@ -8,7 +8,7 @@ import { getDateFromTimeSlot } from '../utils';
 import Modal from '../components/Modal';
 import OrganizeBox from '../components/OrganizeBox';
 import ApptCard from '../components/ApptCard';
-import EditAppt from './EditAppt';
+import Appt from '../components/Appt';
 
 const ALL_APPTS = gql`
   query Appts ($startDate: ISODate, $endDate: ISODate, $actionType: ActionType) {
@@ -45,7 +45,7 @@ const ALL_APPTS = gql`
 
 const NoAppts = () => (
   <div>
-    <h1>No Matching Appointments</h1>
+    <h1 style={{ marginTop: 0, marginBottom: '0.5rem' }}>No Matching Appointments</h1>
     <p>Try adjusting your filter criteria.</p>
   </div>
 );
@@ -162,36 +162,42 @@ const Dashboard = () => {
   return (
     <div className="dashboard-page">
       <div className="organize-box-col">
-        <OrganizeBox
-          search={search}
-          setSearch={setSearch}
-          filters={filters}
-          setFilters={setFilters}
-          sort={sort}
-          setSort={setSort}
-          reset={reset}
-        />
+        <div>
+          <div className="organize-box-container">
+            <OrganizeBox
+              search={search}
+              setSearch={setSearch}
+              filters={filters}
+              setFilters={setFilters}
+              sort={sort}
+              setSort={setSort}
+              reset={reset}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="appts-col">
-        <div className="appts-container">
-          {error && <div>{error.toString()}</div>}
-          {loading && <div>Loading appointments...</div>}
-          {data && (
-            <>
-              {!appts.length && <NoAppts />}
-              {appts.map(appt => (
-                <ApptCard
-                  appt={appt}
-                  key={appt.id}
-                  onClick={() => {
-                    selectAppt(appt);
-                    setIsModalOpen(true);
-                  }} 
-                />
-              ))}
-            </>
-          )}
+        <div>
+          <div className="appts-container">
+            {error && <div>{error.toString()}</div>}
+            {loading && <div>Loading appointments...</div>}
+            {data && (
+              <>
+                {!appts.length && <NoAppts />}
+                {appts.map(appt => (
+                  <ApptCard
+                    appt={appt}
+                    key={appt.id}
+                    onClick={() => {
+                      selectAppt(appt);
+                      setIsModalOpen(true);
+                    }} 
+                  />
+                ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -199,9 +205,9 @@ const Dashboard = () => {
         isOpen={isModalOpen}
         onClosed={() => selectAppt(null)}
         closeModal={() => setIsModalOpen(false)}
-        title="Edit Appt"
+        title="View Appt"
       >
-        <EditAppt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
+        <Appt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );
