@@ -1,23 +1,46 @@
 @import '../styles/colors';
+@import '../styles/mixins';
 
 .appt-card {
-  padding: 1.5rem;
-  background-color: $subtle;
-  border: 1px solid #cccccc;
-  border-radius: 1.5rem;
-  cursor: pointer;
-  box-shadow: 1px 2px 6px #d2d2d2;
-  transition: background-color 0.1s ease-in-out;
+  @include card-shadow;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  &:hover {
-    background-color: darken($subtle, 3);
-  }
+.appt-card-details {
+  padding: 1.2rem;
+}
+
+.appt-card__customer {
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.appt-card__company {
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.appt-card__id {
+  float: right;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  padding-left: 0.5rem;
 }
 
 .appt-card__date {
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.appt-card__arrival-window {
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
 }
 
 .appt-card__field-name {
@@ -37,29 +60,65 @@
 }
 
 .appt-card__action {
+  font-weight: 500;
   border-radius: 1rem;
   font-size: 0.92rem;
-  color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.75rem;
   display: inline-block;
   
   &.appt-card__action--IMPORT_FULL {
-    background-color: $import-full-tag;
+    background-color: rgba($import-full-tag, 0.2);
+    color: darken($import-full-tag, 30);
   }
 
   &.appt-card__action--EXPORT_FULL {
-    background-color: $export-full-tag;
+    background-color: rgba($export-full-tag, 0.2);
+    color: darken($export-full-tag, 30);
   }
 
   &.appt-card__action--STORAGE_EMPTY {
-    background-color: $storage-empty-tag;
+    background-color: rgba($storage-empty-tag, 0.2);
+    color: darken($storage-empty-tag, 30);
   }
 
   &.appt-card__action--EXPORT_EMPTY {
-    background-color: $export-empty-tag;
+    background-color: rgba($export-empty-tag, 0.2);
+    color: darken($export-empty-tag, 30);
   }
 }
 
 .appt-card__action__cid {
   opacity: 0.6;
+  font-weight: 400;
+}
+
+.appt-card__view-details-button {
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border: none;
+  width: 100%;
+  font-weight: 500;
+  opacity: 0.8;
+  background-color: $gray;
+  //background-color: $subtle;  
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: background-color 0.075s ease-in-out, opacity 0.075s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    opacity: 1;
+    background-color: darken($gray, 1);
+  }
+
+  > svg {
+    width: 0.8rem;
+    height: 0.8rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
+  }
 }
