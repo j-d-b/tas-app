@@ -77,8 +77,9 @@ const User = ({ userEmail, exit, onChangesQuery }) => {
       return (
         <DeleteUser
           user={user}
-          refetchQueries={refetchQueries}
-          onCompleted={exit}
+          refetchQueries={[{ query: onChangesQuery }]}
+          onDelete={exit}
+          onCancel={() => selectAction(null)}
         />
       );
     default: 

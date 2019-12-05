@@ -11,12 +11,12 @@ const DELETE_USER = gql`
   }
 `;
 
-const DeleteUser = ({ user, onCompleted, refetchQueries }) => {
+const DeleteUser = ({ user, onDelete, onCancel, refetchQueries }) => {
   const [deleteUser, { loading, error }] = useMutation(
     DELETE_USER,
     { 
       refetchQueries,
-      onCompleted
+      onCompleted: onDelete
     }
   );
 
@@ -29,7 +29,7 @@ const DeleteUser = ({ user, onCompleted, refetchQueries }) => {
       <FormButton
         type="button"
         style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
-        onClick={onCompleted}
+        onClick={onCancel}
       >Cancel</FormButton>
 
       <FormButton
