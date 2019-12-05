@@ -10,7 +10,7 @@ import { ErrorMessage } from '../components/ResponseMessage';
 
 const AVAILABLE_SLOTS = gql`
   query AvailableSlots ($containerSizes: [ContainerSize]!) {
-    availableSlots(input: { importFullContainerIds: [], knownContainerSizes: $containerSizes }) {
+    availableSlots(input: { containerSizes: $containerSizes }) {
       hour
       date
     }
