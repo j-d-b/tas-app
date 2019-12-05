@@ -13,11 +13,6 @@ const MY_APPTS = gql`
   {
     myAppts {
       id
-      user {
-        email
-        name
-        company
-      }
       timeSlot {
         date
         hour
@@ -26,25 +21,15 @@ const MY_APPTS = gql`
       actions {
         id
         type
-        containerSize
         containerId
-        shippingLine
-        containerType
-        formNumber705
-        emptyForCityFormNumber
-        containerWeight
-        bookingNumber
       }
-      licensePlateNumber
-      notifyMobileNumber
-      comment
     }
   }
 `;
 
 const MyApptsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAppt, selectAppt] = useState({ appt: null, isReadOnly: true });
+  const [selectedAppt, selectAppt] = useState({ apptId: null, isReadOnly: true });
   const { data, error, loading } = useQuery(MY_APPTS, { fetchPolicy: 'network-only' });
 
   if (loading) return <div className="my-appts-page">Loading my appointments...</div>;
@@ -63,7 +48,7 @@ const MyApptsPage = () => {
               appt={appt}
               key={appt.id}
               onClick={() => {
-                selectAppt({ appt, isReadOnly: false });
+                selectAppt({ apptId: appt.Id, isReadOnly: false });
                 setIsModalOpen(true);
               }}
               isCustomer
@@ -81,7 +66,7 @@ const MyApptsPage = () => {
               appt={appt}
               key={appt.id}
               onClick={() => {
-                selectAppt({ appt, isReadOnly: true });
+                selectAppt({ apptId: appt.id, isReadOnly: true });
                 setIsModalOpen(true);
               }}
               isCustomer
@@ -94,10 +79,10 @@ const MyApptsPage = () => {
       <Modal 
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
-        onClosed={() => selectAppt({ appt: null, isReadOnly: true })}
+        onClosed={() => selectAppt({ apptId: null, isReadOnly: true })}
         title="Edit Appt"
       >
-        <Appt appt={selectedAppt.appt} isReadOnly={selectedAppt.isReadOnly} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
+        <Appt apptId={selectedAppt.apptId} isReadOnly={selectedAppt.isReadOnly} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );

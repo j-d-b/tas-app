@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
@@ -10,6 +10,39 @@ import EditAppt from './EditAppt';
 import { FormButton } from '../components/Form';
 import ScheduleAppt from './ScheduleAppt';
 import { ErrorMessage } from '../components/ResponseMessage';
+
+const APPT = gql`
+  query Appt ($id: ID!) {
+    appt (input: { id: $id }) {
+      id
+      user {
+        email
+        name
+        company
+      }
+      timeSlot {
+        date
+        hour
+      }
+      arrivalWindow
+      actions {
+        id
+        type
+        containerSize
+        containerId
+        shippingLine
+        containerType
+        formNumber705
+        emptyForCityFormNumber
+        containerWeight
+        bookingNumber
+      }
+      licensePlateNumber
+      notifyMobileNumber
+      comment
+    }
+  }
+`;
 
 const RESCHEDULE_APPT = gql`
   mutation RescheduleAppt ($id: ID!, $timeSlot: TimeSlotInput!) {
@@ -25,7 +58,9 @@ const DELETE_APPT = gql`
   }
 `;
 
-const Appt = ({ appt, isCustomer, refetchQueries, onDelete, isReadOnly }) => {
+const Appt = ({ apptId, isCustomer, refetchQueries, onDelete, isReadOnly }) => {
+  const { data, error, loading } = useQuery(APPT, { variables: { id: apptId } });
+
   const [isEditMode, setIsEditMode] = useState(false);
 
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
@@ -39,7 +74,19 @@ const Appt = ({ appt, isCustomer, refetchQueries, onDelete, isReadOnly }) => {
     setNewTimeSlot(null);
     setIsReschedule(false);
   };
-  const [rescheduleAppt, rescheduleApptResults] = useMutation(RESCHEDULE_APPT, { refetchQueries, onCompleted: closeRescheduleWindow });
+  
+  const [rescheduleAppt, rescheduleApptResults] = useMutation(
+    RESCHEDULE_APPT,
+    { 
+      refetchQueries: [...refetchQueries, { query: APPT, variables: { id: apptId } }],
+      onCompleted: closeRescheduleWindow
+    }
+  );
+
+  if (loading) return <div>Loading appointment...</div>;
+  if (error) return <ErrorMessage error={error} />;
+
+  const { appt } = data;
 
   if (isReschedule) {
     return (

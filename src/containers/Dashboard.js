@@ -15,7 +15,6 @@ const ALL_APPTS = gql`
     appts (input: { startDate: $startDate, endDate: $endDate, where: { actionType: $actionType } }) {
       id
       user {
-        email
         name
         company
       }
@@ -27,18 +26,8 @@ const ALL_APPTS = gql`
       actions {
         id
         type
-        containerSize
         containerId
-        shippingLine
-        containerType
-        formNumber705
-        emptyForCityFormNumber
-        containerWeight
-        bookingNumber
       }
-      licensePlateNumber
-      notifyMobileNumber
-      comment
     }
   }
 `;
@@ -130,7 +119,7 @@ const createSort = sort => (apptA, apptB) => {
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAppt, selectAppt] = useState(null);
+  const [selectedApptId, selectApptId] = useState(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(INIT_FILTERS);
   const [sort, setSort] = useState(INIT_SORT);
@@ -190,7 +179,7 @@ const Dashboard = () => {
                     appt={appt}
                     key={appt.id}
                     onClick={() => {
-                      selectAppt(appt);
+                      selectApptId(appt.id);
                       setIsModalOpen(true);
                     }} 
                   />
@@ -203,11 +192,11 @@ const Dashboard = () => {
 
       <Modal 
         isOpen={isModalOpen}
-        onClosed={() => selectAppt(null)}
+        onClosed={() => selectApptId(null)}
         closeModal={() => setIsModalOpen(false)}
         title="View Appt"
       >
-        <Appt appt={selectedAppt} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
+        <Appt apptId={selectedApptId} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );
