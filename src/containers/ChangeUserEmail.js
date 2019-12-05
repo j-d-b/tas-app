@@ -12,43 +12,55 @@ const CHANGE_EMAIL = gql`
   }
 `;
 
-const ChangeUserEmail = ({ currEmail, onCancel, refetchQueries }) => {
+const ChangeUserEmail = ({ currEmail, onCompleted, refetchQueries }) => {
   const [newEmail, setNewEmail] = useState('');
   const [changeEmail, { error, loading }] = useMutation(
     CHANGE_EMAIL,
     { 
       refetchQueries,
-      onCompleted: onCancel
+      onCompleted
     }
   );
 
   return (
-    <form 
-      name="changeUserEmail" 
-      onSubmit={e => {
-        e.preventDefault();
-        changeEmail({ variables: { currEmail, newEmail } });
-      }}
-    >
-      <label className="user-details__label" htmlFor="newEmail">New Email</label>
-      <FormInput
-        name="newEmail"
-        id="newEmail"
-        type="email"
-        value={newEmail}
-        onChange={e => setNewEmail(e.target.value)}
-        required
-      />
+    <div>
+      <h1 style={{ textAlign: 'center', marginTop: 0, marginBottom: '1rem' }}>Change User Email</h1>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>
-        <FormButton type="submit" variety="SUCCESS" disabled={loading}>{loading ? 'Requesting...' : 'Change Email'}</FormButton>
-      </div>
+      <form 
+        name="changeUserEmail" 
+        onSubmit={e => {
+          e.preventDefault();
+          changeEmail({ variables: { currEmail, newEmail } });
+        }}
+      >
+        <label className="user-details__label" htmlFor="newEmail">New Email</label>
+        <FormInput
+          name="newEmail"
+          id="newEmail"
+          type="email"
+          value={newEmail}
+          onChange={e => setNewEmail(e.target.value)}
+          required
+        />
 
-      <RightAlign>
-        {error && <ErrorMessage error={error} />}
-      </RightAlign>
-    </form>
+        <FormButton
+          type="button"
+          style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
+          onClick={onCompleted}
+        >Cancel</FormButton>
+
+        <FormButton
+          type="submit"
+          style={{ width: '50%' }}
+          variety="SUCCESS"
+          disabled={loading}
+        >{loading ? 'Requesting...' : 'Change Email'}</FormButton>
+
+        <RightAlign>
+          {error && <ErrorMessage error={error} />}
+        </RightAlign>
+      </form>
+    </div>
   );
 };
 

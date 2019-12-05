@@ -1,0 +1,22 @@
+.user-standard-buttons-row {
+  display: flex;
+  flex-direction: column;
+
+  > button {
+    margin-bottom: 0;
+  }
+
+  @media(min-width: 550px) {
+    flex-direction: row;
+
+    > button {
+      margin-bottom: 0;
+      flex-basis: 33.3333333%;
+      margin-right: 0.25rem;
+  
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

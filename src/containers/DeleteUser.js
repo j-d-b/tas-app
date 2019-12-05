@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormButton } from '../components/Form';
-import RightAlign from '../components/RightAlign';
 import { ErrorMessage } from '../components/ResponseMessage';
 
 const DELETE_USER = gql`
@@ -12,27 +11,36 @@ const DELETE_USER = gql`
   }
 `;
 
-const DeleteUser = ({ user, onCancel, refetchQueries }) => {
+const DeleteUser = ({ user, onCompleted, refetchQueries }) => {
   const [deleteUser, { loading, error }] = useMutation(
     DELETE_USER,
     { 
       refetchQueries,
-      onCompleted: onCancel
+      onCompleted
     }
   );
 
   return (
-    <div>
-      <p style={{ textAlign: 'center' }}>Are you sure you wish to delete {user.email}?</p>
+    <div style={{ textAlign: 'center' }}>
+      <h1 style={{ marginTop: 0, marginBottom: '1rem' }}>Confirm Deletion</h1>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>
-        <FormButton type="button" variety="DANGER" disabled={loading} onClick={() => !loading && deleteUser({ variables: { email: user.email } })}>{loading ? 'Requesting...' : 'Delete'}</FormButton>
-      </div>
+      <p>Are you sure you wish to delete <strong>{user.email}</strong>?</p>
 
-      <RightAlign>
-        {error && <ErrorMessage error={error} />}
-      </RightAlign>
+      <FormButton
+        type="button"
+        style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
+        onClick={onCompleted}
+      >Cancel</FormButton>
+
+      <FormButton
+        type="button"
+        style={{ width: '50%' }}
+        variety="DANGER"
+        disabled={loading}
+        onClick={() => !loading && deleteUser({ variables: { email: user.email } })}
+      >{loading ? 'Requesting...' : 'Delete'}</FormButton>
+
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };

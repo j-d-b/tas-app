@@ -27,14 +27,14 @@ const UserDetailsInput = ({ field, label, value, onEdit, isRequired, type }) => 
   </>
 );
 
-const EditUser = ({ user, onCancel, refetchQueries }) => {
+const EditUser = ({ user, onCompleted, refetchQueries }) => {
   const [edits, setEdits] = useState(user);
   const onEdit = e => setEdits({ ...edits, [e.target.name]: e.target.value });
 
   const [updateUser, { error, loading, data }] = useMutation(
     UPDATE_USER,
     { 
-      onCompleted: onCancel,
+      onCompleted,
       refetchQueries
     }
   );
@@ -149,7 +149,19 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
 
       <FormNote>* indicates a required field</FormNote>
 
-      <FormButton type="submit" variety="SUCCESS" disabled={loading} style={{ width: '100%' }}>{loading ? 'Saving...' : 'Save'}</FormButton>
+      <FormButton 
+        type="button"
+        style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
+        variety="PRIMARY"
+        onClick={() => onCompleted()}
+      >Cancel</FormButton>
+
+      <FormButton
+        style={{ width: '50%' }}
+        type="submit"
+        variety="SUCCESS"
+        disabled={loading}
+      >{loading ? 'Saving...' : 'Save'}</FormButton>
 
       <div style={{ textAlign: 'center' }}>
         {error && <ErrorMessage error={error} />}

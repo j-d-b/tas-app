@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import './AdminPage.scss';
-import UserActionsButtons from './UserActionsButtons';
+import User from './User';
 import Modal from '../components/Modal';
 import UsersTable from '../components/UsersTable';
 import { getFriendlyUserRole } from '../utils';
@@ -108,13 +108,9 @@ const AdminPage = () => {
         isOpen={isModalOpen}
         onClosed={() => selectUser(null)}
         closeModal={() => setIsModalOpen(false)}
-        title="Edit User"
+        title="View User"
       >
-        <div style={{ textAlign: 'center' }}>
-          <h1 style={{ marginTop: 0 }}>{selectedUser && selectedUser.name} ({selectedUser && selectedUser.email})</h1>
-        </div>
-
-        <UserActionsButtons user={selectedUser} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />
+        <User user={selectedUser} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );

@@ -16,7 +16,7 @@ const UsersTable = ({ columns, users, onUserClick }) => (
           users.map(user => (
             <tr key={user.email}>
               {columns.map(({ component: Component, ...col }) => <td key={col.field}>{Component ? <Component user={user} /> : user[col.field]}</td>)}
-              <td onClick={e => onUserClick(e, user)}><button className="actions-button">Actions</button></td>
+              <td onClick={e => onUserClick(e, user)}><button className="view-button">View</button></td>
             </tr>
           ))
         }
