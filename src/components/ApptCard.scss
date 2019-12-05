@@ -99,8 +99,7 @@
   width: 100%;
   font-weight: 500;
   opacity: 0.8;
-  background-color: $gray;
-  //background-color: $subtle;  
+  background-color: #f1efef;
   padding: 0.75rem;
   font-size: 0.9rem;
   letter-spacing: 0.2px;
@@ -112,7 +111,7 @@
   
   &:hover {
     opacity: 1;
-    background-color: darken($gray, 1);
+    background-color: darken(#f1efef, 1);
   }
 
   > svg {
