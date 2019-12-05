@@ -31,6 +31,14 @@ const TemplateList = ({ allTemplates, applyTemplate, unapplyTemplate, triggerDel
   const appliedTemplate = allTemplates.find(template => template.isApplied);
   const unappliedTemplates = allTemplates.filter(template => !template.isApplied);
 
+  if (allTemplates.length === 0) {
+    return (
+      <div className="manage-templates-box">
+        <div>No Restriciton Templates</div>
+      </div>
+    );
+  }
+
   return (
     <div className="manage-templates-box">
       <div>
@@ -47,20 +55,24 @@ const TemplateList = ({ allTemplates, applyTemplate, unapplyTemplate, triggerDel
           : <div className="template-list__line"></div> }
       </div>
 
-      <div className="manage-templates-box__divider-line"></div>
+      {unappliedTemplates.length > 0 && (
+        <>
+          <div className="manage-templates-box__divider-line"></div>
 
-      <div className="template-list">
-        {unappliedTemplates.map(template => (
-          <TemplateLine
-            key={template.name}
-            hideButtons={isLoading}
-            template={template}
-            onApply={() => applyTemplate(template.name)}
-            onEdit={() => triggerEdit(template.name)}
-            onDelete={() => triggerDelete(template.name)}
-          />
-        ))}
-      </div>
+          <div className="template-list">
+            {unappliedTemplates.map(template => (
+              <TemplateLine
+                key={template.name}
+                hideButtons={isLoading}
+                template={template}
+                onApply={() => applyTemplate(template.name)}
+                onEdit={() => triggerEdit(template.name)}
+                onDelete={() => triggerDelete(template.name)}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
