@@ -4,12 +4,12 @@ import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
 import './Appt.scss';
-import Action from './Action';
+import Action from '../components/Action';
 import { getApptDate, getFriendlyActionType } from '../utils';
-import EditAppt from '../containers/EditAppt';
-import { FormButton } from './Form';
-import ScheduleAppt from '../containers/ScheduleAppt';
-import { ErrorMessage } from './ResponseMessage';
+import EditAppt from './EditAppt';
+import { FormButton } from '../components/Form';
+import ScheduleAppt from './ScheduleAppt';
+import { ErrorMessage } from '../components/ResponseMessage';
 
 const RESCHEDULE_APPT = gql`
   mutation RescheduleAppt ($id: ID!, $timeSlot: TimeSlotInput!) {

@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { isAfter, isBefore } from 'date-fns';
 
-import Appt from '../components/Appt';
+import Appt from './Appt';
 import { getDateFromTimeSlot } from '../utils';
 import './MyApptsPage.scss';
 import ApptCard from '../components/ApptCard';

@@ -8,7 +8,7 @@ import { getDateFromTimeSlot } from '../utils';
 import Modal from '../components/Modal';
 import OrganizeBox from '../components/OrganizeBox';
 import ApptCard from '../components/ApptCard';
-import Appt from '../components/Appt';
+import Appt from './Appt';
 
 const ALL_APPTS = gql`
   query Appts ($startDate: ISODate, $endDate: ISODate, $actionType: ActionType) {
