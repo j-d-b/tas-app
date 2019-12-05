@@ -83,7 +83,7 @@ const AdminPage = () => {
     }
   ];
 
-  const [selectedUser, selectUser] = useState(null);
+  const [selectedUserEmail, selectUserEmail] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (loading) return <div className="admin-page">Loading...</div>;
@@ -98,7 +98,7 @@ const AdminPage = () => {
           columns={columns}
           users={data.users}
           onUserClick={(e, user) => {
-            selectUser(user);
+            selectUserEmail(user.email);
             setIsModalOpen(true);
           }}
         />
@@ -106,11 +106,11 @@ const AdminPage = () => {
 
       <Modal 
         isOpen={isModalOpen}
-        onClosed={() => selectUser(null)}
+        onClosed={() => selectUserEmail(null)}
         closeModal={() => setIsModalOpen(false)}
         title="View User"
       >
-        <User user={selectedUser} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />
+        <User userEmail={selectedUserEmail} onChangesQuery={ALL_USERS} exit={() => setIsModalOpen(false)} />
       </Modal>
     </div>
   );

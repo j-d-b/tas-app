@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import './User.scss';
 import UserDetails from '../components/UserDetails';
@@ -8,6 +8,24 @@ import { FormButton } from '../components/Form';
 import EditUser from './EditUser';
 import ChangeUserEmail from './ChangeUserEmail';
 import DeleteUser from './DeleteUser';
+import { ErrorMessage } from '../components/ResponseMessage';
+
+const USER = gql`
+  query User ($email: String!) {
+    user (input: { email: $email }) {
+      name
+      email
+      role
+      company
+      companyType
+      companyRegNumber
+      mobileNumber
+      confirmed
+      emailVerified
+      reminderSetting
+    }
+  }
+`;
 
 const CONFIRM_USER = gql`
   mutation ConfirmUser ($email: String!) {
@@ -21,12 +39,19 @@ const SEND_VERIFICATION = gql`
   }
 `;
 
-const User = ({ user, exit, onChangesQuery }) => {
-  const refetchQueries = [{ query: onChangesQuery }];
+const User = ({ userEmail, exit, onChangesQuery }) => {
+  const { data, loading, error } = useQuery(USER, { variables: { email: userEmail } });
+
+  const refetchQueries = [{ query: onChangesQuery }, { query: USER, variables: { email: userEmail } }];
 
   const [selectedAction, selectAction] = useState(null);
   const [confirmUser, confirmUserResults] = useMutation(CONFIRM_USER, { refetchQueries });
   const [sendVerifyLink, sendVerifyLinkResults] = useMutation(SEND_VERIFICATION, { refetchQueries });
+
+  if (loading) return <div>Loading user...</div>;
+  if (error) return <ErrorMessage error={error} />;
+
+  const { user } = data;
 
   switch (selectedAction) {
     case 'EDIT_USER': 
