@@ -7,7 +7,7 @@ const getAuthToken = async () => {
   let authToken;
 
   try {
-    const data = await ky.get(process.env.REACT_APP_GRAPHQL_API_URI, { 
+    const data = await ky.get(process.env.REACT_APP_REFRESH_TOKEN_URI, { 
       credentials: 'include',
       headers: { 
         authorization: `Bearer ${window.localStorage.getItem('authToken')}` 
