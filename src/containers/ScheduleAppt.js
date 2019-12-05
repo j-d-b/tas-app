@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import './ScheduleAppt.scss';
 import { getDateFromTimeSlot, getTimeSlotFromDate } from '../utils';
 import StyledDatePicker from '../components/StyledDatePicker';
+import { ErrorMessage } from '../components/ResponseMessage';
 
 const AVAILABLE_SLOTS = gql`
   query AvailableSlots ($containerSizes: [ContainerSize]!) {
@@ -26,7 +27,7 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
 
   if (loading) return <p>Fetching available time slots...</p>;
 
-  if (error) return <p>An error occurred while fetching available time slots.</p>;
+  if (error) return <ErrorMessage>An error occurred while fetching available time slots.</ErrorMessage>;
 
   const availableDateTimes = data.availableSlots.map(getDateFromTimeSlot);
 
