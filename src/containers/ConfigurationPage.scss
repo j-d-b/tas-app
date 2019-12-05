@@ -2,7 +2,7 @@
 
 .configuration-page {
   @include standard-page-wrapper;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .configuration-page__lower-line {
