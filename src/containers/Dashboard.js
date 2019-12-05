@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { format } from 'date-fns';
+import { format, startOfToday, addWeeks, endOfDay } from 'date-fns';
 
 import './Dashboard.scss';
 import { getDateFromTimeSlot } from '../utils';
@@ -39,35 +39,11 @@ const NoAppts = () => (
   </div>
 );
 
-const getThisMonday = () => {
-  const today = new Date();
-  const day = today.getDay();
-  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-  const thisMonday = new Date(today.setDate(diff));
-  thisMonday.setHours(0);
-  thisMonday.setMinutes(0);
-  thisMonday.setSeconds(0);
-  thisMonday.setMilliseconds(0);
-  return thisMonday;
-};
-
-const getThisSunday = () => {
-  const today = new Date();
-  const day = today.getDay();
-  const diff = today.getDate() - day + 7;
-  const thisSunday = new Date(today.setDate(diff));
-  thisSunday.setHours(23);
-  thisSunday.setMinutes(59);
-  thisSunday.setSeconds(59);
-  thisSunday.setMilliseconds(999);
-  return thisSunday;
-};
-
 const INIT_FILTERS = {
   search: '',
   type: 'ALL',
-  from: getThisMonday(),
-  to: getThisSunday()
+  from: startOfToday(),
+  to: endOfDay(addWeeks(startOfToday(), 1))
 };
 
 const INIT_SORT = {
