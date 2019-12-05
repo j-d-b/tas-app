@@ -48,7 +48,7 @@ const MyApptsPage = () => {
               appt={appt}
               key={appt.id}
               onClick={() => {
-                selectAppt({ apptId: appt.Id, isReadOnly: false });
+                selectAppt({ apptId: appt.id, isReadOnly: false });
                 setIsModalOpen(true);
               }}
               isCustomer
