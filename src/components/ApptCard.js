@@ -13,7 +13,7 @@ const ApptCardAction = ({ action, isCustomer }) => {
       {title} {action.containerId && <span className="appt-card__action__cid">({action.containerId})</span>}
     </div>
   );
-}
+};
 
 const ApptCard = ({ appt, onClick, isCustomer }) => (
   <div className="appt-card" onClick={onClick}>

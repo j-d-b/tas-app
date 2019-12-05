@@ -66,7 +66,7 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
     if (restrictionIndex !== -1) {
       setRestrictions(restrictions.map((res, i) => restrictionIndex === i ? newRestriction : res));
     } else {
-      setRestrictions([ ...restrictions, newRestriction ]);
+      setRestrictions([...restrictions, newRestriction]);
     }
   };
 
@@ -77,9 +77,8 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
     }
   };
 
-  if (restrictionTemplateLoading) return <div>Loading...</div>
-
-  if (restrictionTemplateError) return <div>Error loading restriction template</div>
+  if (restrictionTemplateLoading) return <div>Loading...</div>;
+  if (restrictionTemplateError) return <div>Error loading restriction template</div>;
 
   const getValue = timeSlot => {
     const matchingRestriction = restrictions.find(res => isTemplateTimeSlotEqual(timeSlot, res));
@@ -103,7 +102,7 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
           variety="SUCCESS"
           type="button"
           disabled={updateTemplateResults.loading}
-          onClick={() => !updateTemplateResults.loading && updateTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) }})}
+          onClick={() => !updateTemplateResults.loading && updateTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) } })}
         >{updateTemplateResults.loading ? 'Saving...' : 'Save Changes'}</FormButton>
       </RightAlign>
 

@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
-import RightAlign from '../components/RightAlign';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_USER = gql`
@@ -85,7 +84,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
             value={edits.role}
             onChange={onEdit}
             options={[
-              { name: 'Customer', value: 'CUSTOMER'},
+              { name: 'Customer', value: 'CUSTOMER' },
               { name: 'Operator', value: 'OPERATOR' },
               { name: 'Admin', value: 'ADMIN' }
             ]}
@@ -143,7 +142,7 @@ const EditUser = ({ user, onCancel, refetchQueries }) => {
         options={[
           { name: 'Email', value: 'EMAIL' },
           { name: 'SMS', value: 'SMS' },
-          { name: 'Email & SMS', value: 'BOTH'},
+          { name: 'Email & SMS', value: 'BOTH' },
           { name: 'Notifications Off', value: 'NONE' }
         ]}
       />

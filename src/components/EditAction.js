@@ -58,7 +58,7 @@ const EditShippingLine = ({ action, onEdit }) => (
       id="shippingLine"
       type="text"
       value={action.shippingLine || ''}
-      onChange={e => onEdit({ ...action, shippingLine: e.target.value})}
+      onChange={e => onEdit({ ...action, shippingLine: e.target.value })}
       required
     />
   </div>
@@ -101,7 +101,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
               id="emptyForCityFormNumber"
               type="text"
               value={action.emptyForCityFormNumber || ''}
-              onChange={e => onEdit({ ...action, emptyForCityFormNumber: e.target.value})}
+              onChange={e => onEdit({ ...action, emptyForCityFormNumber: e.target.value })}
               required
             />
             {isNew && <FormNote>Form number received from <a href="http://www.bctc-lb.com/services.aspx">BCTC's Empty for City Request</a></FormNote>}

@@ -47,6 +47,6 @@ const ConfigurationPage = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default ConfigurationPage;

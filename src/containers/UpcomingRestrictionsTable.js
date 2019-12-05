@@ -100,7 +100,7 @@ const UpcomingRestrictionsTable = () => {
     return () => window.clearTimeout(timeout);
   }, [addGlobalRestrictionData, deleteRestrictionData, addGlobalRestrictionError, deleteRestrictionError]);
 
-  if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>
+  if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>;
 
   const getValueStyle = timeSlot => {
     const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
@@ -124,11 +124,11 @@ const UpcomingRestrictionsTable = () => {
       <div className="upcoming-restrictions-table-wrapper">
         <RestrictionsTable
           dates={getDatesInNextWeek()}
-          addRestriction={(timeSlot, gateCapacity) => addGlobalRestriction({ variables: { timeSlot, gateCapacity }})}
+          addRestriction={(timeSlot, gateCapacity) => addGlobalRestriction({ variables: { timeSlot, gateCapacity } })}
           deleteRestriction={timeSlot => {
             const restriction = globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(res.timeSlot, timeSlot));
             if (restriction) {
-              deleteRestriction({ variables: { id: restriction.id }});
+              deleteRestriction({ variables: { id: restriction.id } });
             }
           }}
           getValueStyle={getValueStyle}
@@ -145,6 +145,6 @@ const UpcomingRestrictionsTable = () => {
       </div>
     </div>
   );
-}
+};
 
 export default UpcomingRestrictionsTable;

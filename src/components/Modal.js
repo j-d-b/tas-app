@@ -35,6 +35,6 @@ const Modal = ({ title, isOpen, closeModal, onClosed, maxWidth = 464, children }
       </CSSTransition>
     </div>
   );
-}
+};
 
 export default Modal;

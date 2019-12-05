@@ -10,10 +10,10 @@ import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
 import { ErrorMessage } from '../components/ResponseMessage';
 import ScheduleAppt from './ScheduleAppt';
-import { ReactComponent as ImportFullIcon} from '../images/truck-import-full.svg';
-import { ReactComponent as StorageEmptyIcon} from '../images/truck-storage-empty.svg';
-import { ReactComponent as ExportFullIcon} from '../images/truck-export-full.svg';
-import { ReactComponent as ExportEmptyIcon} from '../images/truck-export-empty.svg';
+import { ReactComponent as ImportFullIcon } from '../images/truck-import-full.svg';
+import { ReactComponent as StorageEmptyIcon } from '../images/truck-storage-empty.svg';
+import { ReactComponent as ExportFullIcon } from '../images/truck-export-full.svg';
+import { ReactComponent as ExportEmptyIcon } from '../images/truck-export-empty.svg';
 import { ReactComponent as BackArrowIcon } from '../images/back-arrow.svg';
 
 const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
@@ -70,7 +70,7 @@ const buildAddActionInput = action => {
           containerType: action.containerType,
           emptyForCityFormNumber: action.emptyForCityFormNumber
         }
-      }
+      };
     }
     case 'EXPORT_FULL': {
       return {
@@ -83,7 +83,7 @@ const buildAddActionInput = action => {
           shippingLine: action.shippingLine,
           bookingNumber: action.bookingNumber
         }
-      }
+      };
     }
     case 'EXPORT_EMPTY': {
       return {
@@ -94,7 +94,7 @@ const buildAddActionInput = action => {
           containerType: action.containerType,
           shippingLine: action.shippingLine
         }
-      }
+      };
     }
     default: return {};
   }
@@ -208,15 +208,14 @@ const Scheduler = () => {
                   e.preventDefault();
                   setPage('ENTER_ACTION_DETAILS');
                 }}>
-
-                <BackArrow
-                  onClick={currActionIndex === 0
-                    ? () => {
+                  <BackArrow
+                    onClick={currActionIndex === 0
+                      ? () => {
                         setPage('START');
                         setNewAppt(INIT_APPT);
                         setCurrActionIndex(0);
                       }
-                    : () => {
+                      : () => {
                         setPage('REVIEW_ACTIONS');
                         setNewAppt({ ...newAppt, actions: newAppt.actions.filter((a, i) => i !== currActionIndex) });
                         setCurrActionIndex(currActionIndex - 1);
@@ -311,7 +310,7 @@ const Scheduler = () => {
                       className="scheduler-button"
                       type="button"
                       onClick={() => {
-                        setNewAppt({ ...newAppt, actions: [...newAppt.actions, {}]});
+                        setNewAppt({ ...newAppt, actions: [...newAppt.actions, {}] });
                         setCurrActionIndex(currActionIndex + 1);
                         setPage('SELECT_ACTION_TYPE');
                       }}
@@ -404,12 +403,12 @@ const Scheduler = () => {
                   <p><strong style={{ fontFamily: `'Roboto Condensed', sans-serif`, textTransform: 'uppercase' }}>Appointment Date</strong> · {data.addAppt.timeSlot.date}</p>
                   <p>Please arrive between <strong>{data.addAppt.arrivalWindow}</strong></p>
                   <p>
-                    <Link to="/my-appts" style={{ marginBottom: '0.5rem'}}>View My Appointments</Link>
+                    <Link to="/my-appts" style={{ marginBottom: '0.5rem' }}>View My Appointments</Link>
                   </p>
                   <FormButton className="scheduler-button" type="button" onClick={() => setPage('SELECT_ACTION_TYPE')}>Book Another Appointment</FormButton>
                 </div>
               );
-              default: return <Start onStart={() => setPage('SELECT_ACTION_TYPE')} />
+              default: return <Start onStart={() => setPage('SELECT_ACTION_TYPE')} />;
             }
           })()}
         </div>

@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import './StyledDatePicker.scss';
 
-const StyledDatePicker = ({children, ...rest}) => (
+const StyledDatePicker = ({ children, ...rest }) => (
   <DatePicker
     dateFormat="yyyy-MM-dd, HH:00"
     popperModifiers={{

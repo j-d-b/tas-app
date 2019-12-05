@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { getApptDate, getFriendlyActionType, buildActionDetailsInput } from '../utils';
+import { getFriendlyActionType, buildActionDetailsInput } from '../utils';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
@@ -18,7 +18,7 @@ const UPDATE_APPT = gql`
 
 const EditAppt = ({ appt, isCustomer, refetchQueries, onCompleted }) => {
   const [edits, setEdits] = useState(appt);
-  const [updateAppt, { data, error, loading}] = useMutation(
+  const [updateAppt, { data, error, loading }] = useMutation(
     UPDATE_APPT,
     { 
       refetchQueries,
@@ -43,7 +43,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onCompleted }) => {
           ))
         }
       }
-    })
+    });
   };
 
   return (

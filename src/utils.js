@@ -103,7 +103,7 @@ export const getFriendlyUserRole = userRole => {
     case 'CUSTOMER': return 'Customer';
     default: return 'Customer';
   }
-}
+};
 
 export const getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
 
@@ -140,7 +140,7 @@ export const buildActionDetailsInput = action => {
           containerType: action.containerType,
           emptyForCityFormNumber: action.emptyForCityFormNumber
         }
-      }
+      };
     }
     case 'EXPORT_FULL': {
       return {
@@ -151,7 +151,7 @@ export const buildActionDetailsInput = action => {
           shippingLine: action.shippingLine,
           bookingNumber: action.bookingNumber
         }
-      }
+      };
     }
     case 'EXPORT_EMPTY': {
       return {
@@ -160,7 +160,7 @@ export const buildActionDetailsInput = action => {
           containerType: action.containerType,
           shippingLine: action.shippingLine
         }
-      }
+      };
     }
     default: return {};
   }
@@ -173,7 +173,7 @@ export const formatError = error => {
   }
 
   return errorString;
-}
+};
 
 export const formatTimeSlot = timeSlot => format(getDateFromTimeSlot(timeSlot), `iii, MMM d, yyyy 'at' HH:mm`);
 

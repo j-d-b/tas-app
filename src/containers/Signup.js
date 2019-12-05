@@ -55,7 +55,7 @@ const Signup = () => {
       value: entries.company,
       handleChange: e => setEntry('company', e.target.value),
       isRequired: true
-    },
+    }
   ];
 
   return (

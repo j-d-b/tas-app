@@ -16,7 +16,7 @@ const LogoutButton = ({ className }) => {
 
   const [logout, { loading }] = useMutation(LOGOUT, { onCompleted: () => logoutCleanup(client) });
 
-  if (loading) return <FullPageSpinner />
+  if (loading) return <FullPageSpinner />;
   
   return (
     <button

@@ -67,7 +67,7 @@ const ManageTemplates = () => {
     }
   );
 
-  if (allTemplatesResults.loading) return <div>Loading...</div>
+  if (allTemplatesResults.loading) return <div>Loading...</div>;
 
   return (
     <div>
@@ -154,6 +154,6 @@ const ManageTemplates = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default ManageTemplates;

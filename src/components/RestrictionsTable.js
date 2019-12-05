@@ -40,7 +40,7 @@ const RestrictionsTableCellInput = ({ value, setValue, onBlur }) => {
       }}
     />
   );
-}
+};
 
 const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue }) => {
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
@@ -49,7 +49,7 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
   return (
     <div>
       <div className="restrictions-table" style={{ gridTemplateRows: `min-content repeat(${dates ? 8 : 7}, 3rem)` }}>
-        {ALL_HOURS_IN_DAY.map((hour, i) => <div style={{ gridColumnStart: i + 2}} className="restrictions-table-hour" key={hour}>{getHourString(hour)}</div>)}
+        {ALL_HOURS_IN_DAY.map((hour, i) => <div style={{ gridColumnStart: i + 2 }} className="restrictions-table-hour" key={hour}>{getHourString(hour)}</div>)}
         
         {dates && dates.map((date, i) => (
           <React.Fragment key={date}>
@@ -95,10 +95,10 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
                 >
                   {isSelected
                     ? <RestrictionsTableCellInput
-                        value={editableValue}
-                        setValue={setEditableValue}
-                        onBlur={() => selectTimeSlot(null)}
-                      />
+                      value={editableValue}
+                      setValue={setEditableValue}
+                      onBlur={() => selectTimeSlot(null)}
+                    />
                     : value
                   }
                 </div>
@@ -147,10 +147,10 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
                 >
                   {isSelected
                     ? <RestrictionsTableCellInput
-                        value={editableValue}
-                        setValue={setEditableValue}
-                        onBlur={() => selectTimeSlot(null)}
-                      />
+                      value={editableValue}
+                      setValue={setEditableValue}
+                      onBlur={() => selectTimeSlot(null)}
+                    />
                     : value
                   }
                 </div>

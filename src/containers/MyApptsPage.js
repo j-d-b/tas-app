@@ -100,7 +100,7 @@ const MyApptsPage = () => {
         <Appt appt={selectedAppt.appt} isReadOnly={selectedAppt.isReadOnly} isCustomer refetchQueries={[{ query: MY_APPTS }]} onDelete={() => setIsModalOpen(false)} />
       </Modal>
     </div>
-  )
+  );
 };
 
 export default MyApptsPage;

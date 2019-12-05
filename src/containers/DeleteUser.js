@@ -27,7 +27,7 @@ const DeleteUser = ({ user, onCancel, refetchQueries }) => {
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <FormButton type="button" style={{ marginRight: '0.3rem' }} onClick={onCancel}>Cancel</FormButton>
-        <FormButton type="button" variety="DANGER" disabled={loading} onClick={() => !loading && deleteUser({ variables: { email: user.email }})}>{loading ? 'Requesting...' : 'Delete'}</FormButton>
+        <FormButton type="button" variety="DANGER" disabled={loading} onClick={() => !loading && deleteUser({ variables: { email: user.email } })}>{loading ? 'Requesting...' : 'Delete'}</FormButton>
       </div>
 
       <RightAlign>

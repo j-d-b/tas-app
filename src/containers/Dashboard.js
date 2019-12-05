@@ -92,7 +92,7 @@ const satisfiesSearch = search => appt => {
   || appt.id.toLowerCase().includes(lowerCaseSearch)
   || appt.user.name.toLowerCase().includes(lowerCaseSearch)
   || appt.user.company.toLowerCase().includes(lowerCaseSearch)
-  || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false)
+  || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false);
 };
 
 // backend API only allows selecting within a date range, not hour range
@@ -211,6 +211,6 @@ const Dashboard = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default Dashboard;

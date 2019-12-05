@@ -27,7 +27,7 @@ const ChangeUserEmail = ({ currEmail, onCancel, refetchQueries }) => {
       name="changeUserEmail" 
       onSubmit={e => {
         e.preventDefault();
-        changeEmail({ variables: { currEmail, newEmail }});
+        changeEmail({ variables: { currEmail, newEmail } });
       }}
     >
       <label className="user-details__label" htmlFor="newEmail">New Email</label>

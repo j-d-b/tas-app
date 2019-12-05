@@ -40,7 +40,7 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
     if (restrictionIndex !== -1) {
       setRestrictions(restrictions.map((res, i) => restrictionIndex === i ? newRestriction : res));
     } else {
-      setRestrictions([ ...restrictions, newRestriction ]);
+      setRestrictions([...restrictions, newRestriction]);
     }
   };
 
@@ -59,7 +59,7 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
         name="newRestrictionTemplate"
         onSubmit={e => {
           e.preventDefault();
-          createTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) }});
+          createTemplate({ variables: { name: templateName, restrictions: restrictions.map(({ dayOfWeek, hour, gateCapacity }) => ({ dayOfWeek, hour, gateCapacity })) } });
         }}
       >
         <FormGroup>
@@ -97,6 +97,6 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
       </RightAlign>
     </div>
   );
-}
+};
 
 export default CreateRestrictionTemplate;
