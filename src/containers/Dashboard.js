@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { format, startOfToday, addWeeks, endOfDay } from 'date-fns';
 
 import './Dashboard.scss';
-import { getDateFromTimeSlot } from '../utils';
+import { getDateFromTimeSlot, formatError } from '../utils';
 import Modal from '../components/Modal';
 import OrganizeBox from '../components/OrganizeBox';
 import ApptCard from '../components/ApptCard';
@@ -145,7 +145,7 @@ const Dashboard = () => {
       <div className="appts-col">
         <div>
           <div className="appts-container">
-            {error && <div>{error.toString()}</div>}
+            {error && <div>{formatError(error)}</div>}
             {loading && <div>Loading appointments...</div>}
             {data && (
               <>
