@@ -149,17 +149,19 @@ const Dashboard = () => {
             {loading && <div>Loading appointments...</div>}
             {data && (
               <>
-                {!appts.length && <NoAppts />}
-                {appts.map(appt => (
-                  <ApptCard
-                    appt={appt}
-                    key={appt.id}
-                    onClick={() => {
-                      selectApptId(appt.id);
-                      setIsModalOpen(true);
-                    }} 
-                  />
-                ))}
+                {!appts.length 
+                  ? <NoAppts />
+                  : appts.map(appt => (
+                    <ApptCard
+                      appt={appt}
+                      key={appt.id}
+                      onClick={() => {
+                        selectApptId(appt.id);
+                        setIsModalOpen(true);
+                      }} 
+                    />
+                  ))
+                }
               </>
             )}
           </div>
