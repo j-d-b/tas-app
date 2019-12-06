@@ -39,6 +39,22 @@ const NoAppts = () => (
   </div>
 );
 
+const ApptsError = ({ error }) => {
+  const errorMessage = formatError(error);
+
+  if (errorMessage === 'The appointments query yielded too many results to send') {
+    return (
+      <div>
+        <h1 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Too Many Appointments</h1>
+        <div style={{ marginBottom: '0.5rem' }}>The appointments query yielded too many results to send.</div>
+        <div>Please adjust your filter criteria.</div>
+      </div>
+    );
+  }
+
+  return <div>{errorMessage}</div>;
+};
+
 const INIT_FILTERS = {
   search: '',
   type: 'ALL',
@@ -145,23 +161,21 @@ const Dashboard = () => {
       <div className="appts-col">
         <div>
           <div className="appts-container">
-            {error && <div>{formatError(error)}</div>}
+            {error && <ApptsError error={error} />}
             {loading && <div>Loading appointments...</div>}
-            {data && (
+            {(data && !error) && (
               <>
-                {!appts.length 
-                  ? <NoAppts />
-                  : appts.map(appt => (
-                    <ApptCard
-                      appt={appt}
-                      key={appt.id}
-                      onClick={() => {
-                        selectApptId(appt.id);
-                        setIsModalOpen(true);
-                      }} 
-                    />
-                  ))
-                }
+                {!appts.length && <NoAppts />}
+                {appts.map(appt => (
+                  <ApptCard
+                    appt={appt}
+                    key={appt.id}
+                    onClick={() => {
+                      selectApptId(appt.id);
+                      setIsModalOpen(true);
+                    }} 
+                  />
+                ))}
               </>
             )}
           </div>
