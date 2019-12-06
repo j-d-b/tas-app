@@ -34,7 +34,7 @@ const TemplateList = ({ allTemplates, applyTemplate, unapplyTemplate, triggerDel
   if (allTemplates.length === 0) {
     return (
       <div className="manage-templates-box">
-        <div>No Restriciton Templates</div>
+        <div>No Restriction Templates</div>
       </div>
     );
   }
