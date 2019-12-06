@@ -35,7 +35,7 @@ const ALL_APPTS = gql`
 const NoAppts = () => (
   <div>
     <h1 style={{ marginTop: 0, marginBottom: '0.5rem' }}>No Matching Appointments</h1>
-    <p>Try adjusting your filter criteria.</p>
+    <p>Try adjusting your filter criteria</p>
   </div>
 );
 
@@ -46,8 +46,8 @@ const ApptsError = ({ error }) => {
     return (
       <div>
         <h1 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Too Many Appointments</h1>
-        <div style={{ marginBottom: '0.5rem' }}>The appointments query yielded too many results to send.</div>
-        <div>Please adjust your filter criteria.</div>
+        <div style={{ marginBottom: '0.5rem' }}>The appointments query yielded too many results to send</div>
+        <div>Please adjust your filter criteria</div>
       </div>
     );
   }
