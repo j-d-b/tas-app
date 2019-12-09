@@ -4,7 +4,9 @@ This repository contains the web application for the [KCUS](https://kcus.org)-de
 
 The companion backend API can be found [here](https://github.com/j-d-b/tas-server).
 
-## Installation
+## Usage
+
+### Installation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and I have not yet felt the need to `eject`. Thus, the standard scripts apply.
 
@@ -14,9 +16,19 @@ Install dependencies with
 yarn install
 ```
 
-## Development
+### Environment Variables
+`.env` and `.env.production` environment variables files are included in the project root directory. These files define two variables which specifiy backend URIs:
 
-### Running the app
+* `REACT_APP_GRAPHQL_API_URI`: Full URI and endpoint for the TAS GraphQL API (e.g. http://localhost:4000/graphql)
+* `REACT_APP_REFRESH_TOKEN_URI`: Full URI for endpoint to get new auth token using refresh token cookie (e.g. http://localhost:4000/auth-token)
+
+`.env` will be used in local development and testing while `.env.production` will be used when creating a production build.
+
+**Note:** `.env` also sets `EXTEND_ESLINT=true` which allows for the extended custom rules defined in `.eslintrc.js`.
+
+### Development
+
+#### Running the app
 
 ```shell
 yarn start
@@ -26,7 +38,7 @@ Runs the app in the development mode.
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Connecting to the GraphQL API backend ([`tas-server`](https://github.com/j-d-b/tas-server/))
+#### Connecting to the GraphQL API backend ([`tas-server`](https://github.com/j-d-b/tas-server/))
 
 This web app is designed to connect to a GraphQL API backend designed and developed as part of the same project.
 
@@ -34,7 +46,7 @@ The URI of this backend is configured at line 13 of `src/index.js`.
 
 For setting up a fresh development environment, I'd recommend setting up the backend first. Instructions for this can be found in the [project README](https://github.com/j-d-b/tas-server/blob/master/README.md). Configure the URI of the backend in `index.js`, then just run the app (`yarn start`).
 
-## Production
+### Production
 
 ```shell
 yarn build
