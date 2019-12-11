@@ -121,7 +121,7 @@ const Dashboard = () => {
       variables: { 
         ...(filters.from && { startDate: format(filters.from, 'yyyy-MM-dd') }),
         ...(filters.to && { endDate: format(filters.to, 'yyyy-MM-dd') }),
-        ...(filters.type !== 'ALL' && { where: { actionType: filters.type } })
+        ...(filters.type !== 'ALL' && { actionType: filters.type })
       },
       fetchPolicy: 'network-only'
     }
