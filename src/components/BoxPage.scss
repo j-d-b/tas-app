@@ -3,6 +3,7 @@
 .box-page {
   height: 100%;
   width: 100%;
+  overflow: auto;
 
   display: flex;
   flex-direction: column;
