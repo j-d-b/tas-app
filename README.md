@@ -58,6 +58,16 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
+## Organization
+
+This project organizes React components into two directories: *components* and *containers*.
+
+This organization is based on the standard pattern in React of separating presentational components which always render the same given their props, and container components which make connections to APIs, manage state, and hydrate the presentational components. In this project, the split is a bit lax and our *containers* directory containers components that are somewhat of a hybrid between a presentational and container components--they could absolutely be further broken down. Our *components* match the typical definition.
+
+The key factor which separates the *containers* and *components* here is that *containers* make calls to the `tas-server` backend API while *components* simply present data through the props they are given.
+
+*The one exception is `containers/LogoutButton.js` which makes the `logout` GraphQL mutation.*
+
 ## License
 
 The TAS (and thus tas-server) was built for [BCTC](http://bctc-lb.com) by [@j-d-b](https://github.com/j-d-b) of [KCUS, Inc.](https://kcus.org) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
