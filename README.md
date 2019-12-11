@@ -58,6 +58,8 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
+The TAS is deployed on Netlify and includes a `_redirects` in the `public` directory to redirect all requests to `index.html`.
+
 ## Organization
 
 This project organizes React components into two directories: *components* and *containers*.
