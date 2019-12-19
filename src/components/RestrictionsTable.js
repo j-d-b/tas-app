@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { format, isAfter } from 'date-fns/esm';
 
-import { getHourString, getDateFromTimeSlot, isTimeSlotEqual } from '../utils';
+import { getDateFromTimeSlot, getHourStringFromNumber, isTimeSlotEqual } from '../helpers';
 import './RestrictionsTable.scss';
 
 const ALL_HOURS_IN_DAY = new Array(24).fill(0).map((_, i) => i);
@@ -49,7 +49,7 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
   return (
     <div>
       <div className="restrictions-table" style={{ gridTemplateRows: `min-content repeat(${dates ? 8 : 7}, 3rem)` }}>
-        {ALL_HOURS_IN_DAY.map((hour, i) => <div style={{ gridColumnStart: i + 2 }} className="restrictions-table-hour" key={hour}>{getHourString(hour)}</div>)}
+        {ALL_HOURS_IN_DAY.map((hour, i) => <div style={{ gridColumnStart: i + 2 }} className="restrictions-table-hour" key={hour}>{getHourStringFromNumber(hour)}</div>)}
         
         {dates && dates.map((date, i) => (
           <React.Fragment key={date}>

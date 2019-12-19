@@ -24,8 +24,8 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
       <label htmlFor="fromDateTime">From</label>
       <StyledDatePicker
         id="fromDateTime"
-        selected={filters.from}
-        onChange={val => setFilters({ ...filters, from: val })}
+        selected={filters.fromDate}
+        onChange={val => setFilters({ ...filters, fromDate: val })}
         placeholderText="No start date"
         popperPlacement="bottom"
         isClearable
@@ -33,7 +33,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
         timeIntervals={60}
         timeFormat="HH:mm"
         timeCaption="Hour"
-        maxDate={filters.to}
+        maxDate={filters.toDate}
       />
     </div>
 
@@ -41,8 +41,8 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
       <label htmlFor="toDateTime">To</label>
       <StyledDatePicker
         id="toDateTime"
-        selected={filters.to}
-        onChange={val => setFilters({ ...filters, to: val })}
+        selected={filters.toDate}
+        onChange={val => setFilters({ ...filters, toDate: val })}
         placeholderText="No end date"
         popperPlacement="bottom"
         isClearable
@@ -50,7 +50,7 @@ const OrganizeBox = ({ search, setSearch, filters, setFilters, sort, setSort, re
         timeIntervals={60}
         timeFormat="HH:mm"
         timeCaption="Hour"
-        minDate={filters.from}
+        minDate={filters.fromDate}
       />
     </div>
 

@@ -5,10 +5,10 @@ import { startOfToday, addDays, addWeeks, isBefore, endOfToday, format } from 'd
 import { CSSTransition } from 'react-transition-group';
 
 import './UpcomingRestrictionsTable.scss';
+import { getDateFromTimeSlot, isTimeSlotEqual } from '../helpers';
 import RestrictionsTable from '../components/RestrictionsTable';
 import RightAlign from '../components/RightAlign';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
-import { isTimeSlotEqual, getDateFromTimeSlot } from '../utils';
 
 const APPLIED_TEMPLATE = gql`
   {
@@ -28,8 +28,8 @@ const DEFAULT_ALLOWED_APPTS_PER_HOUR = gql`
 `;
 
 const GLOBAL_RESTRICTIONS = gql`
-  query GlobalRestrictions ($startDate: ISODate, $endDate: ISODate) {
-    globalRestrictions(input: { startDate: $startDate, endDate: $endDate }) {
+  query GlobalRestrictions ($startTimeSlotDate: ISODate, $endTimeSlotDate: ISODate) {
+    globalRestrictions(input: { startTimeSlotDate: $startTimeSlotDate, endTimeSlotDate: $endTimeSlotDate }) {
       id
       gateCapacity
       timeSlot {
@@ -74,8 +74,8 @@ const UpcomingRestrictionsTable = () => {
   const { data: defaultAllowedApptsData } = useQuery(DEFAULT_ALLOWED_APPTS_PER_HOUR);
 
   const nextWeekGlobalRestrictionsVariables = {
-    startDate: format(startOfToday(), 'yyyy-MM-dd'),
-    endDate: format(addWeeks(new Date(), 1), 'yyyy-MM-dd')
+    startTimeSlotDate: format(startOfToday(), 'yyyy-MM-dd'),
+    endTimeSlotDate: format(addWeeks(new Date(), 1), 'yyyy-MM-dd')
   };
 
   const { data: globalRestrictionsData } = useQuery(
@@ -103,7 +103,8 @@ const UpcomingRestrictionsTable = () => {
   if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>;
 
   const getValueStyle = timeSlot => {
-    const matchingGlobalRestriction =  globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
+    const matchingGlobalRestriction = globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(timeSlot, res.timeSlot));
+
     if (matchingGlobalRestriction) {
       return { value: matchingGlobalRestriction.gateCapacity, style: { color: '#0065ff' } };
     }

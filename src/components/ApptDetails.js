@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-import { getApptDate, getFriendlyActionType } from '../utils';
+import { getDateFromTimeSlot, getPrettyActionType } from '../helpers';
 import Action from './Action';
 
 const ApptDetails = ({ appt, isCustomer }) => (
@@ -18,7 +18,7 @@ const ApptDetails = ({ appt, isCustomer }) => (
         </tr>
         <tr>
           <th>Date</th>
-          <td>{format(getApptDate(appt), `iii, MMM d, yyyy`)}</td>
+          <td>{format(getDateFromTimeSlot(appt.timeSlot), `iii, MMM d, yyyy`)}</td>
         </tr>
         <tr>
           <th>{isCustomer ? 'Time' : 'Arrival Window'}</th>
@@ -63,7 +63,7 @@ const ApptDetails = ({ appt, isCustomer }) => (
 
     {appt.actions.map((action, index) => (
       <div key={action.id}>
-        <h2 style={{ marginBottom: '0.5rem' }}>Action {index + 1}: {getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
+        <h2 style={{ marginBottom: '0.5rem' }}>Action {index + 1}: {getPrettyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
         <Action action={action} />
       </div>
     ))}

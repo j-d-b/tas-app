@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getFriendlyUserRole } from '../utils';
+import { getPrettyUserRole } from '../helpers';
 
 const getFriendlyReminderSetting = reminderSetting => {
   switch (reminderSetting) {
@@ -29,7 +29,7 @@ const UserDetails = ({ user }) => (
       </tr>
       <tr>
         <th>Role</th>
-        <td>{getFriendlyUserRole(user.role)}</td>
+        <td>{getPrettyUserRole(user.role)}</td>
       </tr>
       <tr>
         <th>Company</th>

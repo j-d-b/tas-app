@@ -5,7 +5,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import jwtDecode from 'jwt-decode';
 
 import './index.scss';
-import { refreshAuthToken, logoutCleanup, isPassedExpiration } from './utils';
+import { refreshAuthToken, logoutCleanup } from './utils';
+import { isPassedExpiration } from './helpers';
 import { resolvers, typeDefs } from './resolvers';
 import App from './containers/App';
 

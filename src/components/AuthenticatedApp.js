@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import './AuthenticatedApp.scss';
-import { meetsRequiredRole } from '../utils';
+import { meetsRequiredRole } from '../helpers';
 import Navbar from './Navbar';
 import Scheduler from '../containers/Scheduler';
 import MyApptsPage from '../containers/MyApptsPage';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { getFriendlyActionType, buildActionDetailsInput } from '../utils';
+import { getPrettyActionType } from '../helpers';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton } from '../components/Form';
@@ -15,6 +15,50 @@ const UPDATE_APPT = gql`
     }
   }
 `;
+
+const buildActionDetailsInput = action => {
+  switch (action.type) {
+    case 'IMPORT_FULL': {
+      return {
+        importFull: {
+          formNumber705: action.formNumber705,
+          containerId: action.containerId,
+          containerType: action.containerType
+        }
+      };
+    }
+    case 'STORAGE_EMPTY': {
+      return {
+        storageEmpty: {
+          shippingLine: action.shippingLine,
+          containerType: action.containerType,
+          emptyForCityFormNumber: action.emptyForCityFormNumber
+        }
+      };
+    }
+    case 'EXPORT_FULL': {
+      return {
+        exportFull: {
+          containerId: action.containerId,
+          containerType: action.containerType,
+          containerWeight: action.containerWeight,
+          shippingLine: action.shippingLine,
+          bookingNumber: action.bookingNumber
+        }
+      };
+    }
+    case 'EXPORT_EMPTY': {
+      return {
+        exportEmpty: {
+          containerId: action.containerId,
+          containerType: action.containerType,
+          shippingLine: action.shippingLine
+        }
+      };
+    }
+    default: return {};
+  }
+};
 
 const EditAppt = ({ appt, isCustomer, refetchQueries, onCompleted }) => {
   const [edits, setEdits] = useState(appt);
@@ -57,7 +101,7 @@ const EditAppt = ({ appt, isCustomer, refetchQueries, onCompleted }) => {
 
         {edits.actions.map((action, index) => (
           <div key={action.id}>
-            <h2>Action {index + 1}: {getFriendlyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
+            <h2>Action {index + 1}: {getPrettyActionType(action.type, isCustomer ? 'CUSTOMER' : 'OPERATOR')}</h2>
             <EditAction
               action={action}
               onEdit={editedAction => {

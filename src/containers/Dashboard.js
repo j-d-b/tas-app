@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { format, startOfToday, addWeeks, endOfDay } from 'date-fns';
+import { startOfToday, addWeeks, endOfDay } from 'date-fns';
 
 import './Dashboard.scss';
-import { getDateFromTimeSlot, formatError } from '../utils';
+import { buildTimeSlotFromDate } from '../helpers';
+import { formatError } from '../helpers';
+import { getDateFromTimeSlot } from '../helpers';
 import Modal from '../components/Modal';
 import OrganizeBox from '../components/OrganizeBox';
 import ApptCard from '../components/ApptCard';
 import Appt from './Appt';
 
 const ALL_APPTS = gql`
-  query Appts ($startDate: ISODate, $endDate: ISODate, $actionType: ActionType) {
-    appts (input: { startDate: $startDate, endDate: $endDate, where: { actionType: $actionType } }) {
+  query Appts ($fromTimeSlot: TimeSlotInput, $toTimeSlot: TimeSlotInput, $actionType: ActionType) {
+    appts (input: { fromTimeSlot: $fromTimeSlot, toTimeSlot: $toTimeSlot, where: { actionType: $actionType } }) {
       id
       user {
         name
@@ -58,8 +60,8 @@ const ApptsError = ({ error }) => {
 const INIT_FILTERS = {
   search: '',
   type: 'ALL',
-  from: startOfToday(),
-  to: endOfDay(addWeeks(startOfToday(), 1))
+  fromDate: startOfToday(),
+  toDate: endOfDay(addWeeks(startOfToday(), 1))
 };
 
 const INIT_SORT = {
@@ -74,14 +76,6 @@ const satisfiesSearch = search => appt => {
   || appt.user.name.toLowerCase().includes(lowerCaseSearch)
   || appt.user.company.toLowerCase().includes(lowerCaseSearch)
   || appt.actions.reduce((matchesSearch, { containerId }) => matchesSearch || (containerId && containerId.toLowerCase().includes(lowerCaseSearch)), false);
-};
-
-// backend API only allows selecting within a date range, not hour range
-const satisfiesHourFilters = filters => appt => {
-  const apptDate = getDateFromTimeSlot(appt.timeSlot);
-  const satisfiesFrom = !filters.from || apptDate >= filters.from;
-  const satisfiesTo = !filters.to || apptDate <= filters.to;
-  return satisfiesFrom && satisfiesTo;
 };
 
 const createSort = sort => (apptA, apptB) => {
@@ -119,8 +113,8 @@ const Dashboard = () => {
     ALL_APPTS,
     { 
       variables: { 
-        ...(filters.from && { startDate: format(filters.from, 'yyyy-MM-dd') }),
-        ...(filters.to && { endDate: format(filters.to, 'yyyy-MM-dd') }),
+        ...(filters.fromDate && { fromTimeSlot: buildTimeSlotFromDate(filters.fromDate) }),
+        ...(filters.toDate && { toTimeSlot:  buildTimeSlotFromDate(filters.toDate) }),
         ...(filters.type !== 'ALL' && { actionType: filters.type })
       },
       fetchPolicy: 'network-only'
@@ -137,7 +131,6 @@ const Dashboard = () => {
   if (data) {
     appts = data.appts
       .filter(satisfiesSearch(search))
-      .filter(satisfiesHourFilters(filters))
       .sort(createSort(sort));
   }
 

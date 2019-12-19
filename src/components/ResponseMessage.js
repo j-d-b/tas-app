@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './ResponseMessage.scss';
-import { formatError } from '../utils';
+import { formatError } from '../helpers';
 
 export const SuccessMessage = ({ children }) => (
   <div className="success-message">{children || 'Saved successfully'}</div>

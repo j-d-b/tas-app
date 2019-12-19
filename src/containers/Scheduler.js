@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { format } from 'date-fns';
 
 import './Scheduler.scss';
-import { getFriendlyActionType, calculateApptTFU, formatTimeSlot, containerSizeToTFU } from '../utils';
+import { getDateFromTimeSlot, getPrettyActionType } from '../helpers';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
@@ -18,6 +19,8 @@ import { ReactComponent as BackArrowIcon } from '../images/back-arrow.svg';
 
 const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
 const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
+const containerSizeToTFU = containerSizeString => containerSizeString === 'TWENTYFOOT' ? 20 : 40;
+const calculateApptTFU = appt => appt.actions.reduce((totalTFU, { containerSize }) => totalTFU + containerSizeToTFU(containerSize), 0);
 
 const ADD_APPT = gql`
   mutation AddAppt ($input: AddApptInput!) {
@@ -300,7 +303,7 @@ const Scheduler = () => {
                   <BackArrow onClick={() => setPage('ENTER_ACTION_DETAILS')} />
                   <h1>Current Actions</h1>
                   <ol style={{ textAlign: 'left', fontFamily: `'Roboto Condensed', sans-serif`, fontSize: '1.2rem' }}>
-                    {newAppt.actions.map((action, i) => <li key={i}><strong>{getFriendlyActionType(action.type)}</strong> {action.containerId ? `(CID: ${action.containerId})` : ''}</li>)}
+                    {newAppt.actions.map((action, i) => <li key={i}><strong>{getPrettyActionType(action.type)}</strong> {action.containerId ? `(CID: ${action.containerId})` : ''}</li>)}
                   </ol>
 
                   <FormNote>You will be able to review/edit all details prior to confirmation.</FormNote>
@@ -370,7 +373,7 @@ const Scheduler = () => {
 
                   {newAppt.actions.map((action, index) => (
                     <div key={index}>
-                      <h2>Action {index + 1}: {getFriendlyActionType(action.type, 'CUSTOMER')}</h2>
+                      <h2>Action {index + 1}: {getPrettyActionType(action.type, 'CUSTOMER')}</h2>
 
                       <div style={{ textAlign: 'left' }}>
                         <EditAction
@@ -386,7 +389,7 @@ const Scheduler = () => {
                   ))}
 
                   <h2>Time Slot</h2>
-                  <div className="selected-time-slot">{formatTimeSlot(newAppt.timeSlot)}</div>
+                  <div className="selected-time-slot">{format(getDateFromTimeSlot(newAppt.timeSlot), `iii, MMM d, yyyy 'at' HH:mm`)}</div>
                   <p style={{ fontSize: '0.8rem', opacity: '0.8' }}>After booking, you will be assigned a specific arrival time within this time slot</p>
 
                   <div style={{ marginTop: '0.5rem' }}>

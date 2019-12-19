@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { getApptDate } from '../utils';
+import { getDateFromTimeSlot } from '../helpers';
 import { ErrorMessage } from '../components/ResponseMessage';
 import { FormButton } from '../components/Form';
 
@@ -18,7 +18,7 @@ const DeleteAppt = ({ appt, onDelete, onCancel, refetchQueries }) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1 style={{ marginTop: 0 }}>Confirm Deletion</h1>
-      <p>Are you sure you want to delete your appointment for <strong>{getApptDate(appt).toDateString()}</strong> at <strong>{appt.arrivalWindow}</strong>?</p>
+      <p>Are you sure you want to delete your appointment for <strong>{getDateFromTimeSlot(appt.timeSlot).toDateString()}</strong> at <strong>{appt.arrivalWindow}</strong>?</p>
       <FormButton
         type="button"
         style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem' }}

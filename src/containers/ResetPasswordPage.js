@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 
-import { isPassedExpiration } from '../utils';
+import { isPassedExpiration } from '../helpers';
 import { SuccessMessage } from '../components/ResponseMessage';
 import UnauthenticatedFormPage from '../components/UnauthenticatedFormPage';
 

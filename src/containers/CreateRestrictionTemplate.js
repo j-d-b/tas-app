@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { isTemplateTimeSlotEqual } from '../utils';
+import { isTemplateTimeSlotEqual } from '../helpers';
 import RestrictionsTable from '../components/RestrictionsTable';
 import { FormButton, FormGroup, FormInput } from '../components/Form';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';

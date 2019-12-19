@@ -6,7 +6,7 @@ import './AdminPage.scss';
 import User from './User';
 import Modal from '../components/Modal';
 import UsersTable from '../components/UsersTable';
-import { getFriendlyUserRole } from '../utils';
+import { getPrettyUserRole } from '../helpers';
 
 const ALL_USERS = gql`
   query AllUsers {
@@ -56,7 +56,7 @@ const AdminPage = () => {
     {
       field: 'role',
       title: 'Role',
-      component: ({ user }) => getFriendlyUserRole(user.role)
+      component: ({ user }) => getPrettyUserRole(user.role)
     },
     {
       field: 'reminderSetting',

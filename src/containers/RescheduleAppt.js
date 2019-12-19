@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { getApptDate } from '../utils';
+import { getDateFromTimeSlot } from '../helpers';
 import ScheduleAppt from './ScheduleAppt';
 import { ErrorMessage } from '../components/ResponseMessage';
 import { FormButton } from '../components/Form';
@@ -23,7 +23,7 @@ const RescheduleAppt = ({ appt, onCompleted, refetchQueries }) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1 style={{ marginTop: 0 }}>Reschedule Appointment</h1>
-      <p>Currently Scheduled for <strong>{getApptDate(appt).toDateString()} ({appt.arrivalWindow})</strong></p>
+      <p>Currently Scheduled for <strong>{getDateFromTimeSlot(appt.timeSlot).toDateString()} ({appt.arrivalWindow})</strong></p>
 
       <h2>Select a new Time Slot</h2>
       <ScheduleAppt appt={appt} selectTimeSlot={setNewTimeSlot} setIsValid={setIsValidTimeSlot} />

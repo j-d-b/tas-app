@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { isAfter, isBefore } from 'date-fns';
 
 import Appt from './Appt';
-import { getDateFromTimeSlot } from '../utils';
+import { getDateFromTimeSlot } from '../helpers';
 import './MyApptsPage.scss';
 import ApptCard from '../components/ApptCard';
 import Modal from '../components/Modal';
