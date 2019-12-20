@@ -82,7 +82,7 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
             name="role"
             id="role"
             value={edits.role}
-            onChange={onEdit}
+            onChange={e => setEdits({ ...edits, role: e.target.value })}
             options={[
               { name: 'Customer', value: 'CUSTOMER' },
               { name: 'Operator', value: 'OPERATOR' },
