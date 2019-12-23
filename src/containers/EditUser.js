@@ -149,15 +149,17 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
 
       <FormNote>* indicates a required field</FormNote>
 
-      <FormButton 
-        type="button"
-        style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
-        variety="PRIMARY"
-        onClick={() => onCompleted()}
-      >Cancel</FormButton>
+      {onCompleted && (
+        <FormButton 
+          type="button"
+          style={{ width: 'calc(50% - 0.25rem)', marginRight: '0.25rem', marginTop: '0.75rem' }}
+          variety="PRIMARY"
+          onClick={() => onCompleted()}
+        >Cancel</FormButton>
+      )}
 
       <FormButton
-        style={{ width: '50%' }}
+        style={{ width: onCompleted ? '50%' : '100%' }}
         type="submit"
         variety="SUCCESS"
         disabled={loading}
