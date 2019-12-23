@@ -25,7 +25,7 @@ const EditApptDetails = ({ appt, onEdit }) => (
         value={appt.notifyMobileNumber || ''}
         onChange={e => onEdit({ ...appt, notifyMobileNumber: e.target.value })}
       />
-      <FormNote>If included, this number will be notified when the appointment is booked as well the day before it occurs</FormNote>
+      <FormNote>If this number is provided, it will be notified when the appointment is booked as well the day before it occurs. This number must include the country code.</FormNote>
     </FormGroup>
 
     <FormGroup>

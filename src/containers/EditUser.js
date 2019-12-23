@@ -131,6 +131,7 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
           value={edits.mobileNumber}
           onEdit={onEdit}
         />
+        <FormNote>Number must include country code</FormNote>
       </FormGroup>
 
       <label htmlFor="reminderSetting">Reminder Setting*</label>
