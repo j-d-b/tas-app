@@ -25,7 +25,7 @@ const ScheduleAppt = ({ appt, selectTimeSlot, setIsValid }) => {
   const containerSizes = appt.actions.map(({ containerSize }) => containerSize);
 
   const { data, error, loading } = useQuery(AVAILABLE_SLOTS, { variables: { containerSizes }, fetchPolicy: 'network-only', pollInterval: 30000 });
-  if (loading) return <p>Fetching available time slots...</p>;
+  if (loading) return <p>Searching for available time slots...</p>;
   if (error) return <ErrorMessage>An error occurred while fetching available time slots.</ErrorMessage>;
 
   const availableDateTimes = data.availableSlots.map(getDateFromTimeSlot);
