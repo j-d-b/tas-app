@@ -119,7 +119,7 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <EditContainerType action={action} onEdit={onEdit} />
 
           <FormGroup>
-            <label htmlFor="containerWeight">Container Weight*</label>
+            <label htmlFor="containerWeight">Container Weight (kg)*</label>
             <FormInput
               name="containerWeight"
               id="containerWeight"

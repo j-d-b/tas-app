@@ -67,7 +67,7 @@ const Action = ({ action }) => {
               <td>{action.containerType}</td>
             </tr>
             <tr>
-              <th>Container Weight</th>
+              <th>Container Weight (kg)</th>
               <td>{action.containerWeight}</td>
             </tr>
             <tr>
