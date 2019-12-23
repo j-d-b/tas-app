@@ -60,6 +60,7 @@ const buildAddActionInput = action => {
         type: 'IMPORT_FULL',
         importFull: {
           formNumber705: action.formNumber705,
+          containerType: action.containerType,
           containerId: action.containerId
         }
       };
