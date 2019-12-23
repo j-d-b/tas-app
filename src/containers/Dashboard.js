@@ -182,7 +182,20 @@ const Dashboard = () => {
         closeModal={() => setIsModalOpen(false)}
         title="View Appt"
       >
-        <Appt apptId={selectedApptId} refetchQueries={[{ query: ALL_APPTS }]} onDelete={() => setIsModalOpen(false)} />
+        <Appt 
+          apptId={selectedApptId} 
+          refetchQueries={[
+            { 
+              query: ALL_APPTS,
+              variables: { 
+                ...(filters.fromDate && { fromTimeSlot: buildTimeSlotFromDate(filters.fromDate) }),
+                ...(filters.toDate && { toTimeSlot:  buildTimeSlotFromDate(filters.toDate) }),
+                ...(filters.type !== 'ALL' && { actionType: filters.type })
+              }
+            }
+          ]}
+          onDelete={() => setIsModalOpen(false)}
+        />
       </Modal>
     </div>
   );
