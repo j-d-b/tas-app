@@ -6,7 +6,7 @@ import logo from '../images/bctc-tas-simple-logo.svg';
 
 const BoxPage = ({ afterBox: AfterBox, children }) => (
   <div className="box-page">
-    <Link to="/login" style={{ margin: '2rem 1rem' }}>
+    <Link to="/login" style={{ margin: '2rem 1rem' }} tabIndex="-1">
       <img className="box-page__logo" src={logo} alt="BCTC TAS"/>
     </Link>
     <div className="box-page__box">{children}</div>
