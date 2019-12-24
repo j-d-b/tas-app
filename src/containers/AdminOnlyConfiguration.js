@@ -54,8 +54,9 @@ const AdminOnlyConfiguration = () => {
         <FormInput
           id="defaultAllowedApptsPerHour"
           name="defaultAllowedApptsPerHour"
-          type="text"
+          type="number"
           min="0"
+          max="9999"
           value={defaultAllowed}
           required
           disabled={!defaultAllowedResults.data}
