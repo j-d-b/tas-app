@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
@@ -17,10 +17,10 @@ import { ReactComponent as ExportFullIcon } from '../images/truck-export-full.sv
 import { ReactComponent as ExportEmptyIcon } from '../images/truck-export-empty.svg';
 import { ReactComponent as BackArrowIcon } from '../images/back-arrow.svg';
 
-const MAX_TFU_PER_ACTION_CATEGORY = 40; // TODO, action category is 'import' or 'export'
-const DEFAULT_ACTION_TFU = 40; // if containerSize is not defined
 const containerSizeToTFU = containerSizeString => containerSizeString === 'TWENTYFOOT' ? 20 : 40;
 const calculateApptTFU = appt => appt.actions.reduce((totalTFU, { containerSize }) => totalTFU + containerSizeToTFU(containerSize), 0);
+const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
+const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';
 
 const ADD_APPT = gql`
   mutation AddAppt ($input: AddApptInput!) {
@@ -35,13 +35,11 @@ const ADD_APPT = gql`
   }
 `;
 
-// const MAX_TFU = gql`
-//   {
-
-//   }
-// `; // TODO
-
-// const ARRIVAL_WINDOW_SIZE = gql``; //TODO
+const MAX_TFU_PER_APPT = gql`
+  query MaxTFUPerAppt {
+    maxTFUPerAppt
+  }
+`;
 
 const indexToNthString = index => {
   switch (index) {
@@ -61,7 +59,8 @@ const buildAddActionInput = action => {
         importFull: {
           formNumber705: action.formNumber705,
           containerType: action.containerType,
-          containerId: action.containerId
+          containerId: action.containerId,
+          containerSize: action.containerSize
         }
       };
     }
@@ -126,58 +125,6 @@ const Start = ({ onStart }) => (
   </div>
 );
 
-const getActionTypeOptions = (appt, currActionIndex) => {
-  const allOptions = [
-    { IconComponent: ImportFullIcon, name: 'Pick Up Full Container', value: 'IMPORT_FULL' },
-    { IconComponent: StorageEmptyIcon, name: 'Pick Up Empty Container', value: 'STORAGE_EMPTY' },
-    { IconComponent: ExportFullIcon, name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
-    { IconComponent: ExportEmptyIcon, name: 'Drop Off Empty Container', value: 'EXPORT_EMPTY' }
-  ];
-
-  const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
-  const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';
-
-  const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
-    type && isImportType(type) && currActionIndex !== i
-      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
-      : count
-  ), 0);
-
-  const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
-    type && isExportType(type) && currActionIndex !== i
-      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
-      : count
-  ), 0);
-
-  const canImport = importTFU < MAX_TFU_PER_ACTION_CATEGORY;
-  const canExport = exportTFU < MAX_TFU_PER_ACTION_CATEGORY;
-
-  return allOptions.filter(({ value }) => isImportType(value) ? canImport : canExport);
-};
-
-const getContainerSizeOptions = (appt, currActionIndex) => {
-  const allOptions = ['TWENTYFOOT', 'FORTYFOOT'].map(value => ({ name: getPrettyContainerSize(value), value }));
-
-  const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
-  const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';
-
-  const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
-    type && isImportType(type) && currActionIndex !== i
-      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
-      : count
-  ), 0);
-
-  const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
-    type && isExportType(type) && currActionIndex !== i
-      ? count + (containerSize ? containerSizeToTFU(containerSize) : DEFAULT_ACTION_TFU) // checking if it's defined
-      : count
-  ), 0);
-
-  const remainingTFU = MAX_TFU_PER_ACTION_CATEGORY - (isImportType(appt.actions[currActionIndex].type) ? importTFU : exportTFU);
-
-  return allOptions.filter(({ value }) => containerSizeToTFU(value) <= remainingTFU);
-};
-
 const INIT_APPT = { actions: [{ type: '' }] };
 
 const Scheduler = () => {
@@ -186,6 +133,9 @@ const Scheduler = () => {
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
   const [isSelectedTimeSlotValid, setIsSelectedTimeSlotValid] = useState(false);
   const [newAppt, setNewAppt] = useState({ ...INIT_APPT });
+
+  const maxTFUPerApptResults = useQuery(MAX_TFU_PER_APPT);
+
   const [addAppt, { data, error, loading }] = useMutation(
     ADD_APPT,
     { 
@@ -196,6 +146,62 @@ const Scheduler = () => {
       }
     }
   );
+
+  if (maxTFUPerApptResults.loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (maxTFUPerApptResults.error) {
+    return <div>An Error Occurred, please try refreshing the page</div>;
+  }
+
+  const maxTFUPerActionCategory = maxTFUPerApptResults.data.maxTFUPerAppt / 2;
+
+  const getActionTypeOptions = (appt, currActionIndex) => {
+    const allOptions = [
+      { IconComponent: ImportFullIcon, name: 'Pick Up Full Container', value: 'IMPORT_FULL' },
+      { IconComponent: StorageEmptyIcon, name: 'Pick Up Empty Container', value: 'STORAGE_EMPTY' },
+      { IconComponent: ExportFullIcon, name: 'Drop Off Full Container', value: 'EXPORT_FULL' },
+      { IconComponent: ExportEmptyIcon, name: 'Drop Off Empty Container', value: 'EXPORT_EMPTY' }
+    ];
+  
+    const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+      type && isImportType(type) && currActionIndex !== i
+        ? count + containerSizeToTFU(containerSize)
+        : count
+    ), 0);
+  
+    const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+      type && isExportType(type) && currActionIndex !== i
+        ? count + containerSizeToTFU(containerSize)
+        : count
+    ), 0);
+  
+    const canImport = importTFU < maxTFUPerActionCategory;
+    const canExport = exportTFU < maxTFUPerActionCategory;
+  
+    return allOptions.filter(({ value }) => isImportType(value) ? canImport : canExport);
+  };
+
+  const getContainerSizeOptions = (appt, currActionIndex) => {
+    const allOptions = ['TWENTYFOOT', 'FORTYFOOT'].map(value => ({ name: getPrettyContainerSize(value), value }));
+  
+    const importTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+      type && isImportType(type) && currActionIndex !== i
+        ? count + containerSizeToTFU(containerSize)
+        : count
+    ), 0);
+  
+    const exportTFU = appt.actions.reduce((count, { type, containerSize }, i) => (
+      type && isExportType(type) && currActionIndex !== i
+        ? count + containerSizeToTFU(containerSize)
+        : count
+    ), 0);
+  
+    const remainingTFU = maxTFUPerActionCategory - (isImportType(appt.actions[currActionIndex].type) ? importTFU : exportTFU);
+  
+    return allOptions.filter(({ value }) => containerSizeToTFU(value) <= remainingTFU);
+  };
   
   return (
     <div className="scheduler-page">
@@ -306,7 +312,7 @@ const Scheduler = () => {
 
                   <FormNote>You will be able to review/edit all details prior to confirmation.</FormNote>
 
-                  {calculateApptTFU(newAppt) < (MAX_TFU_PER_ACTION_CATEGORY * 2) && ( // TODO THIS VALUE
+                  {calculateApptTFU(newAppt) < (maxTFUPerActionCategory * 2) && (
                     <FormButton
                       className="scheduler-button"
                       type="button"
