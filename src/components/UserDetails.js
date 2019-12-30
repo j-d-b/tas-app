@@ -49,11 +49,11 @@ const UserDetails = ({ user }) => (
       </tr>
       <tr>
         <th>Confirmed</th>
-        <td>{user.confirmed}</td>
+        <td>{user.confirmed ? 'Yes' : 'No'}</td>
       </tr>    
       <tr>
         <th>Email Verified</th>
-        <td>{user.emailVerified}</td>
+        <td>{user.emailVerified ? 'Yes' : 'No'}</td>
       </tr>
       <tr>
         <th>Reminder Setting</th>
