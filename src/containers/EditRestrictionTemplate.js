@@ -90,12 +90,14 @@ const EditRestrictionTemplate = ({ templateName, onSave, refetchQueries }) => {
     <div>
       <h1 style={{ marginTop: 0 }}>Edit {templateName}</h1>
 
-      <RestrictionsTable
-        isEdit
-        addRestriction={addRestriction}
-        deleteRestriction={deleteRestriction}
-        getValue={getValue}
-      />
+      <div style={{ overflowX: 'auto', width: '100%' }}>
+        <RestrictionsTable
+          isEdit
+          addRestriction={addRestriction}
+          deleteRestriction={deleteRestriction}
+          getValue={getValue}
+        />
+      </div>
 
       <RightAlign>
         <FormButton

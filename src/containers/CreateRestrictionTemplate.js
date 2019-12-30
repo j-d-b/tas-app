@@ -76,11 +76,13 @@ const CreateRestrictionTemplate = ({ onSave, refetchQueries }) => {
           />
         </FormGroup>
 
-        <RestrictionsTable
-          addRestriction={addRestriction}
-          deleteRestriction={deleteRestriction}
-          getValue={getValue}
-        />
+        <div style={{ overflowX: 'auto', width: '100%' }}>
+          <RestrictionsTable
+            addRestriction={addRestriction}
+            deleteRestriction={deleteRestriction}
+            getValue={getValue}
+          />
+        </div>
 
         <RightAlign>
           <FormButton
