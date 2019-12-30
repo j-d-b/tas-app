@@ -26,11 +26,11 @@ export const FormInput = ({ onChange, disableInvalidHighlighting, ...rest }) => 
 
 export const FormSelect = ({ options, name, value, placeholder, disabled, onChange, disableInvalidHighlighting, ...rest }) => {
   const [touched, setTouched] = useState(false);
-
+  
   return (
     <select
       className={`form-select${touched ? ' touched' : ''}${disableInvalidHighlighting ? ' disable-invalid-highlighting' : ''}`}
-      style={{ color: !value ? 'lightgray' : (disabled ? 'graytext' : 'black') }}
+      style={{ color: disabled ? 'graytext' : 'black' }}
       value={value}
       disabled={disabled} {...rest}
       onChange={e => {
