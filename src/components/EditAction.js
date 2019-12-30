@@ -1,6 +1,18 @@
 import React from 'react';
 
 import { FormGroup, FormSelect, FormInput, FormNote } from './Form';
+import { getPrettyContainerType } from '../helpers';
+
+const containerTypeOptions = [
+  'GENERAL',
+  'OPEN_TOP',
+  'REEFER',
+  'HIGH_CUBE',
+  'TANK',
+  'PLATFORM',
+  'SPECIAL_TYPE',
+  'FLATRACK'
+].map(value => ({ name: getPrettyContainerType(value), value }));
 
 const EditContainerId = ({ action, onEdit }) => (
   <FormGroup>
@@ -38,13 +50,13 @@ const EditContainerSize = ({ action, onEdit, options, disabled }) => (
 const EditContainerType = ({ action, onEdit }) => (
   <FormGroup>
     <label htmlFor="containerType">Container Type*</label>
-    <FormInput
+    <FormSelect
       name="containerType"
       id="containerType"
-      type="text"
-      value={action.containerType || ''}
+      options={containerTypeOptions}
+      value={action.containerType}
       onChange={e => onEdit({ ...action, containerType: e.target.value })}
-      placeholder="Dry, Refrigerated, Insulated..."
+      placeholder="Select container type"
       required
     />
   </FormGroup>

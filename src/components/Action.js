@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getPrettyContainerType } from '../helpers';
+
 const Action = ({ action }) => {
   switch (action.type) {
     case 'IMPORT_FULL': {
@@ -16,7 +18,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Type</th>
-              <td>{action.containerType}</td>
+              <td>{getPrettyContainerType(action.containerType)}</td>
             </tr>
             <tr>
               <th>705 Form Number</th>
@@ -36,7 +38,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Type</th>
-              <td>{action.containerType}</td>
+              <td>{getPrettyContainerType(action.containerType)}</td>
             </tr>
             <tr>
               <th>Shipping Line</th>
@@ -64,7 +66,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Type</th>
-              <td>{action.containerType}</td>
+              <td>{getPrettyContainerType(action.containerType)}</td>
             </tr>
             <tr>
               <th>Container Weight (kg)</th>
@@ -96,7 +98,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Type</th>
-              <td>{action.containerType}</td>
+              <td>{getPrettyContainerType(action.containerType)}</td>
             </tr>
             <tr>
               <th>Shipping Line</th>

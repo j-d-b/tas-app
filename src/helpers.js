@@ -49,6 +49,20 @@ export const getPrettyUserRole = userRole => {
   }
 };
 
+export const getPrettyContainerType = containerType => {
+  switch (containerType) {
+    case 'GENERAL': return 'General';
+    case 'OPEN_TOP': return 'Open Top';
+    case 'REEFER': return 'Reefer';
+    case 'HIGH_CUBE': return 'High Cube';
+    case 'TANK': return 'Tank';
+    case 'PLATFORM': return 'Platform';
+    case 'SPECIAL_TYPE': return 'Special Type';
+    case 'FLATRACK': return 'Flatrack';
+    default: return 'General';
+  }
+};
+
 export const formatError = error => {
   let errorString = error.toString();
   if (errorString.startsWith('Error: ')) {
