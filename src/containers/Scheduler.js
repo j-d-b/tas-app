@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import { format } from 'date-fns';
 
 import './Scheduler.scss';
-import { getDateFromTimeSlot, getPrettyActionType } from '../helpers';
+import { getDateFromTimeSlot, getPrettyActionType, getPrettyContainerSize } from '../helpers';
 import EditApptDetails from '../components/EditApptDetails';
 import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
@@ -156,10 +156,7 @@ const getActionTypeOptions = (appt, currActionIndex) => {
 };
 
 const getContainerSizeOptions = (appt, currActionIndex) => {
-  const allOptions = [
-    { name: 'Twenty Foot', value: 'TWENTYFOOT' },
-    { name: 'Forty Foot', value: 'FORTYFOOT' }
-  ];
+  const allOptions = ['TWENTYFOOT', 'FORTYFOOT'].map(value => ({ name: getPrettyContainerSize(value), value }));
 
   const isImportType = type => type === 'IMPORT_FULL' || type === 'STORAGE_EMPTY';
   const isExportType = type => type === 'EXPORT_FULL' || type === 'EXPORT_EMPTY';

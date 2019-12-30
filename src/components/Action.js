@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getPrettyContainerType } from '../helpers';
+import { getPrettyContainerType, getPrettyContainerSize } from '../helpers';
 
 const Action = ({ action }) => {
   switch (action.type) {
@@ -14,7 +14,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Size</th>
-              <td>{action.containerSize}</td>
+              <td>{getPrettyContainerSize(action.containerSize)}</td>
             </tr>
             <tr>
               <th>Container Type</th>
@@ -34,7 +34,7 @@ const Action = ({ action }) => {
           <tbody>
             <tr>
               <th>Container Size</th>
-              <td>{action.containerSize}</td>
+              <td>{getPrettyContainerSize(action.containerSize)}</td>
             </tr>
             <tr>
               <th>Container Type</th>
@@ -62,7 +62,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Size</th>
-              <td>{action.containerSize}</td>
+              <td>{getPrettyContainerSize(action.containerSize)}</td>
             </tr>
             <tr>
               <th>Container Type</th>
@@ -94,7 +94,7 @@ const Action = ({ action }) => {
             </tr>
             <tr>
               <th>Container Size</th>
-              <td>{action.containerSize}</td>
+              <td>{getPrettyContainerSize(action.containerSize)}</td>
             </tr>
             <tr>
               <th>Container Type</th>

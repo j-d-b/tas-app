@@ -40,12 +40,20 @@ export const getPrettyActionType = (actionType, role = 'CUSTOMER') => {
   }
 };
 
+export const getPrettyContainerSize = containerSize => {
+  switch (containerSize) {
+    case 'TWENTYFOOT': return '20\'';
+    case 'FORTYFOOT': return '40\'';
+    default: return 'UNKNOWN';
+  }
+};
+
 export const getPrettyUserRole = userRole => {
   switch (userRole) {
     case 'ADMIN': return 'Admin';
     case 'OPERATOR': return 'Operator';
     case 'CUSTOMER': return 'Customer';
-    default: return 'Customer';
+    default: return 'UNKNOWN';
   }
 };
 
@@ -59,7 +67,7 @@ export const getPrettyContainerType = containerType => {
     case 'PLATFORM': return 'Platform';
     case 'SPECIAL_TYPE': return 'Special Type';
     case 'FLATRACK': return 'Flatrack';
-    default: return 'General';
+    default: return 'UNKNOWN';
   }
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormGroup, FormSelect, FormInput, FormNote } from './Form';
-import { getPrettyContainerType } from '../helpers';
+import { getPrettyContainerType, getPrettyContainerSize } from '../helpers';
 
 const containerTypeOptions = [
   'GENERAL',
@@ -13,6 +13,11 @@ const containerTypeOptions = [
   'SPECIAL_TYPE',
   'FLATRACK'
 ].map(value => ({ name: getPrettyContainerType(value), value }));
+
+const containerSizeOptions = [
+  'TWENTYFOOT',
+  'FORTYFOOT'
+].map(value => ({ name: getPrettyContainerSize(value), value }));
 
 const EditContainerId = ({ action, onEdit }) => (
   <FormGroup>
@@ -35,10 +40,7 @@ const EditContainerSize = ({ action, onEdit, options, disabled }) => (
       disabled={disabled}
       name="containerSize"
       id="containerSize"
-      options={options || [
-        { name: 'Twenty Foot', value: 'TWENTYFOOT' },
-        { name: 'Forty Foot', value: 'FORTYFOOT' }
-      ]}
+      options={options || containerSizeOptions}
       value={action.containerSize}
       onChange={e => onEdit({ ...action, containerSize: e.target.value })}
       placeholder="Select container size"
