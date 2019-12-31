@@ -138,6 +138,8 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
               name="containerWeight"
               id="containerWeight"
               type="number"
+              min="0"
+              max="999999999"
               value={action.containerWeight || ''}
               onChange={e => onEdit({ ...action, containerWeight: e.target.value })}
               required

@@ -117,7 +117,7 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
         <UserDetailsInput
           field="companyRegNumber"
           label="Company Reg. Number"
-          type="number"
+          type="text"
           value={edits.companyRegNumber}
           onEdit={onEdit}
         />
@@ -127,7 +127,7 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
         <UserDetailsInput
           field="mobileNumber"
           label="Mobile Number"
-          type="number"
+          type="string"
           value={edits.mobileNumber}
           onEdit={onEdit}
         />
