@@ -149,7 +149,6 @@ const UpcomingRestrictionsTable = () => {
       </div>
       
       <div style={{ height: '1.5rem' }}>
-        {JSON.stringify(loadingTimeSlots)}
         <CSSTransition in={hasSaveResponse} classNames="response-message" timeout={300} unmountOnExit>
           <RightAlign>
             {(addGlobalRestrictionData || deleteRestrictionData) && <SuccessMessage>Saved successfully!</SuccessMessage>}
