@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { startOfToday, addDays, addWeeks, isBefore, endOfToday, format } from 'date-fns/esm';
+import { startOfDay, endOfDay, addDays, subDays, addWeeks, isBefore, format } from 'date-fns/esm';
 import { CSSTransition } from 'react-transition-group';
 
 import './UpcomingRestrictionsTable.scss';
+import { useCurrServerTime } from '../utils';
 import { getDateFromTimeSlot, isTimeSlotEqual } from '../helpers';
 import RestrictionsTable from '../components/RestrictionsTable';
 import RightAlign from '../components/RightAlign';
@@ -58,11 +59,11 @@ const DELETE_RESTRICTION = gql`
   }
 `;
 
-const getDatesInNextWeek = () => {
-  const oneWeekFromToday = addWeeks(endOfToday(), 1);
+const getDatesInNextWeek = currServerTime => {
+  const oneWeekFromToday = addWeeks(endOfDay(currServerTime), 1);
 
   let datesInNextWeek = [];
-  let currDate = startOfToday();
+  let currDate = startOfDay(currServerTime);
   while (isBefore(currDate, oneWeekFromToday)) {
     datesInNextWeek.push(currDate);
     currDate = addDays(currDate, 1);
@@ -72,16 +73,24 @@ const getDatesInNextWeek = () => {
 };
 
 const UpcomingRestrictionsTable = () => {
+  const client = useApolloClient();
+  const currServerTime = useCurrServerTime(client);
+
   const [loadingTimeSlots, setLoadingTimeSlots] = useState([]);
 
   const { data: appliedTemplateData } = useQuery(APPLIED_TEMPLATE);
   
   const { data: defaultAllowedApptsData } = useQuery(DEFAULT_ALLOWED_APPTS_PER_HOUR);
 
-  const nextWeekGlobalRestrictionsVariables = {
-    startTimeSlotDate: format(startOfToday(), 'yyyy-MM-dd'),
-    endTimeSlotDate: format(addWeeks(new Date(), 1), 'yyyy-MM-dd')
-  };
+  const nextWeekGlobalRestrictionsVariables = !currServerTime 
+    ? { // get a bit more data than we need until we can fetch the exact data once we have currServerTime 
+      startTimeSlotDate: format(subDays(new Date(), 1), 'yyyy-MM-dd'),
+      endTimeSlotDate: format(addWeeks(addDays(new Date(), 1), 1), 'yyyy-MM-dd')
+    } 
+    : {
+      startTimeSlotDate: format(currServerTime, 'yyyy-MM-dd'),
+      endTimeSlotDate: format(addWeeks(currServerTime, 1), 'yyyy-MM-dd')
+    };
 
   const { data: globalRestrictionsData } = useQuery(
     GLOBAL_RESTRICTIONS,
@@ -108,6 +117,9 @@ const UpcomingRestrictionsTable = () => {
     return () => window.clearTimeout(timeout);
   }, [addGlobalRestrictionData, deleteRestrictionData, addGlobalRestrictionError, deleteRestrictionError]);
 
+  if (!currServerTime) return <div>Loading...</div>;
+  if (currServerTime === 'ERROR') return <ErrorMessage>An error occurred</ErrorMessage>;
+
   if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>;
 
   const getValueStyle = timeSlot => {
@@ -132,7 +144,8 @@ const UpcomingRestrictionsTable = () => {
     <div className="upcoming-restrictions">
       <div className="upcoming-restrictions-table-wrapper">
         <RestrictionsTable
-          dates={getDatesInNextWeek()}
+          dates={getDatesInNextWeek(currServerTime)}
+          currServerTime={currServerTime}
           addRestriction={(timeSlot, gateCapacity) => {
             addGlobalRestriction({ variables: { timeSlot, gateCapacity } });
             setLoadingTimeSlots([...loadingTimeSlots, timeSlot]);

@@ -42,7 +42,7 @@ const RestrictionsTableCellInput = ({ value, setValue, onBlur }) => {
   );
 };
 
-const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue, loadingTimeSlots }) => {
+const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue, loadingTimeSlots, currServerTime }) => {
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
   const [editableValue, setEditableValue] = useState('');
 
@@ -57,7 +57,7 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
             
             {ALL_HOURS_IN_DAY.map((hour, j) => {
               const timeSlot = { date: format(date, 'yyyy-MM-dd'), hour };
-              const isUpcoming = isAfter(getDateFromTimeSlot(timeSlot), new Date());
+              const isUpcoming = isAfter(getDateFromTimeSlot(timeSlot), currServerTime);
               const isSelected = selectedTimeSlot && isTimeSlotEqual(timeSlot, selectedTimeSlot);
               const { value, style } = getValueStyle(timeSlot);
 

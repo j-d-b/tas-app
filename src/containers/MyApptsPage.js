@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { isAfter, isBefore } from 'date-fns';
 
 import Appt from './Appt';
+import { useCurrServerTime } from '../utils';
 import { getDateFromTimeSlot } from '../helpers';
 import './MyApptsPage.scss';
 import ApptCard from '../components/ApptCard';
@@ -28,15 +29,18 @@ const MY_APPTS = gql`
 `;
 
 const MyApptsPage = () => {
+  const client = useApolloClient();
+  const currServerTime = useCurrServerTime(client);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAppt, selectAppt] = useState({ apptId: null, isReadOnly: true });
   const { data, error, loading } = useQuery(MY_APPTS, { fetchPolicy: 'network-only' });
 
-  if (loading) return <div className="my-appts-page">Loading my appointments...</div>;
-  if (error) return <div className="my-appts-page">An error occurred when fetching appointments. Please try reloading this page.</div>;
+  if (loading || !currServerTime) return <div className="my-appts-page">Loading my appointments...</div>;
+  if (error || currServerTime === 'ERROR') return <div className="my-appts-page">An error occurred when fetching appointments. Please try reloading this page.</div>;
 
-  const upcomingAppts = data.myAppts.filter(appt => isAfter(getDateFromTimeSlot(appt.timeSlot), new Date()));
-  const pastAppts = data.myAppts.filter(appt => isBefore(getDateFromTimeSlot(appt.timeSlot), new Date()));
+  const upcomingAppts = data.myAppts.filter(appt => isAfter(getDateFromTimeSlot(appt.timeSlot), currServerTime));
+  const pastAppts = data.myAppts.filter(appt => isBefore(getDateFromTimeSlot(appt.timeSlot), currServerTime));
 
   return (
     <div className="my-appts-page">

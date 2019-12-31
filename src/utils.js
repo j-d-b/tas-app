@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import ky from 'ky';
 import jwtDecode from 'jwt-decode';
+import { gql } from 'apollo-boost';
+import { DateTime } from 'luxon';
 
 // use the auth-token endpoint to request a new authToken using the refreshToken cookie
 const getAuthToken = async () => {
@@ -61,4 +64,32 @@ export const refreshAuthToken = async (client, callback) => {
 export const logoutCleanup = client => {
   window.localStorage.removeItem('authToken');
   client.resetStore();
+};
+
+// get the current time on the server
+let serverTimezone;
+const getCurrServerTime = async client => {
+  if (!serverTimezone) {
+    const { data: { systemTimezone } } = await client.query({ query: gql`{ systemTimezone }` });
+    serverTimezone = systemTimezone;
+  }
+
+  const serverTime = DateTime.local().setZone(serverTimezone);
+
+  return new Date(serverTime.year, serverTime.month - 1, serverTime.day, serverTime.hour, serverTime.minute);
+};
+
+export const useCurrServerTime = client => {
+  const [currServerTime, setCurrServerTime] = useState(null);
+
+  useEffect(() => {
+    getCurrServerTime(client)
+      .then(setCurrServerTime)
+      .catch(err => {
+        console.log(err);
+        setCurrServerTime('ERROR');
+      });
+  }, [client]);
+
+  return currServerTime;
 };
