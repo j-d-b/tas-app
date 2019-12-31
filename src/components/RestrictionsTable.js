@@ -42,7 +42,7 @@ const RestrictionsTableCellInput = ({ value, setValue, onBlur }) => {
   );
 };
 
-const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue }) => {
+const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueStyle, getValue, loadingTimeSlots }) => {
   const [selectedTimeSlot, selectTimeSlot] = useState(null);
   const [editableValue, setEditableValue] = useState('');
 
@@ -62,6 +62,8 @@ const RestrictionsTable = ({ dates, addRestriction, deleteRestriction, getValueS
               const { value, style } = getValueStyle(timeSlot);
 
               if (!isUpcoming) return <div key={date.toString() + hour} className="restrictions-table-cell restrictions-table-cell--disabled">{value}</div>;
+
+              if (loadingTimeSlots.find(slot => isTimeSlotEqual(slot, timeSlot))) return <div key={date.toString() + hour} className="restrictions-table-cell restrictions-table-cell--disabled">...</div>;
 
               return (
                 <div

@@ -44,7 +44,10 @@ const ADD_GLOBAL_RESTRICTION = gql`
   mutation AddGlobalRestriction ($timeSlot: TimeSlotInput!, $gateCapacity: Int!) {
     addGlobalRestrictions (input: [{ timeSlot: $timeSlot, gateCapacity: $gateCapacity }]) {
       gateCapacity
-      hour
+      timeSlot {
+        date
+        hour
+      }
     }
   }
 `;
@@ -69,6 +72,8 @@ const getDatesInNextWeek = () => {
 };
 
 const UpcomingRestrictionsTable = () => {
+  const [loadingTimeSlots, setLoadingTimeSlots] = useState([]);
+
   const { data: appliedTemplateData } = useQuery(APPLIED_TEMPLATE);
   
   const { data: defaultAllowedApptsData } = useQuery(DEFAULT_ALLOWED_APPTS_PER_HOUR);
@@ -85,7 +90,10 @@ const UpcomingRestrictionsTable = () => {
 
   const [addGlobalRestriction, { data: addGlobalRestrictionData, error: addGlobalRestrictionError }] = useMutation(
     ADD_GLOBAL_RESTRICTION,
-    { refetchQueries: [{ query: GLOBAL_RESTRICTIONS, variables: nextWeekGlobalRestrictionsVariables }] }
+    { 
+      refetchQueries: [{ query: GLOBAL_RESTRICTIONS, variables: nextWeekGlobalRestrictionsVariables }],
+      onCompleted: ({ addGlobalRestrictions }) => setLoadingTimeSlots(loadingTimeSlots.filter(slot => !addGlobalRestrictions.find(res => isTimeSlotEqual(res.timeSlot, slot))))
+    }
   );
 
   const [deleteRestriction, { data: deleteRestrictionData, error: deleteRestrictionError }] = useMutation(
@@ -125,18 +133,23 @@ const UpcomingRestrictionsTable = () => {
       <div className="upcoming-restrictions-table-wrapper">
         <RestrictionsTable
           dates={getDatesInNextWeek()}
-          addRestriction={(timeSlot, gateCapacity) => addGlobalRestriction({ variables: { timeSlot, gateCapacity } })}
+          addRestriction={(timeSlot, gateCapacity) => {
+            addGlobalRestriction({ variables: { timeSlot, gateCapacity } });
+            setLoadingTimeSlots([...loadingTimeSlots, timeSlot]);
+          }}
           deleteRestriction={timeSlot => {
             const restriction = globalRestrictionsData.globalRestrictions.find(res => isTimeSlotEqual(res.timeSlot, timeSlot));
             if (restriction) {
               deleteRestriction({ variables: { id: restriction.id } });
             }
           }}
+          loadingTimeSlots={loadingTimeSlots}
           getValueStyle={getValueStyle}
         />
       </div>
       
       <div style={{ height: '1.5rem' }}>
+        {JSON.stringify(loadingTimeSlots)}
         <CSSTransition in={hasSaveResponse} classNames="response-message" timeout={300} unmountOnExit>
           <RightAlign>
             {(addGlobalRestrictionData || deleteRestrictionData) && <SuccessMessage>Saved successfully!</SuccessMessage>}
