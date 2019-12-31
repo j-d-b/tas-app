@@ -74,7 +74,7 @@ const MyApptsPage = () => {
           ))}
         </div>
       )}
-      {!pastAppts.length && <div style={{ fontSize: '1.2rem' }}>No appointments within the last month</div>}
+      {!pastAppts.length && <div style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>No appointments within the last month</div>}
 
       <Modal 
         isOpen={isModalOpen}
