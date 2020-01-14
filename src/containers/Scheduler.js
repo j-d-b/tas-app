@@ -213,7 +213,10 @@ const Scheduler = () => {
               case 'SELECT_ACTION_TYPE': return (
                 <form name="actionType" onSubmit={e => {
                   e.preventDefault();
-                  setPage('ENTER_ACTION_DETAILS');
+
+                  if (newAppt.actions[currActionIndex].type) {
+                    setPage('ENTER_ACTION_DETAILS');
+                  }
                 }}>
                   <BackArrow
                     onClick={currActionIndex === 0
@@ -331,8 +334,10 @@ const Scheduler = () => {
               case 'SELECT_TIME_SLOT': return (
                 <form onSubmit={e => {
                   e.preventDefault();
-                  setNewAppt({ ...newAppt, timeSlot: selectedTimeSlot });
-                  setPage('REVIEW_APPOINTMENT');
+                  if (isSelectedTimeSlotValid) {
+                    setNewAppt({ ...newAppt, timeSlot: selectedTimeSlot });
+                    setPage('REVIEW_APPOINTMENT');
+                  }
                 }}>
                   <BackArrow onClick={() => setPage('REVIEW_ACTIONS')} />
 
