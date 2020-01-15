@@ -148,7 +148,7 @@ const Scheduler = () => {
   );
 
   if (maxTFUPerApptResults.loading) {
-    return <div>Loading...</div>;
+    return <div className="loading-text">Loading...</div>;
   }
 
   if (maxTFUPerApptResults.error) {

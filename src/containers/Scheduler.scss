@@ -2,6 +2,10 @@
 @import '../styles/constants';
 @import '../styles/mixins';
 
+.loading-text {
+  @include standard-page-wrapper;
+}
+
 .scheduler-page {
   background-color: $main;
   background-image: url('../images/lines-background.svg');

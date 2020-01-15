@@ -117,7 +117,7 @@ const UpcomingRestrictionsTable = () => {
     return () => window.clearTimeout(timeout);
   }, [addGlobalRestrictionData, deleteRestrictionData, addGlobalRestrictionError, deleteRestrictionError]);
 
-  if (!currServerTime) return <div>Loading...</div>;
+  if (!currServerTime) return <div style={{ marginBottom: '1rem' }}>Loading...</div>;
   if (currServerTime === 'ERROR') return <ErrorMessage>An error occurred</ErrorMessage>;
 
   if (!globalRestrictionsData || !defaultAllowedApptsData || !appliedTemplateData) return <div style={{ marginBottom: '0.5rem' }}>Loading...</div>;
