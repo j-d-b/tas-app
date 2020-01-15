@@ -12,17 +12,6 @@
   overflow: auto;
 }
 
-// shell div to position the scheduler
-.scheduler-wrapper {
-  width: auto;
-  max-width: 500px;
-  margin: 1rem;
-  
-  @media (min-width: 564px) {
-    margin: 3rem auto;
-  }
-}
-
 .scheduler {
   background-color: #fefefe;
   margin: 1rem;
