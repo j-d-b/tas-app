@@ -69,7 +69,6 @@ const buildAddActionInput = action => {
         type: 'STORAGE_EMPTY',
         storageEmpty: {
           containerSize: action.containerSize,
-          shippingLine: action.shippingLine,
           containerType: action.containerType,
           emptyForCityFormNumber: action.emptyForCityFormNumber
         }
@@ -94,8 +93,7 @@ const buildAddActionInput = action => {
         exportEmpty: {
           containerId: action.containerId,
           containerSize: action.containerSize,
-          containerType: action.containerType,
-          shippingLine: action.shippingLine
+          containerType: action.containerType
         }
       };
     }

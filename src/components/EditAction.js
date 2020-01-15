@@ -120,8 +120,6 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
             />
             {isNew && <FormNote>Form number received from <a href="http://www.bctc-lb.com/services.aspx">BCTC's Empty for City Request</a></FormNote>}
           </FormGroup>
-
-          <EditShippingLine action={action} onEdit={onEdit} />
         </div>
       );
     }
@@ -167,7 +165,6 @@ const EditAction = ({ action, onEdit, isNew, containerSizeOptions }) => {
           <EditContainerId action={action} onEdit={onEdit} />
           <EditContainerSize action={action} onEdit={onEdit} options={containerSizeOptions} disabled={!isNew} />
           <EditContainerType action={action} onEdit={onEdit} />
-          <EditShippingLine action={action} onEdit={onEdit} />
         </div>
       );
     }

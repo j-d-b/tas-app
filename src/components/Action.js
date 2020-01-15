@@ -41,10 +41,6 @@ const Action = ({ action }) => {
               <td>{getPrettyContainerType(action.containerType)}</td>
             </tr>
             <tr>
-              <th>Shipping Line</th>
-              <td>{action.shippingLine}</td>
-            </tr>
-            <tr>
               <th>Empty For City Form Number</th>
               <td>{action.emptyForCityFormNumber}</td>
             </tr>
@@ -99,10 +95,6 @@ const Action = ({ action }) => {
             <tr>
               <th>Container Type</th>
               <td>{getPrettyContainerType(action.containerType)}</td>
-            </tr>
-            <tr>
-              <th>Shipping Line</th>
-              <td>{action.shippingLine}</td>
             </tr>
           </tbody>
         </table>

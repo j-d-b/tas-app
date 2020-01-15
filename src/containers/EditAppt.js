@@ -30,7 +30,6 @@ const buildActionDetailsInput = action => {
     case 'STORAGE_EMPTY': {
       return {
         storageEmpty: {
-          shippingLine: action.shippingLine,
           containerType: action.containerType,
           emptyForCityFormNumber: action.emptyForCityFormNumber
         }
@@ -51,8 +50,7 @@ const buildActionDetailsInput = action => {
       return {
         exportEmpty: {
           containerId: action.containerId,
-          containerType: action.containerType,
-          shippingLine: action.shippingLine
+          containerType: action.containerType
         }
       };
     }
