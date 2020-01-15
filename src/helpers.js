@@ -84,7 +84,7 @@ export const formatError = error => {
   return errorString;
 };
 
-export const getDateFromTimeSlot = timeSlot => new Date(`${timeSlot.date} ${getHourStringFromNumber(timeSlot.hour)}:00`);
+export const getDateFromTimeSlot = timeSlot => new Date(`${timeSlot.date}T${getHourStringFromNumber(timeSlot.hour)}:00`);
 
 export const buildTimeSlotFromDate = date => ({
   date: format(date, 'yyyy-MM-dd'),
