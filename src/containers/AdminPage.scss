@@ -25,7 +25,7 @@
 }
 
 .admin-page__users-table {
-  overflow-x: scroll;
+  overflow-x: auto;
   padding: 1rem;
 
   @media(min-width: $mobile-breakpoint) {
