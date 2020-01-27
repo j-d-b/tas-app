@@ -69,8 +69,9 @@ const User = ({ userEmail, exit, onChangesQuery }) => {
       return (
         <ChangeUserEmail
           currEmail={user.email} 
-          onCompleted={() => selectAction(null)}
-          refetchQueries={refetchQueries}
+          onCompleted={exit}
+          userQuery={USER}
+          onChangesQuery={onChangesQuery}
         />
       );
     case 'DELETE_USER':

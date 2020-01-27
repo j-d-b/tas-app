@@ -12,12 +12,12 @@ const CHANGE_EMAIL = gql`
   }
 `;
 
-const ChangeUserEmail = ({ currEmail, onCompleted, refetchQueries }) => {
+const ChangeUserEmail = ({ currEmail, onCompleted, onChangesQuery, userQuery }) => {
   const [newEmail, setNewEmail] = useState('');
   const [changeEmail, { error, loading }] = useMutation(
     CHANGE_EMAIL,
     { 
-      refetchQueries,
+      refetchQueries: [{ query: onChangesQuery }, { query: userQuery, variables: { email: newEmail } }],
       onCompleted
     }
   );
