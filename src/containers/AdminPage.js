@@ -39,7 +39,7 @@ const AdminPage = () => {
         <>
           <div>{user.name}</div>
           <div>{user.email}</div>
-          <div>{formatPhoneNumberIntl(user.mobileNumber)}</div>
+          <div>{formatPhoneNumberIntl(user.mobileNumber) || user.mobileNumber}</div>
         </>
       )
     },

@@ -31,7 +31,7 @@ const ApptDetails = ({ appt, isCustomer }) => (
         </tr>
         <tr>
           <th>Driver Mobile Number</th>
-          <td>{formatPhoneNumberIntl(appt.notifyMobileNumber)}</td>
+          <td>{formatPhoneNumberIntl(appt.notifyMobileNumber) || appt.notifyMobileNumber}</td>
         </tr>
         <tr>
           <th>Company</th>

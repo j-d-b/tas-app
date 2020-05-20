@@ -26,7 +26,7 @@ const UserDetails = ({ user }) => (
       </tr>
       <tr>
         <th>Mobile Number</th>
-        <td>{formatPhoneNumberIntl(user.mobileNumber)}</td>
+        <td>{formatPhoneNumberIntl(user.mobileNumber) || user.mobileNumber}</td>
       </tr>
       <tr>
         <th>Role</th>
