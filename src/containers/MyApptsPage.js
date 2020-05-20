@@ -39,8 +39,20 @@ const MyApptsPage = () => {
   if (loading || !currServerTime) return <div className="my-appts-page">Loading my appointments...</div>;
   if (error || currServerTime === 'ERROR') return <div className="my-appts-page">An error occurred when fetching appointments. Please try reloading this page.</div>;
 
-  const upcomingAppts = data.myAppts.filter(appt => isAfter(getDateFromTimeSlot(appt.timeSlot), currServerTime));
-  const pastAppts = data.myAppts.filter(appt => isBefore(getDateFromTimeSlot(appt.timeSlot), currServerTime));
+  const sortAppts = direction => (apptA, apptB) => {
+    const dateA = getDateFromTimeSlot(apptA.timeSlot);
+    const dateB = getDateFromTimeSlot(apptB.timeSlot);
+    if (dateA > dateB) return direction === 'ASCENDING' ? 1 : -1;
+    if (dateB > dateA) return direction === 'ASCENDING' ? -1 : 1;
+    return 0;
+  };
+
+  const upcomingAppts = data.myAppts
+    .filter(appt => isAfter(getDateFromTimeSlot(appt.timeSlot), currServerTime))
+    .sort(sortAppts('ASCENDING'));
+  const pastAppts = data.myAppts
+    .filter(appt => isBefore(getDateFromTimeSlot(appt.timeSlot), currServerTime))
+    .sort(sortAppts('DESCENDING'));
 
   return (
     <div className="my-appts-page">
