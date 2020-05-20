@@ -1,6 +1,8 @@
 # BCTC Truck Appointment System - Web Application
 
-This repository contains the web application for the [KCUS](https://kcus.org)-designed custom truck appointment system for the [Beirut Container Terminal Consortium](http://bctc-lb.com).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ed62e51c-3219-4ede-8984-4e1c65267756/deploy-status)](https://app.netlify.com/sites/bctc-tas/deploys)
+
+This is the respository for the living BCTC Truck Appointment System (TAS) web application. The TAS is [KCUS](https://kcus.org)-designed custom truck appointment system for the [Beirut Container Terminal Consortium](http://bctc-lb.com).
 
 The companion backend API can be found [here](https://github.com/j-d-b/tas-server).
 
@@ -13,7 +15,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Install dependencies with
 
 ```shell
-yarn install
+npm install
 ```
 
 ### Environment Variables
@@ -31,7 +33,7 @@ yarn install
 #### Running the app
 
 ```shell
-yarn start
+npm run start
 ```
 
 Runs the app in the development mode.
@@ -44,12 +46,12 @@ This web app is designed to connect to a GraphQL API backend designed and develo
 
 The URI of this backend is configured at line 13 of `src/index.js`.
 
-For setting up a fresh development environment, I'd recommend setting up the backend first. Instructions for this can be found in the [project README](https://github.com/j-d-b/tas-server/blob/master/README.md). Configure the URI of the backend in `index.js`, then just run the app (`yarn start`).
+For setting up a fresh development environment, I'd recommend setting up the backend first. Instructions for this can be found in the [project README](https://github.com/j-d-b/tas-server/blob/master/README.md). Configure the URI of the backend in `index.js`, then just run the app (`npm run start`).
 
 ### Production
 
 ```shell
-yarn build
+npm run build
 ```
 
 Builds the app for production to the `build` folder.

@@ -1,7 +1,7 @@
 {
   "name": "tas-app",
   "description": "React web app for the BCTC Truck Appointment System (TAS)",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": "https://github.com/j-d-b/tas-app.git",
   "author": "Jacob Brady <jacob@jdbrady.info>",
   "license": "GPL-3.0",
