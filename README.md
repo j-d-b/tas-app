@@ -44,9 +44,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 This web app is designed to connect to a GraphQL API backend designed and developed as part of the same project.
 
-The URI of this backend is configured at line 13 of `src/index.js`.
-
-For setting up a fresh development environment, I'd recommend setting up the backend first. Instructions for this can be found in the [project README](https://github.com/j-d-b/tas-server/blob/master/README.md). Configure the URI of the backend in `index.js`, then just run the app (`npm run start`).
+For setting up a fresh development environment, I'd recommend setting up the backend first. Instructions for this can be found in the [project README](https://github.com/j-d-b/tas-server/blob/master/README.md). Configure the URI of the test backend via the environment variables files (`.env`), then just run the app (`npm run start`).
 
 ### Production
 
