@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 
 import './AdminPage.scss';
 import User from './User';
@@ -38,7 +39,7 @@ const AdminPage = () => {
         <>
           <div>{user.name}</div>
           <div>{user.email}</div>
-          <div>{user.mobileNumber}</div>
+          <div>{formatPhoneNumberIntl(user.mobileNumber)}</div>
         </>
       )
     },

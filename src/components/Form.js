@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 import './Form.scss';
 
@@ -18,6 +20,23 @@ export const FormInput = ({ onChange, disableInvalidHighlighting, ...rest }) => 
       onChange={e => {
         if (!touched) setTouched(true);
         if (onChange) onChange(e);
+      }}
+      {...rest}
+    />
+  );
+};
+
+// Note this is styled by `.PhoneInputInput` class, overridden in Form.scss, and thus here for clarity
+export const FormPhoneInput = ({ onChange, value, ...rest }) => {
+  const [touched, setTouched] = useState(false);
+
+  return (
+    <PhoneInput
+      className={`${isPossiblePhoneNumber(value) ? '' : 'invalid'}${touched ? ' touched' : ''}`}
+      value={value}
+      onChange={value => {
+        if (!touched) setTouched(true);
+        onChange(value);
       }}
       {...rest}
     />

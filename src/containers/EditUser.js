@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { FormSelect, FormInput, FormGroup, FormButton, FormNote } from '../components/Form';
+import { FormSelect, FormInput, FormPhoneInput, FormGroup, FormButton, FormNote } from '../components/Form';
 import { ErrorMessage, SuccessMessage } from '../components/ResponseMessage';
 
 const UPDATE_USER = gql`
@@ -124,12 +124,11 @@ const EditUser = ({ user, onCompleted, refetchQueries }) => {
       </FormGroup>
 
       <FormGroup>
-        <UserDetailsInput
-          field="mobileNumber"
-          label="Mobile Number"
-          type="string"
+        <label htmlFor="mobileNumber">Mobile Number</label>
+        <FormPhoneInput
+          id="mobileNumber"
           value={edits.mobileNumber}
-          onEdit={onEdit}
+          onChange={value => setEdits({ ...edits, mobileNumber: value })}
         />
         <FormNote>Number must include country code</FormNote>
       </FormGroup>
