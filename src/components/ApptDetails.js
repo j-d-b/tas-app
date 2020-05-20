@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 
 import { getDateFromTimeSlot, getPrettyActionType } from '../helpers';
 import Action from './Action';
@@ -30,7 +31,7 @@ const ApptDetails = ({ appt, isCustomer }) => (
         </tr>
         <tr>
           <th>Driver Mobile Number</th>
-          <td>{appt.notifyMobileNumber}</td>
+          <td>{formatPhoneNumberIntl(appt.notifyMobileNumber)}</td>
         </tr>
         <tr>
           <th>Company</th>

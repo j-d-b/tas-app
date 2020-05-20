@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 
 import { getPrettyUserRole } from '../helpers';
 
@@ -25,7 +26,7 @@ const UserDetails = ({ user }) => (
       </tr>
       <tr>
         <th>Mobile Number</th>
-        <td>{user.mobileNumber}</td>
+        <td>{formatPhoneNumberIntl(user.mobileNumber)}</td>
       </tr>
       <tr>
         <th>Role</th>
