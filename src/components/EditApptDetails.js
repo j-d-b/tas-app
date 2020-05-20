@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormGroup, FormInput, FormNote } from './Form';
+import { FormGroup, FormInput, FormPhoneInput, FormNote } from './Form';
 
 const EditApptDetails = ({ appt, onEdit }) => (
   <div>
@@ -17,13 +17,11 @@ const EditApptDetails = ({ appt, onEdit }) => (
     </FormGroup>
 
     <FormGroup>
-      <label className="appt__label" htmlFor="notifyMobileNumber">Driver Mobile Number (for notifications)</label>
-      <FormInput
+      <label className="appt__label" htmlFor="notifyMobileNumber">Driver Mobile Number</label>
+      <FormPhoneInput
         id="notifyMobileNumber"
-        name="notifyMobileNumber"
-        type="tel"
         value={appt.notifyMobileNumber || ''}
-        onChange={e => onEdit({ ...appt, notifyMobileNumber: e.target.value })}
+        onChange={value => onEdit({ ...appt, notifyMobileNumber: value })}
       />
       <FormNote>If this number is provided, it will be notified when the appointment is booked as well the day before it occurs. This number must include the country code.</FormNote>
     </FormGroup>
