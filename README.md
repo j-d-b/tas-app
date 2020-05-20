@@ -80,4 +80,4 @@ See [LICENSE.md](./LICENSE.md) for details.
 
 This project uses some icons from Font Awesome [license here](https://fontawesome.com/license)
 
-*Copyright 2019 KCUS, Inc.*
+*Copyright 2020 KCUS, Inc.*
