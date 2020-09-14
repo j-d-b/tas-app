@@ -4,6 +4,7 @@ import './UnauthenticatedFormPage.scss';
 import BoxPage from './BoxPage';
 import { SuccessMessage, ErrorMessage } from './ResponseMessage';
 import { FormInput, FormButton } from './Form';
+import bctcLogo from '../images/bctc-logo.png';
 
 const UnauthenticatedFormPage = ({ 
   title,
@@ -51,6 +52,9 @@ const UnauthenticatedFormPage = ({
           </form>
         )
     }
+    <div className="bctc-logo-container">
+      <img className="bctc-logo-container__logo" src={bctcLogo} alt="BCTC"/>
+    </div>
   </BoxPage>
 );
 

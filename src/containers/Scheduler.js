@@ -11,6 +11,7 @@ import EditAction from '../components/EditAction';
 import { FormButton, FormNote } from '../components/Form';
 import { ErrorMessage } from '../components/ResponseMessage';
 import ScheduleAppt from './ScheduleAppt';
+import bctcLogo from '../images/bctc-logo.png';
 import { ReactComponent as ImportFullIcon } from '../images/truck-import-full.svg';
 import { ReactComponent as StorageEmptyIcon } from '../images/truck-storage-empty.svg';
 import { ReactComponent as ExportFullIcon } from '../images/truck-export-full.svg';
@@ -116,6 +117,7 @@ const BackArrow = ({ onClick }) => (
 const Start = ({ onStart }) => (
   <div className="start-page">
     <h1 className="start-page__title">BCTC Truck Appointment System Scheduler</h1>
+    <img className="start-page__bctc-logo" src={bctcLogo} alt="BCTC" />
     <p>Weclome to the appointment scheduler for the BCTC Truck Appointment System</p>
     <p>You will be able to schedule up to four container actions (pick up or drop off) per appointment, depending on container sizes</p>
     <p>Click the button below to begin</p>
