@@ -86,7 +86,6 @@ export const useCurrServerTime = client => {
     getCurrServerTime(client)
       .then(setCurrServerTime)
       .catch(err => {
-        console.log(err);
         setCurrServerTime('ERROR');
       });
   }, [client]);
