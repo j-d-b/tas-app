@@ -13,7 +13,7 @@
     "jwt-decode": "^2.2.0",
     "ky": "^0.15.0",
     "luxon": "^1.23.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-animate-height": "^2.0.20",
     "react-async": "^9.0.0",
